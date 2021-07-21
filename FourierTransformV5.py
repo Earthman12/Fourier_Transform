@@ -14,4 +14,3 @@ from astropy.io import fits
 from tkinter.filedialog import askopenfilename
 from tkinter import Tk
 from astroscrappy import detect_cosmics
-
