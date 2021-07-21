@@ -1,0 +1,177 @@
+PRO ft_shs_corliss
+
+getcsvdata = 0
+fpshs = 0 ; is this a coincident look direction?
+write = 1
+wlfilterd = 0
+
+;utcdate = '092213'
+utcdate = 'test'
+apert = '52'
+;pathbase = (fpshs eq 1) ? 'D:\djvu\MacTower1326\Data\HaSHS\'+utcdate+'shs\': 'D:\djvu\MacTower1326\Data\HaSHS\'+utcdate+'\aperture_sort\'+apert+'\'  
+;pathout = pathbase + 'S16\';'D:\djvu\Research STUFF\Paper1 outline\'
+pathbase = 'D:\djvu\MacTower1326\Data\SHS_corliss\'
+pathout = pathbase
+
+;type = 'sky'
+type = 'TEM1'
+tag = 'f';name tag
+
+
+file_array = file_search(pathbase,type+'*.fit',count=num_file)
+
+if getcsvdata eq 1 then testfile = (fpshs eq 1) ? 'D:\djvu\MacTower1326\Data\HaFP\'+utcdate+'fp\HaFP_'+utcdate+'.csv' : 'D:\djvu\MacTower1326\Data\HaSHS\'+utcdate+'\Ha_'+utcdate+'.csv'
+if getcsvdata eq 1 then data = read_csv(testfile,HEADER=ColHeader,N_Table_header=2,Table_header=Title)
+
+zpads=[4.0,1.0]
+alphas=[1.0]
+wlcrop=[0,500]*zpads[0];[40,280]*zpads[0]
+
+spectrums =  ptrarr(2)
+
+common share, noise_flr, sigma_count, sigma, ff_type, cent; double,integer array,string,integer
+noise_flr = 0.0; this is set in ff function in prefftops funct
+
+BI=pathbase+'medbias1.fit'
+
+j=1 ; ff eithe wl or multiplier of off pwr-spect to avg
+ff = (j EQ 0)? '':2.0; pathbase + 'aveFF_wl'+apert+'.fit':1.0
+; ffname =(j EQ 0)?'WL':'NF
+
+;cent =  shs_barber_finder(pathbase=pathbase) ; reports median cent barber pole from thar and wl fits in directory, need spectra specific to compare for induced phase shifts?
+cent = 250
+if wlfilterd eq 1 then begin
+filter_unscl = wl_filterC(pathbase=pathbase,BI=BI,ff=ff,alphax=alphas[0],zpads=zpads) ;make WL filter/ note common variable sigma defined in function, must redefine below for file transform
+filter = scalenormF(filter_unscl)           ; note 092314shs data started vertical drifting; usually 10 is sufficient, make smaller otherwise
+endif
+
+
+for k=0, n_elements(file_array)-1 do begin ;;
+
+file = strmid(file_array[k],strlen(pathbase),strlen(file_array[k])-strlen(pathbase)-4);file_array[k]
+;just load observation parameters
+if getcsvdata eq 1 then begin
+csv_index = (fpshs eq 1) ? where(data.field02 eq file and data.field01 eq 'SHS'):where(data.field01 eq file)
+   glon =  (fpshs eq 1) ? float(data.field16[csv_index[0]]):float(data.field22[csv_index[0]]);
+   glat =  (fpshs eq 1) ? float(data.field17[csv_index[0]]):float(data.field23[csv_index[0]]);
+    utctime=(fpshs eq 1) ? (data.field07[csv_index[0]]):(data.field13[csv_index[0]])
+    explen =(fpshs eq 1) ? uint(data.field05[csv_index[0]]):uint(data.field04[csv_index[0]])
+       shadow =(fpshs eq 1) ? data.field18[csv_index[0]]:data.field24[csv_index[0]]
+    vlsr =  double(strtrim(strmid(shadow,strpos(shadow,'vlsr')+4,strpos(shadow,'km/s')-strpos(shadow,'vlsr')+4),2))
+    shad_alt= uint(strtrim(strmid(shadow,strpos(shadow,'altitude')+8,strpos(shadow,'km targ')-strpos(shadow,'altitude')+8),2))
+    zd = double(strtrim(strmid(shadow,strpos(shadow,'zd')+2,strpos(shadow,'sun az')-strpos(shadow,'targ az')+2),2))
+endif
+if getcsvdata eq 0 then begin
+  glon = 0.0
+  glat = 0.0
+  utctime = 0.0
+  explen = 0.0
+  vlsr =  0.0
+  shad_alt = 0.0
+  zd= 0.0
+endif
+
+
+;put in call to whamflux_v2 here?
+sigma=1 ;boolean, set 1 for iterative sigma filter on type; TURN OFF FOR WL AND THAR and BLUE SKY
+sigma_count = (sigma eq 1)? []:[0]          ; sigma_count initialized to 0 to use in modified simga_filter subroutine in prefft_ops subroutine
+
+print,'file : ',file
+
+  sub_image = prefft_ops_corliss(file=file,pathbase=pathbase,BI=BI,ff=ff,/remavg)   ; set "/win" to Display ITERATIVE sigma filt./sub-img loc. & FF correctd interferogram
+
+  sub_imageA = custom_apod(sub_image,alphax=alphas[0])                      ; hanning in y, tukey in x, /win to display
+     zpx_str = strmid(strtrim(zpads[0],2),0,1)
+  sub_imageAZ = zpad(sub_imageA,zpx=zpads[0],zpy=zpads[1])
+
+    sz = size(sub_imageAZ)
+  pspec = fft(sub_imageAZ,/double,/center)
+  
+  window, /free, xsize=600, ysize=300, title='b'
+  tvscl, alog(pspec)
+  ;profiles, alog(pspec)
+ if write eq 1 then write_png, pathout+utcdate+'_'+file+'_pwrspc.png', tvrd(true=1),r,g,b
+  ind = pspec_indices(pspec,cent_dy=10)   ;returns [Lower row cut, Upper row cut]; NOTE, for bad lamps, need to check, e.g., cene ind = [154,154], set /win to view
+  print,ind
+  ind =[44 ,76];
+                                          ;dy_cent = 6/4 on 092314shs/092614shs, note need to change in wl_filterc as well as main transform. otherwise always 10.
+  spectrum = abs(pspec(*,ind[0]))+abs(pspec(*,ind[0]-1))+abs(pspec(*,ind[0]+1))   ;spectrumT =abs(pspec(*,ind[1]))
+  spectrum = (wlfilterd eq 1)? spectrum/filter:spectrum;(spectrum-median(spectrum[wlcrop[1]:*]))/filter
+    whitenoise = abs(pspec[*,ind[0]-ind[0]/3])+abs(pspec[*,ind[0]-ind[0]/3-1])+abs(pspec[*,ind[0]-ind[0]/3+1])
+    momWN=moment(whitenoise,max=2,sdev=devWN)
+    noise = (devWN+momWN[0])
+
+   ;trying to fit the noise upwrap -- this basically undoes the wlfilter curve ....
+   ;xarr = lindgen(n_elements(whitenoise[wlcrop[0]:wlcrop[1]]))
+   pxarr= lindgen(n_elements(whitenoise))
+   if wlfilterd eq 1 then pfit = poly_fit(pxarr[wlcrop[0]:wlcrop[1]],whitenoise[wlcrop[0]:wlcrop[1]]/filter[wlcrop[0]:wlcrop[1]],2,Yfit=yfit)
+   if wlfilterd eq 0 then pfit = poly_fit(pxarr[wlcrop[0]:wlcrop[1]],whitenoise[wlcrop[0]:wlcrop[1]],2,Yfit=yfit)
+
+   if write eq 2 then begin
+   mx = max(spectrum[992-100:992+100],loc)
+    haarea = (mx-noise)*14.0
+    hacent=loc+(992-100)
+   mx = max(spectrum[484-100:484+100],loc)
+    oharea = (mx-noise)*12.0
+    ohcent=loc+(484-100)
+   endif
+
+cgdisplay,xsize=800,ysize=600,wid=1,title=file+' spectrum, abs '
+cgplot,position=[0.1,0.25,0.9,0.9],spectrum,xstyle=1,xrange=[wlcrop[0],wlcrop[1]],ystyle=1,yrange=[0-0.05*max(spectrum[wlcrop[0]:wlcrop[1]]),1.05*max(spectrum[wlcrop[0]:wlcrop[1]])],$
+  title='FW-SHS Spectrum, '+file,ytitle='Rel. Intensity, |A|', XTICKFORMAT="(A1)"
+if wlfilterd eq 1 then cgplot,position=[0.1,0.25,0.9,0.9],filter*max(spectrum[wlcrop[0]:wlcrop[1]]),linestyle=1,/overplot,/noerase
+;cgplot,position=[0.1,0.25,0.9,0.9],whitenoise,/overplot,color='blue'
+cgplot,position=[0.1,0.25,0.9,0.9],pxarr[wlcrop[0]:wlcrop[1]],yfit,/overplot,color='red'
+  al_legend,['Data','Filter, '+cgsymbol('Lambda'),'Noise, '+cgsymbol('eta'),'Fit('+cgsymbol('eta')+'/'+cgsymbol('Lambda')+')'],linestyle=[0,1,0,0],color=['black','black','blue','red'],linsize=0.5,/left
+
+if wlfilterd eq 1 then begin
+   cgplot,position=[0.1,0.1,0.9,0.25],pxarr[wlcrop[0]:wlcrop[1]],whitenoise[wlcrop[0]:wlcrop[1]]/filter[wlcrop[0]:wlcrop[1]],color='red',/noerase,$
+   ystyle=1,yrange=[!Y.crange[0],0.5*!Y.crange[1]-!Y.crange[0]],xtitle='FT pixels',xstyle=1,xrange=[wlcrop[0],wlcrop[1]]
+endif
+if wlfilterd eq 0 then begin
+  cgplot,position=[0.1,0.1,0.9,0.25],pxarr[wlcrop[0]:wlcrop[1]],whitenoise[wlcrop[0]:wlcrop[1]],color='red',/noerase,$
+  ystyle=1,yrange=[!Y.crange[0],0.5*!Y.crange[1]-!Y.crange[0]],xtitle='FT pixels',xstyle=1,xrange=[wlcrop[0],wlcrop[1]]
+endif
+cgplot,position=[0.1,0.1,0.9,0.25],pxarr[wlcrop[0]:wlcrop[1]],whitenoise[wlcrop[0]:wlcrop[1]],/overplot,/noerase,color='blue'
+cgplot,position=[0.1,0.1,0.9,0.25],pxarr[wlcrop[0]:wlcrop[1]],yfit,/overplot,/noerase,color='red'
+cgplot,position=[0.1,0.1,0.9,0.25],!X.crange,replicate(noise,2),/overplot,/noerase,color='black',linestyle=2
+  al_legend,[cgsymbol('epsilon')+'='+cgsymbol('eta')+'+'+cgsymbol('sigma')+'='+strmid(strtrim(noise,2),0,6)],linestyle=[2],color=['black'],linsize=0.5,box=1,position=[0.7,0.132],/normal,charsize=cgDefCharsize()*0.7
+  al_legend,['Fit('+cgsymbol('eta')+'/'+cgsymbol('Lambda')+'), '+'C$\down0,1,2$= '+string(pfit,format='(3(E11.3,:,","))')],linestyle=[0],color=['red'],linsize=0.5,box=1,position=[0.11,0.132],/normal,charsize=cgDefCharsize()*0.7
+ cgtext,0.45,0.2,'White Noise',/normal,charsize=cgDefCharsize()*0.7
+ cgtext,0.65,0.02, '!S'+cgsymbol('Sigma')+'!R!S!A!E'+strtrim(uint(total(sigma_count)),2)+'!N!X ='+strmid(strtrim(n_elements(sigma_count)-1,2),0,1)+', FF='+ff_type+', zpx='+zpx_str+', '+cgsymbol('alpha')+'='+strmid(strtrim(alphas[0],2),0,4),/normal,charsize=cgDefCharsize()*0.7
+
+ cgtext,0.725,0.86,'Date: '+utcdate+string(utctime,explen,glat,glon,shad_alt,vlsr,zd,format='("!CTime:",I5,"m!CExpLen:",I4,"s!C  glat:",F7.2,"!C  glon:",F7.2,"!CShad. Alt:",I5,"km!Cvlsr:",D6.2,"km/s!Czd:",D5.2)'),/normal,charsize=cgDefCharsize()*0.7
+  
+if write eq 1 then write_png, pathout+utcdate+'_'+file+'_'+tag+'.png', tvrd(true=1),r,g,b
+
+
+;;write the final spectrum to be corrected
+xarr=lindgen(size(spectrum,/dimensions))
+spectf = dblarr(2,n_elements(xarr[wlcrop[0]:wlcrop[1]]))
+spectf[0,*]=xarr[wlcrop[0]:wlcrop[1]]
+spectf[1,*]=spectrum[wlcrop[0]:wlcrop[1]]
+if write eq 2 then begin
+  openw, lun, pathout+file+'.dat', /get_lun
+  printf, lun, spectf[0:1,*], format = '(F0.2,3x,F0.7)'
+  free_lun, lun
+endif
+
+if write eq 2 then begin
+  openw,lun, pathout+file+'_bckgrnd.dat',/get_lun
+  printf,lun,'# ha cent, oh cent, ha & oh area est., background C0, C1, C2'
+  printf,lun,hacent,format = '(I0)'
+  printf,lun,ohcent,format = '(I0)'
+  printf,lun,haarea,format = '(F10.3)'
+  printf,lun,oharea,format = '(F10.3)'
+  printf,lun,pfit[0],format = '(E11.3)'
+  printf,lun,pfit[1],format = '(E11.3)'
+  printf,lun,pfit[2],format = '(E11.3)'
+  free_lun,lun
+endif
+
+
+
+endfor;each file
+;endfor;each FF, second time for FF loop outside file loop
+
+end
