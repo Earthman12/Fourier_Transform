@@ -144,6 +144,16 @@ def debias(image):
     return debiasImage
     
 ##############################################################################
+
+def subMinVal(image):
+    
+    print("SUBTRACTING MINIMUM VALUE FROM THE IMAGE...")
+    
+    sub_min_val_image = image - np.min(image)
+    
+    return sub_min_val_image
+    
+##############################################################################
     
 #                           DRIVER CODE
 #   Displays fits image, cuts out section with the interferogram, and fourier transforms
@@ -182,7 +192,7 @@ cosmic_array_image = cosmic_array[1]
 displayImage(cosmic_array_image, "Cosmic image")
 
 #   Debias image
-debiasedImage = debias(cosmic_array_image)
+debiasedImage = debias(imageArray)
 
 #   Crops Image
 croppedImage = cropImage(debiasedImage)
@@ -194,11 +204,15 @@ displayImage(croppedImage, "Cropped Image")
 #displayImage(medianImage, "Median Filtered Image")
 
 #   Finding average value and subtracting it from each value 
-subAverageImage = subAverage(croppedImage)
-displayImage(subAverageImage, "Average Value Subtracted")
+#subAverageImage = subAverage(croppedImage)
+#displayImage(subAverageImage, "Average Value Subtracted")
+
+#   Subtracting the minimum value
+sub_min_val_image = subMinVal(croppedImage)
+displayImage(sub_min_val_image, "Minimum Value Subtracted Image")
 
 #   Applying Hanning window
-hanningWindow = HanningWindow(subAverageImage)
+hanningWindow = HanningWindow(croppedImage)
 displayImage(hanningWindow, "Hanning Window Output")
 
 #   Fourier transforming
