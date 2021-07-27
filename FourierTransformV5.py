@@ -21,20 +21,54 @@ from astroscrappy import detect_cosmics
 class transform_gui(object):
     
     def __init__(self):
-        #   VARIABLES
+        #----VARIALBES----------------------------------------------------------
         
         self.image = self.open_image()
         
-        #   CREATE WIDGETS
+        print ("0")
+        
+        #----CREATE WIDGETS-----------------------------------------------------
         
         #   Every GUI must have one instance of QApplication(), inside the brackets[] would be parameters passed to the application
         self.app = qt.QtWidgets.QApplication([])
         self.app.setStyle('Fusion')
-
-        self.label = qt.QtWidgets.QLabel("Whaddup playa")
-        self.label.show()
         
-    #   GUI FUNCTIONS
+        print ("1")
+        
+        self.window = qt.QtWidgets.QWidget()
+        #   Set window layout to grid
+        self.layout = qt.QtWidgets.QGridLayout()
+        self.window.setLayout(self.layout)
+        
+        print ("2")
+
+        self.label = qt.QtWidgets.QLabel("Whaddup playa this is a test label")
+        
+        print ("3")
+        
+        self.qImg = qt.QtGui.QPixmap(qt.QtGui.QImage(self.image.data, self.image.shape[0], self.image.shape[1], qt.QtGui.QImage.Format_RGB888))
+        
+        print ("4")
+        
+        self.label2 = qt.QtWidgets.QLabel()
+        self.label2 = qt.QtWidgets.QLabel.setPixmap(self.qImg)
+        
+        print ("5")
+        
+        
+        
+        #---PLACEMENTS--------------------------------------------------------
+        
+        #   Add widget to the grid
+        self.layout.addWidget(self.label,0,0)
+        self.layout.addWidget(self.label2,0,1)
+        
+        
+        self.window.show()
+        
+    #--------------------------------------------------------------------------------------------------
+    #----------------------------------GUI FUNCTIONS---------------------------------------------------
+    #--------------------------------------------------------------------------------------------------
     def open_image(self):
         
         #   Not having Tk().withdraw() does not make the code execute properly, not completely sure why, but it is necessary
@@ -52,6 +86,10 @@ class transform_gui(object):
         imageArray = primHDU.data[:,:]
         
         return imageArray
+    
+################################################################################################################################
+################################################################################################################################
+################################################################################################################################
 
 def main():
     
