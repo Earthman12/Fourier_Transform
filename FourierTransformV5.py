@@ -22,40 +22,33 @@ class transform_gui(object):
     
     def __init__(self):
         #----VARIALBES----------------------------------------------------------
-        
+                
         self.image = self.open_image()
-        
-        print ("0")
-        
+                
         #----CREATE WIDGETS-----------------------------------------------------
         
         #   Every GUI must have one instance of QApplication(), inside the brackets[] would be parameters passed to the application
         self.app = qt.QtWidgets.QApplication([])
         self.app.setStyle('Fusion')
         
-        print ("1")
-        
         self.window = qt.QtWidgets.QWidget()
         #   Set window layout to grid
         self.layout = qt.QtWidgets.QGridLayout()
         self.window.setLayout(self.layout)
         
-        print ("2")
-
+        #   Test label
         self.label = qt.QtWidgets.QLabel("Whaddup playa this is a test label")
         
-        print ("3")
+        height, width = self.image.shape
+        bytes_per_line = 3 * width
         
-        self.qImg = qt.QtGui.QPixmap(qt.QtGui.QImage(self.image.data, self.image.shape[0], self.image.shape[1], qt.QtGui.QImage.Format_RGB888))
+        #   Error occurs in this line of code
+        self.qImg = qt.QtGui.QImage(self.image, width, height, bytes_per_line, qt.QtGui.QImage.Format_RGB888)
         
-        print ("4")
+        self.qPix = qt.QtGui.QPixmap(self.qImg)
         
         self.label2 = qt.QtWidgets.QLabel()
-        self.label2 = qt.QtWidgets.QLabel.setPixmap(self.qImg)
-        
-        print ("5")
-        
-        
+        self.label2.setPixmap(self.qPix)
         
         #---PLACEMENTS--------------------------------------------------------
         
@@ -75,6 +68,7 @@ class transform_gui(object):
         Tk().withdraw()
         #   Opens up file explorer to select the file
         filePath = askopenfilename()
+        print("-0.5")
         fileName = os.path.basename(filePath)
         print("File Name:",fileName)
 
@@ -84,6 +78,8 @@ class transform_gui(object):
         #   Primary HDU
         primHDU = hdul[0]
         imageArray = primHDU.data[:,:]
+        
+        print(type(imageArray))
         
         return imageArray
     
