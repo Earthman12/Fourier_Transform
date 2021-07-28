@@ -9,6 +9,8 @@ Created on Wed Jul 21 09:52:55 2021
 import PyQt5 as qt
 import numpy as np
 import matplotlib.pyplot as plt
+from matplotlib.figure import Figure
+from matplotlib.backends.backend_qt5agg import FigureCanvas
 import scipy.ndimage as ndi
 import os
 from matplotlib.colors import LogNorm
@@ -22,30 +24,34 @@ class transform_gui(object):
     
     def __init__(self):
         #----VARIALBES----------------------------------------------------------
-                
+        
+        print("1")
         self.image = self.open_image()
                 
         #----CREATE WIDGETS-----------------------------------------------------
         
-        #   Every GUI must have one instance of QApplication(), inside the brackets[] would be parameters passed to the application
-        self.app = qt.QtWidgets.QApplication([])
+        print("3")
         self.app.setStyle('Fusion')
         
         self.window = qt.QtWidgets.QWidget()
         #   Set window layout to grid
         self.layout = qt.QtWidgets.QGridLayout()
         self.window.setLayout(self.layout)
+        print("4")
         
         #   Test label
         self.label = qt.QtWidgets.QLabel("Whaddup playa this is a test label")
         
         height, width = self.image.shape
         bytes_per_line = 3 * width
+        print("5")
         
         #   Error occurs in this line of code
         self.qImg = qt.QtGui.QImage(self.image, width, height, bytes_per_line, qt.QtGui.QImage.Format_RGB888)
+        print("6")
         
         self.qPix = qt.QtGui.QPixmap(self.qImg)
+        print("7")
         
         self.label2 = qt.QtWidgets.QLabel()
         self.label2.setPixmap(self.qPix)
@@ -62,13 +68,32 @@ class transform_gui(object):
     #--------------------------------------------------------------------------------------------------
     #----------------------------------GUI FUNCTIONS---------------------------------------------------
     #--------------------------------------------------------------------------------------------------
-    def open_image(self):
+    
+################################################################################################################################
+################################################################################################################################
+################################################################################################################################    
+    
+class ImageWindow(qt.QtWidgets.QMainWindow):
+    
+    def __init__(self, parent = None):
+        
+        super().__init__(parent)
+        
+        self.figure = Figure(figsize = (5,3))
+        self.canvas = FigureCanvas(self.figure)
+        self.ax = self.figure.subplots()
+        
+        self.image_array = self.open_fits_image()
+        
+        self.ax.imshow(self.image_array)
+        
+    def open_fits_image(self):
         
         #   Not having Tk().withdraw() does not make the code execute properly, not completely sure why, but it is necessary
         Tk().withdraw()
         #   Opens up file explorer to select the file
         filePath = askopenfilename()
-        print("-0.5")
+        print("2")
         fileName = os.path.basename(filePath)
         print("File Name:",fileName)
 
@@ -80,6 +105,7 @@ class transform_gui(object):
         imageArray = primHDU.data[:,:]
         
         print(type(imageArray))
+        print(imageArray.data)
         
         return imageArray
     
@@ -90,10 +116,16 @@ class transform_gui(object):
 def main():
     
     # GUI object
-    gui = transform_gui()
+    print("0")
+    #   Every GUI must have one instance of QApplication(), inside the brackets[] would be parameters passed to the application
+    app = qt.QtWidgets.QApplication([])
+    #gui = transform_gui()
+    fitsOG = ImageWindow()
+    fitsOG.resize(640,480)
+    fitsOG.show()
     
     #   This hands control over to Qt and will run the application till the user closes it
-    gui.app.exec()
+    app.exec()
 
     print ("End of program")
     
