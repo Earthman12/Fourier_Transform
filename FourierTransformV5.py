@@ -11,9 +11,10 @@ import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.figure import Figure
 from matplotlib.backends.backend_qt5agg import FigureCanvas
+from matplotlib.colors import LogNorm
 import scipy.ndimage as ndi
 import os
-from matplotlib.colors import LogNorm
+import sys
 from astropy.io import fits
 from tkinter.filedialog import askopenfilename
 from tkinter import Tk
@@ -87,6 +88,12 @@ class ImageWindow(qt.QtWidgets.QMainWindow):
         
         self.ax.imshow(self.image_array)
         
+        self.setCentralWidget(self.canvas)
+        
+    #--------------------------------------------------------------------------------------------------
+    #----------------------------------ImageWindow FUNCTIONS-------------------------------------------
+    #--------------------------------------------------------------------------------------------------
+        
     def open_fits_image(self):
         
         #   Not having Tk().withdraw() does not make the code execute properly, not completely sure why, but it is necessary
@@ -119,13 +126,14 @@ def main():
     print("0")
     #   Every GUI must have one instance of QApplication(), inside the brackets[] would be parameters passed to the application
     app = qt.QtWidgets.QApplication([])
+    app.setStyle('Fusion')
     #gui = transform_gui()
     fitsOG = ImageWindow()
     fitsOG.resize(640,480)
     fitsOG.show()
     
-    #   This hands control over to Qt and will run the application till the user closes it
-    app.exec()
+    #   app.exec() hands control over to Qt and will run the application till the user closes it
+    sys.exit(app.exec())
 
     print ("End of program")
     
