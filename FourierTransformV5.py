@@ -127,12 +127,13 @@ def main():
     #   Every GUI must have one instance of QApplication(), inside the brackets[] would be parameters passed to the application
     app = qt.QtWidgets.QApplication([])
     app.setStyle('Fusion')
-    #gui = transform_gui()
-    fitsOG = ImageWindow()
+    
+    main_widget = qt.QtWidgets.QWidget()
+    
+    fitsOG = ImageWindow(main_widget)
     fitsOG.resize(640,480)
-    fitsOG.show()
     
-    
+    main_widget.show()
     
     #   app.exec() hands control over to Qt and will run the application till the user closes it
     app.exec()
