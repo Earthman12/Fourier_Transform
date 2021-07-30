@@ -132,10 +132,12 @@ def main():
     fitsOG.resize(640,480)
     fitsOG.show()
     
+    
+    
     #   app.exec() hands control over to Qt and will run the application till the user closes it
-    sys.exit(app.exec())
-
+    app.exec()
     print ("End of program")
+    
     
 #DRIVER CODE
 
