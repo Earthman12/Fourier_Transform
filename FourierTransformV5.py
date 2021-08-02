@@ -31,14 +31,19 @@ class MainWindow(QtWidgets.QMainWindow):
     def __init__(self, *args, **kwargs):
         super(MainWindow, self).__init__(*args, **kwargs)
         
-        layout = QtWidgets.QGridLayout()
-        
         test_label = QtWidgets.QLabel("Whaddup playa this is a test label")
+        
+        fits_image = FitsImageCanvas()
+
+        toolbar = NavigationToolbar(fits_image, self)
+        
+        #   GUI Layout
+        layout = QtWidgets.QGridLayout()
         layout.addWidget(test_label)
+        layout.addWidget(toolbar)
+        layout.addWidget(fits_image)
         
-        image = ImageCanvas()
-        layout.addWidget(image)
-        
+        #   Central widget for everything to sit inside
         placeholder_widget = QtWidgets.QWidget()
         placeholder_widget.setLayout(layout)
         self.setCentralWidget(placeholder_widget)
@@ -49,19 +54,18 @@ class MainWindow(QtWidgets.QMainWindow):
 ################################################################################################################################
 ################################################################################################################################
     
-class ImageCanvas(FigureCanvasQTAgg):
+class FitsImageCanvas(FigureCanvasQTAgg):
     
     def __init__(self, parent = None):
         
-        figure = Figure(figsize = (5,3))
-        canvas = FigureCanvas(figure)
+        figure = Figure()
         ax = figure.subplots()
         
         image_array = self.open_fits_image()
         
-        ax.imshow(image_array)
+        ax.imshow(image_array, origin='lower', cmap='gray', vmin = np.min(image_array), vmax = np.max(image_array))
         
-        super(ImageCanvas, self).__init__(figure)
+        super(FitsImageCanvas, self).__init__(figure)
         
     #--------------------------------------------------------------------------------------------------
     #----------------------------------ImageCanvas FUNCTIONS-------------------------------------------
