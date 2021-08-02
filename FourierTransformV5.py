@@ -5,10 +5,6 @@ Created on Wed Jul 21 09:52:55 2021
 @author: Earthman
 """
 
-
-
-
-
 import matplotlib.pyplot as plt
 from matplotlib.figure import Figure
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg, NavigationToolbar2QT as NavigationToolbar
@@ -26,65 +22,36 @@ from tkinter import Tk
 from astroscrappy import detect_cosmics
 from PyQt5 import QtCore, QtGui, QtWidgets
 
-#   GUI OBJECT
-class transform_gui(object):
-    
-    def __init__(self):
-        #----VARIALBES----------------------------------------------------------
-        
-        print("1")
-        self.image = self.open_image()
-                
-        #----CREATE WIDGETS-----------------------------------------------------
-        
-        print("3")
-        self.app.setStyle('Fusion')
-        
-        self.window = QtWidgets.QWidget()
-        #   Set window layout to grid
-        self.layout = QtWidgets.QGridLayout()
-        self.window.setLayout(self.layout)
-        print("4")
-        
-        #   Test label
-        self.label = QtWidgets.QLabel("Whaddup playa this is a test label")
-        
-        height, width = self.image.shape
-        bytes_per_line = 3 * width
-        print("5")
-        
-        #   Error occurs in this line of code
-        self.qImg = QtGui.QImage(self.image, width, height, bytes_per_line, QtGui.QImage.Format_RGB888)
-        print("6")
-        
-        self.qPix = QtGui.QPixmap(self.qImg)
-        print("7")
-        
-        self.label2 = QtWidgets.QLabel()
-        self.label2.setPixmap(self.qPix)
-        
-        #---PLACEMENTS--------------------------------------------------------
-        
-        #   Add widget to the grid
-        self.layout.addWidget(self.label,0,0)
-        self.layout.addWidget(self.label2,0,1)
-        
-        
-        self.window.show()
-        
-    #--------------------------------------------------------------------------------------------------
-    #----------------------------------GUI FUNCTIONS---------------------------------------------------
-    #--------------------------------------------------------------------------------------------------
-    
 ################################################################################################################################
 ################################################################################################################################
-################################################################################################################################    
+################################################################################################################################
+
+class MainWindow(QtWidgets.QMainWindow):
+    
+    def __init__(self, *args, **kwargs):
+        super(MainWindow, self).__init__(*args, **kwargs)
+        
+        layout = QtWidgets.QGridLayout()
+        
+        test_label = QtWidgets.QLabel("Whaddup playa this is a test label")
+        layout.addWidget(test_label)
+        
+        image = ImageCanvas()
+        layout.addWidget(image)
+        
+        placeholder_widget = QtWidgets.QWidget()
+        placeholder_widget.setLayout(layout)
+        self.setCentralWidget(placeholder_widget)
+        
+        self.show()
+  
+################################################################################################################################
+################################################################################################################################
+################################################################################################################################
     
 class ImageCanvas(FigureCanvasQTAgg):
     
     def __init__(self, parent = None):
-        
-        super().__init__(parent)
         
         figure = Figure(figsize = (5,3))
         canvas = FigureCanvas(figure)
@@ -94,7 +61,7 @@ class ImageCanvas(FigureCanvasQTAgg):
         
         ax.imshow(image_array)
         
-        self.setCentralWidget(canvas)
+        super(ImageCanvas, self).__init__(figure)
         
     #--------------------------------------------------------------------------------------------------
     #----------------------------------ImageCanvas FUNCTIONS-------------------------------------------
@@ -105,50 +72,33 @@ class ImageCanvas(FigureCanvasQTAgg):
         #   Not having Tk().withdraw() does not make the code execute properly, not completely sure why, but it is necessary
         Tk().withdraw()
         #   Opens up file explorer to select the file
-        filePath = askopenfilename()
-        print("2")
-        fileName = os.path.basename(filePath)
-        print("File Name:",fileName)
+        file_path = askopenfilename()
+        file_name = os.path.basename(file_path)
+        print("File Name:",file_name)
 
         #   Opening fits file. Returns Header Data Unit(HDU) List (hdul: header and data array/table)
-        hdul = fits.open(filePath)
+        hdul = fits.open(file_path)
 
         #   Primary HDU
-        primHDU = hdul[0]
-        imageArray = primHDU.data[:,:]
+        primary_HDU = hdul[0]
+        image_array = primary_HDU.data[:,:]
         
-        print(type(imageArray))
-        print(imageArray.data)
+        print(type(image_array))
+        print(image_array.data)
         
-        return imageArray
+        return image_array
     
-################################################################################################################################
-################################################################################################################################
-################################################################################################################################
-    
-class MainWindow(QtWidgets.QMainWindow):
-    
-    def __init__(self, *args, **kwargs):
-        super(MainWindow, self).__init__(*args, **kwargs)
-  
 ################################################################################################################################
 ################################################################################################################################
 ################################################################################################################################
 
 def main():
     
-    # GUI object
-    print("0")
     #   Every GUI must have one instance of QApplication(), inside the brackets[] would be parameters passed to the application
     app = QtWidgets.QApplication([])
     app.setStyle('Fusion')
     
-    main_widget = QtWidgets.QWidget()
-    
-    fitsOG = ImageCanvas(main_widget)
-    fitsOG.resize(640,480)
-    
-    main_widget.show()
+    main_window = MainWindow()
     
     #   app.exec() hands control over to Qt and will run the application till the user closes it
     app.exec()
