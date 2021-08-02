@@ -6,11 +6,15 @@ Created on Wed Jul 21 09:52:55 2021
 """
 
 
-import PyQt5 as qt
+
+
 import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.figure import Figure
+from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg, NavigationToolbar2QT as NavigationToolbar
 from matplotlib.backends.backend_qt5agg import FigureCanvas
+import matplotlib
+matplotlib.use('Qt5Agg')
 from matplotlib.colors import LogNorm
 import scipy.ndimage as ndi
 import os
@@ -19,6 +23,7 @@ from astropy.io import fits
 from tkinter.filedialog import askopenfilename
 from tkinter import Tk
 from astroscrappy import detect_cosmics
+from PyQt5 import QtCore, QtGui, QtWidgets
 
 #   GUI OBJECT
 class transform_gui(object):
@@ -34,27 +39,27 @@ class transform_gui(object):
         print("3")
         self.app.setStyle('Fusion')
         
-        self.window = qt.QtWidgets.QWidget()
+        self.window = QtWidgets.QWidget()
         #   Set window layout to grid
-        self.layout = qt.QtWidgets.QGridLayout()
+        self.layout = QtWidgets.QGridLayout()
         self.window.setLayout(self.layout)
         print("4")
         
         #   Test label
-        self.label = qt.QtWidgets.QLabel("Whaddup playa this is a test label")
+        self.label = QtWidgets.QLabel("Whaddup playa this is a test label")
         
         height, width = self.image.shape
         bytes_per_line = 3 * width
         print("5")
         
         #   Error occurs in this line of code
-        self.qImg = qt.QtGui.QImage(self.image, width, height, bytes_per_line, qt.QtGui.QImage.Format_RGB888)
+        self.qImg = QtGui.QImage(self.image, width, height, bytes_per_line, QtGui.QImage.Format_RGB888)
         print("6")
         
-        self.qPix = qt.QtGui.QPixmap(self.qImg)
+        self.qPix = QtGui.QPixmap(self.qImg)
         print("7")
         
-        self.label2 = qt.QtWidgets.QLabel()
+        self.label2 = QtWidgets.QLabel()
         self.label2.setPixmap(self.qPix)
         
         #---PLACEMENTS--------------------------------------------------------
@@ -74,7 +79,7 @@ class transform_gui(object):
 ################################################################################################################################
 ################################################################################################################################    
     
-class ImageWindow(qt.QtWidgets.QMainWindow):
+class ImageCanvas(QtWidgets.QMainWindow):
     
     def __init__(self, parent = None):
         
@@ -119,18 +124,27 @@ class ImageWindow(qt.QtWidgets.QMainWindow):
 ################################################################################################################################
 ################################################################################################################################
 ################################################################################################################################
+    
+class MainWindow(QtWidgets.QMainWindow):
+    
+    def __init__(self, *args, **kwargs):
+        super(MainWindow, self).__init__(*args, **kwargs)
+  
+################################################################################################################################
+################################################################################################################################
+################################################################################################################################
 
 def main():
     
     # GUI object
     print("0")
     #   Every GUI must have one instance of QApplication(), inside the brackets[] would be parameters passed to the application
-    app = qt.QtWidgets.QApplication([])
+    app = QtWidgets.QApplication([])
     app.setStyle('Fusion')
     
-    main_widget = qt.QtWidgets.QWidget()
+    main_widget = QtWidgets.QWidget()
     
-    fitsOG = ImageWindow(main_widget)
+    fitsOG = ImageCanvas(main_widget)
     fitsOG.resize(640,480)
     
     main_widget.show()
