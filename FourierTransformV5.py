@@ -8,7 +8,7 @@ Created on Wed Jul 21 09:52:55 2021
 
 
 
-import numpy as np
+
 import matplotlib.pyplot as plt
 from matplotlib.figure import Figure
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg, NavigationToolbar2QT as NavigationToolbar
@@ -16,6 +16,7 @@ from matplotlib.backends.backend_qt5agg import FigureCanvas
 import matplotlib
 matplotlib.use('Qt5Agg')
 from matplotlib.colors import LogNorm
+import numpy as np
 import scipy.ndimage as ndi
 import os
 import sys
@@ -79,24 +80,24 @@ class transform_gui(object):
 ################################################################################################################################
 ################################################################################################################################    
     
-class ImageCanvas(QtWidgets.QMainWindow):
+class ImageCanvas(FigureCanvasQTAgg):
     
     def __init__(self, parent = None):
         
         super().__init__(parent)
         
-        self.figure = Figure(figsize = (5,3))
-        self.canvas = FigureCanvas(self.figure)
-        self.ax = self.figure.subplots()
+        figure = Figure(figsize = (5,3))
+        canvas = FigureCanvas(figure)
+        ax = figure.subplots()
         
-        self.image_array = self.open_fits_image()
+        image_array = self.open_fits_image()
         
-        self.ax.imshow(self.image_array)
+        ax.imshow(image_array)
         
-        self.setCentralWidget(self.canvas)
+        self.setCentralWidget(canvas)
         
     #--------------------------------------------------------------------------------------------------
-    #----------------------------------ImageWindow FUNCTIONS-------------------------------------------
+    #----------------------------------ImageCanvas FUNCTIONS-------------------------------------------
     #--------------------------------------------------------------------------------------------------
         
     def open_fits_image(self):
