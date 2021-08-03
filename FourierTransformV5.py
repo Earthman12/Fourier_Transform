@@ -33,27 +33,36 @@ class MainWindow(QtWidgets.QMainWindow):
         super(MainWindow, self).__init__(*args, **kwargs)
         
         #   Test label
-        test_label = QtWidgets.QLabel("Whaddup playa this is a test label")
-        #   Open new image button
-        open_button = QtWidgets.QPushButton("Open File")
+        self.test_label = QtWidgets.QLabel("Whaddup playa this is a test label")
         #   Original fits image canvas
-        fits_image = FitsImageCanvas()
+        self.fits_image = FitsImageCanvas()
         #   Toolbar
-        toolbar = NavigationToolbar(fits_image, self)
+        self.toolbar = NavigationToolbar(self.fits_image, self)
+        #   Open new image button
+        self.open_button = QtWidgets.QPushButton("Open File")
+        self.open_button.clicked.connect(self.change_fits_image)
         
         #   GUI Layout
-        layout = QtWidgets.QGridLayout()
-        layout.addWidget(open_button)
-        layout.addWidget(test_label)
-        layout.addWidget(toolbar)
-        layout.addWidget(fits_image)
+        self.layout = QtWidgets.QGridLayout()
+        self.layout.addWidget(self.open_button)
+        self.layout.addWidget(self.test_label)
+        self.layout.addWidget(self.toolbar)
+        self.layout.addWidget(self.fits_image)
         
         #   Central widget for everything to sit inside
-        placeholder_widget = QtWidgets.QWidget()
-        placeholder_widget.setLayout(layout)
-        self.setCentralWidget(placeholder_widget)
+        self.placeholder_widget = QtWidgets.QWidget()
+        self.placeholder_widget.setLayout(self.layout)
+        self.setCentralWidget(self.placeholder_widget)
         
         self.show()
+        
+    def change_fits_image(self):
+        
+        print("Changing FITS images")
+        
+        self.fits_image.image_array = self.fits_image.open_fits_image()
+        self.fits_image.ax.imshow(self.fits_image.image_array, origin='lower', cmap='gray', vmin = np.min(self.fits_image.image_array), vmax = np.max(self.fits_image.image_array))
+        
   
 ################################################################################################################################
 ################################################################################################################################
