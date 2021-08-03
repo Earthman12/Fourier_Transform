@@ -108,6 +108,7 @@ def main():
     #   app.exec() hands control over to Qt and will run the application till the user closes it
     app.exec()
     print ("End of program")
+    sys.exit()
     
     
 #DRIVER CODE
