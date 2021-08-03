@@ -32,14 +32,18 @@ class MainWindow(QtWidgets.QMainWindow):
         
         super(MainWindow, self).__init__(*args, **kwargs)
         
+        #   Test label
         test_label = QtWidgets.QLabel("Whaddup playa this is a test label")
-        
+        #   Open new image button
+        open_button = QtWidgets.QPushButton("Open File")
+        #   Original fits image canvas
         fits_image = FitsImageCanvas()
-
+        #   Toolbar
         toolbar = NavigationToolbar(fits_image, self)
         
         #   GUI Layout
         layout = QtWidgets.QGridLayout()
+        layout.addWidget(open_button)
         layout.addWidget(test_label)
         layout.addWidget(toolbar)
         layout.addWidget(fits_image)
