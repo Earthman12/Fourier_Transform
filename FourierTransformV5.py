@@ -62,6 +62,7 @@ class MainWindow(QtWidgets.QMainWindow):
         
         self.fits_image.image_array = self.fits_image.open_fits_image()
         self.fits_image.ax.imshow(self.fits_image.image_array, origin='lower', cmap='gray', vmin = np.min(self.fits_image.image_array), vmax = np.max(self.fits_image.image_array))
+        self.fits_image.update()
         
   
 ################################################################################################################################
@@ -72,14 +73,14 @@ class FitsImageCanvas(FigureCanvasQTAgg):
     
     def __init__(self, parent = None):
         
-        figure = Figure()
-        ax = figure.subplots()
+        self.figure = Figure()
+        self.ax = self.figure.subplots()
         
-        image_array = self.open_fits_image()
+        self.image_array = self.open_fits_image()
         
-        ax.imshow(image_array, origin='lower', cmap='gray', vmin = np.min(image_array), vmax = np.max(image_array))
+        self.ax.imshow(self.image_array, origin='lower', cmap='gray', vmin = np.min(self.image_array), vmax = np.max(self.image_array))
         
-        super(FitsImageCanvas, self).__init__(figure)
+        super(FitsImageCanvas, self).__init__(self.figure)
         
     #--------------------------------------------------------------------------------------------------
     #----------------------------------ImageCanvas FUNCTIONS-------------------------------------------
