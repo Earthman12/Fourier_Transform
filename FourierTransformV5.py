@@ -79,6 +79,8 @@ class FitsImageCanvas(FigureCanvas):
         
         self.image_array = self.open_fits_image()
         
+        self.canvas = FigureCanvas(self.figure)
+        
         self.display_object = self.ax.imshow(self.image_array, origin='lower', cmap='gray', vmin = np.min(self.image_array), vmax = np.max(self.image_array))
         
         super(FitsImageCanvas, self).__init__(self.figure)
@@ -119,8 +121,10 @@ class FitsImageCanvas(FigureCanvas):
         
         #   Open new image and show it
         self.image_array = self.open_fits_image()
+        print(type(self.image_array))
+        print(self.image_array)
         self.display_object.set_data(self.image_array)
-        self.figure.canvas.draw_idle()
+        self.draw()
     
 ################################################################################################################################
 ################################################################################################################################
