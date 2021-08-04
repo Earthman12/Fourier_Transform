@@ -116,15 +116,13 @@ class FitsImageCanvas(FigureCanvas):
         
         print("Changing FITS images")
         
-        #   Clear the axes content
-        self.ax.cla()
+        #   Clear the figure and create new axis
+        self.figure.clear()
+        self.ax = self.figure.subplots()
         
         #   Open new image and show it
         self.image_array = self.open_fits_image()
-        print(type(self.image_array))
-        print(self.image_array)
-        self.display_object.set_data(self.image_array)
-        self.draw()
+        self.display_object = self.ax.imshow(self.image_array, origin='lower', cmap='gray', vmin = np.min(self.image_array), vmax = np.max(self.image_array))
     
 ################################################################################################################################
 ################################################################################################################################
