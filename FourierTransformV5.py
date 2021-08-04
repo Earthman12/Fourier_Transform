@@ -38,12 +38,16 @@ class MainWindow(QtWidgets.QMainWindow):
         self.fits_image = FitsImageCanvas()
         #   Toolbar
         self.toolbar = NavigationToolbar(self.fits_image, self)
+        #   Image name label
+        self.fits_image_name = 'Image Name'
+        self.image_name_label = QtWidgets.QLabel(self.fits_image_name)
         #   Open new image button
         self.open_button = QtWidgets.QPushButton("Open File")
         self.open_button.clicked.connect(self.change_fits_image)
         
         #   GUI Layout
         self.layout = QtWidgets.QGridLayout()
+        self.layout.addWidget(self.image_name_label)
         self.layout.addWidget(self.open_button)
         self.layout.addWidget(self.test_label)
         self.layout.addWidget(self.toolbar)
@@ -64,9 +68,16 @@ class MainWindow(QtWidgets.QMainWindow):
         
         print("Changing FITS images")
         
+        #   Clear the axes content
+        self.fits_image.ax.cla()
+        
         self.fits_image.image_array = self.fits_image.open_fits_image()
         self.fits_image.ax.imshow(self.fits_image.image_array, origin='lower', cmap='gray', vmin = np.min(self.fits_image.image_array), vmax = np.max(self.fits_image.image_array))
         self.fits_image.update()
+        
+    def update_data(self):
+        
+        print("Updating data")
         
   
 ################################################################################################################################
