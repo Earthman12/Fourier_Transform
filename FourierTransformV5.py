@@ -7,10 +7,7 @@ Created on Wed Jul 21 09:52:55 2021
 
 import matplotlib.pyplot as plt
 from matplotlib.figure import Figure
-from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg, NavigationToolbar2QT as NavigationToolbar
-from matplotlib.backends.backend_qt5agg import FigureCanvas
-import matplotlib
-matplotlib.use('Qt5Agg')
+from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas, NavigationToolbar2QT as NavigationToolbar
 from matplotlib.colors import LogNorm
 import numpy as np
 import scipy.ndimage as ndi
@@ -73,7 +70,7 @@ class MainWindow(QtWidgets.QMainWindow):
 ################################################################################################################################
 ################################################################################################################################
     
-class FitsImageCanvas(FigureCanvasQTAgg):
+class FitsImageCanvas(FigureCanvas):
     
     def __init__(self, parent = None):
         
@@ -97,6 +94,7 @@ class FitsImageCanvas(FigureCanvasQTAgg):
         #   Opens up file explorer to select the file
         file_path = askopenfilename()
         file_name = os.path.basename(file_path)
+        
         print("File Name:",file_name)
 
         #   Opening fits file. Returns Header Data Unit(HDU) List (hdul: header and data array/table)
@@ -106,8 +104,7 @@ class FitsImageCanvas(FigureCanvasQTAgg):
         primary_HDU = hdul[0]
         image_array = primary_HDU.data[:,:]
         
-        print(type(image_array))
-        print(image_array.data)
+        print("Variable type: " + str(type(image_array)))
         
         return image_array
     
@@ -123,16 +120,7 @@ class FitsImageCanvas(FigureCanvasQTAgg):
         #   Open new image and show it
         self.image_array = self.open_fits_image()
         self.display_object.set_data(self.image_array)
-        self.draw()
-        
-        '''
-        #   Clear the axes content
-        self.fits_image.ax.cla()
-        
-        self.fits_image.image_array = self.fits_image.open_fits_image()
-        self.fits_image.ax.imshow(self.fits_image.image_array, origin='lower', cmap='gray', vmin = np.min(self.fits_image.image_array), vmax = np.max(self.fits_image.image_array))
-        self.fits_image.update()
-        '''
+        self.figure.canvas.draw_idle()
     
 ################################################################################################################################
 ################################################################################################################################
