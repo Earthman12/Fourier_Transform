@@ -61,11 +61,21 @@ class MainWindow(QtWidgets.QMainWindow):
     #----------------------------------MainWindow FUNCTIONS--------------------------------------------
     #--------------------------------------------------------------------------------------------------
         
-    def update_data(self):
+    def change_fits_image_data(self):
         
-        print("Updating data")
+        print("Changing FITS images")
         
-  
+        #   Clear the figure and create new axis
+        self.fits_image.figure.clear()
+        self.fits_image.ax = self.figure.subplots()
+        
+        #   Open new image and show it
+        self.fits_image.image_array = self.open_fits_image()
+        
+        self.display_object = self.ax.imshow(self.image_array, origin='lower', cmap='gray', vmin = np.min(self.image_array), vmax = np.max(self.image_array))
+        
+        print('test')
+        
 ################################################################################################################################
 ################################################################################################################################
 ################################################################################################################################
@@ -109,25 +119,6 @@ class FitsImageCanvas(FigureCanvas):
         print("Variable type: " + str(type(image_array)))
         
         return image_array
-    
-#--------------------------------------------------------------------------------------------------
-    
-    def change_fits_image(self):
-        
-        print("Changing FITS images")
-        
-        #   Clear the figure and create new axis
-        self.figure.clear()
-        self.ax = self.figure.subplots()
-        
-        #   Open new image and show it
-        self.image_array = self.open_fits_image()
-        
-        self.canvas = FigureCanvas(self.figure)
-        
-        self.display_object = self.ax.imshow(self.image_array, origin='lower', cmap='gray', vmin = np.min(self.image_array), vmax = np.max(self.image_array))
-        
-        print('test')
     
 ################################################################################################################################
 ################################################################################################################################
