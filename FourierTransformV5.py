@@ -70,8 +70,6 @@ class MainWindow(QtWidgets.QMainWindow):
         
         self.fits_image.image_array = self.fits_image.open_fits_image()
         
-        self.fits_image.canvas.show()
-        
         self.fits_image.draw()
         
         print('test')
