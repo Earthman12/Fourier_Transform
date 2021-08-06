@@ -36,7 +36,7 @@ class MainWindow(QtWidgets.QMainWindow):
         #   Toolbar
         self.toolbar = NavigationToolbar(self.fits_image, self)
         #   Image name label
-        self.fits_image_name = 'Image Name'
+        self.fits_image_name = self.fits_image.get_image_name()
         self.image_name_label = QtWidgets.QLabel(self.fits_image_name)
         #   Open new image button
         self.open_button = QtWidgets.QPushButton("Open File")
@@ -74,6 +74,8 @@ class MainWindow(QtWidgets.QMainWindow):
         #   Re-draw it on to the figure
         self.fits_image.draw()
         
+        self.fits_image_name = self.fits_image.get_image_name()
+        
         print('test')
         
 ################################################################################################################################
@@ -85,8 +87,8 @@ class FitsImageCanvas(FigureCanvas):
     def __init__(self, parent = None):
         
         #   Image variables
-        self.image_array = self.open_fits_image()
         self.image_name = ''
+        self.image_array = self.open_fits_image()
         
         #   Figure variables
         self.figure = Figure()
@@ -111,6 +113,7 @@ class FitsImageCanvas(FigureCanvas):
         file_name = os.path.basename(file_path)
         
         print("File Name:",file_name)
+        self.image_name = file_name
 
         #   Opening fits file. Returns Header Data Unit(HDU) List (hdul: header and data array/table)
         hdul = fits.open(file_path)
@@ -122,6 +125,10 @@ class FitsImageCanvas(FigureCanvas):
         print("Variable type: " + str(type(image_array)))
         
         return image_array
+    
+    def get_image_name(self):
+        
+        return self.image_name
     
 ################################################################################################################################
 ################################################################################################################################
