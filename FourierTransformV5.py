@@ -36,8 +36,7 @@ class MainWindow(QtWidgets.QMainWindow):
         #   Toolbar
         self.toolbar = NavigationToolbar(self.fits_image, self)
         #   Image name label
-        self.fits_image_name = self.fits_image.get_image_name()
-        self.image_name_label = QtWidgets.QLabel(self.fits_image_name)
+        self.image_name_label = QtWidgets.QLabel(self.fits_image.get_image_name())
         #   Open new image button
         self.open_button = QtWidgets.QPushButton("Open File")
         self.open_button.clicked.connect(self.change_fits_image_data)
@@ -74,7 +73,7 @@ class MainWindow(QtWidgets.QMainWindow):
         #   Re-draw it on to the figure
         self.fits_image.draw()
         
-        self.fits_image_name = self.fits_image.get_image_name()
+        self.image_name_label.setText(self.fits_image.get_image_name())
         
         print('test')
         
