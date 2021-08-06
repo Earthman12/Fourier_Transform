@@ -70,7 +70,11 @@ class MainWindow(QtWidgets.QMainWindow):
         
         self.fits_image.image_array = self.fits_image.open_fits_image()
         
+        self.fits_image.display_object.set_data(self.fits_image.image_array)
+        
         self.fits_image.draw()
+        
+        self.fits_image.display_object.autoscale()
         
         print('test')
         
@@ -82,11 +86,13 @@ class FitsImageCanvas(FigureCanvas):
     
     def __init__(self, parent = None):
         
+        #   Image variables
+        self.image_array = self.open_fits_image()
+        self.image_name = ''
+        
+        #   Figure variables
         self.figure = Figure()
         self.ax = self.figure.subplots()
-        
-        self.image_array = self.open_fits_image()
-        
         self.canvas = FigureCanvas(self.figure)
         
         self.display_object = self.ax.imshow(self.image_array, origin='lower', cmap='gray', vmin = np.min(self.image_array), vmax = np.max(self.image_array))
