@@ -65,16 +65,14 @@ class MainWindow(QtWidgets.QMainWindow):
         
         print("Changing FITS images")
         
-        #   Clear the canvas
-        self.fits_image.ax.cla()
-        
+        #   Open the new image and set the array to the "image_array' variable
         self.fits_image.image_array = self.fits_image.open_fits_image()
         
+        #   Set the new image array to the display object and set the min and max accordingly for the new image
         self.fits_image.display_object.set_data(self.fits_image.image_array)
-        
+        self.fits_image.display_object.set_clim(vmin = np.min(self.fits_image.image_array), vmax = np.max(self.fits_image.image_array))
+        #   Re-draw it on to the figure
         self.fits_image.draw()
-        
-        self.fits_image.display_object.autoscale()
         
         print('test')
         
@@ -95,6 +93,7 @@ class FitsImageCanvas(FigureCanvas):
         self.ax = self.figure.subplots()
         self.canvas = FigureCanvas(self.figure)
         
+        #   Display object variable
         self.display_object = self.ax.imshow(self.image_array, origin='lower', cmap='gray', vmin = np.min(self.image_array), vmax = np.max(self.image_array))
         
         super(FitsImageCanvas, self).__init__(self.figure)
