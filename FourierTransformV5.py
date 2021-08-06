@@ -73,6 +73,7 @@ class MainWindow(QtWidgets.QMainWindow):
         #   Re-draw it on to the figure
         self.fits_image.draw()
         
+        #   Update image name label
         self.image_name_label.setText(self.fits_image.get_image_name())
         
         print('test')
