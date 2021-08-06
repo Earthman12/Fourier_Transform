@@ -29,8 +29,6 @@ class MainWindow(QtWidgets.QMainWindow):
         
         super(MainWindow, self).__init__(*args, **kwargs)
         
-        #   Test label
-        self.test_label = QtWidgets.QLabel("Whaddup playa this is a test label")
         #   Original fits image canvas
         self.fits_image = FitsImageCanvas()
         #   Toolbar
@@ -41,18 +39,20 @@ class MainWindow(QtWidgets.QMainWindow):
         self.open_button = QtWidgets.QPushButton("Open File")
         self.open_button.clicked.connect(self.change_fits_image_data)
         
-        #   GUI Layout
+        #   GUI Grid Layout
         self.layout = QtWidgets.QGridLayout()
-        self.layout.addWidget(self.image_name_label)
-        self.layout.addWidget(self.open_button)
-        self.layout.addWidget(self.test_label)
-        self.layout.addWidget(self.toolbar)
-        self.layout.addWidget(self.fits_image)
+        self.layout.addWidget(self.image_name_label, 0, 2)
+        self.layout.addWidget(self.toolbar, 2, 0)
+        self.layout.addWidget(self.fits_image, 3, 0)
+        self.layout.addWidget(self.open_button, 6, 5)
         
         #   Central widget for everything to sit inside
         self.placeholder_widget = QtWidgets.QWidget()
         self.placeholder_widget.setLayout(self.layout)
         self.setCentralWidget(self.placeholder_widget)
+        
+        #   This will start the GUI in fullscreen
+        #self.showMaximized()
         
         self.show()
         
@@ -129,6 +129,10 @@ class FitsImageCanvas(FigureCanvas):
     def get_image_name(self):
         
         return self.image_name
+    
+    def transform_image(self):
+        
+        print("Transforming image")
     
 ################################################################################################################################
 ################################################################################################################################
