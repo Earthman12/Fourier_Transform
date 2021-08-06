@@ -40,7 +40,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.image_name_label = QtWidgets.QLabel(self.fits_image_name)
         #   Open new image button
         self.open_button = QtWidgets.QPushButton("Open File")
-        self.open_button.clicked.connect(self.fits_image.change_fits_image)
+        self.open_button.clicked.connect(self.change_fits_image_data)
         
         #   GUI Layout
         self.layout = QtWidgets.QGridLayout()
@@ -65,14 +65,14 @@ class MainWindow(QtWidgets.QMainWindow):
         
         print("Changing FITS images")
         
-        #   Clear the figure and create new axis
-        self.fits_image.figure.clear()
-        self.fits_image.ax = self.figure.subplots()
+        #   Clear the canvas
+        self.fits_image.ax.cla()
         
-        #   Open new image and show it
-        self.fits_image.image_array = self.open_fits_image()
+        self.fits_image.image_array = self.fits_image.open_fits_image()
         
-        self.display_object = self.ax.imshow(self.image_array, origin='lower', cmap='gray', vmin = np.min(self.image_array), vmax = np.max(self.image_array))
+        self.fits_image.canvas.show()
+        
+        self.fits_image.draw()
         
         print('test')
         
