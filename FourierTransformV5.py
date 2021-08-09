@@ -89,24 +89,26 @@ class FitsImageCanvas(FigureCanvas):
     
     def __init__(self, parent = None):
         
+        #   Figure variables
+        self.figure = Figure(figsize = (7,7))
+        self.axes = []
+        rows = 1
+        col = 2
+        
         #   Fits Image variables
         self.image_name = ''
         self.image_array = self.open_fits_image()
-        #   Figure variables
-        self.figure = Figure(figsize = (7,7))
-        self.figure.add_subplot(2,2,1)
-        self.ax = self.figure.subplots()
-        self.canvas = FigureCanvas(self.figure)        
-        #   Display object variable
-        self.display_object = self.ax.imshow(self.image_array, origin='lower', cmap='gray', vmin = np.min(self.image_array), vmax = np.max(self.image_array))
+        #   Adding subplot to the figure
+        self.axes.append(self.figure.add_subplot(rows, col, 1))
+        #   Display object variable for fits image
+        self.display_object = self.axes[0].imshow(self.image_array, origin='lower', cmap='gray', vmin = np.min(self.image_array), vmax = np.max(self.image_array))
         
         #   Transform Image Variables
         self.transform_image = self.transform_image()
-        #   Figure variables
-        self.figure.add_subplot(2,2,1)
-        self.ax_2 = self.figure.subplots()
-        #   Display object variable
-        self.display_object_2 = self.ax_2.imshow(self.transform_image)
+        #   Add subplot to figure
+        self.axes.append(self.figure.add_subplot(rows,col, 2))
+        #   Display object variable for transform image
+        self.display_object_2 = self.axes[1].imshow(self.transform_image)
         
         super(FitsImageCanvas, self).__init__(self.figure)
         
