@@ -64,13 +64,15 @@ class MainWindow(QtWidgets.QMainWindow):
         
         print("Changing FITS images")
         
-        #   Open the new image and set the array to the "image_array' variable
+        #   Open the new image and set the array to the 'image_array' variable
         self.fits_image.image_array = self.fits_image.open_fits_image()
         
         #   Set the new image array and transform to their display objects and set the min and max accordingly for the new image
         self.fits_image.display_object.set_data(self.fits_image.image_array)
         self.fits_image.display_object.set_clim(vmin = np.min(self.fits_image.image_array), vmax = np.max(self.fits_image.image_array))
         
+        #   Call the transform on the new image and set it the 'transform_image' variable
+        self.fits_image.transform_image = self.fits_image.fourier_transform()
         self.fits_image.display_object_2.set_data(self.fits_image.transform_image)
         
         #   Re-draw it on to the figure
@@ -90,7 +92,7 @@ class FitsImageCanvas(FigureCanvas):
     def __init__(self, parent = None):
         
         #   Figure variables
-        self.figure = Figure(figsize = (7,7))
+        self.figure = Figure(figsize = (10,5))
         self.axes = []
         rows = 1
         col = 2
@@ -104,7 +106,7 @@ class FitsImageCanvas(FigureCanvas):
         self.display_object = self.axes[0].imshow(self.image_array, origin='lower', cmap='gray', vmin = np.min(self.image_array), vmax = np.max(self.image_array))
         
         #   Transform Image Variables
-        self.transform_image = self.transform_image()
+        self.transform_image = self.fourier_transform()
         #   Add subplot to figure
         self.axes.append(self.figure.add_subplot(rows,col, 2))
         #   Display object variable for transform image
@@ -146,7 +148,7 @@ class FitsImageCanvas(FigureCanvas):
     
     ##############################################################################
     
-    def transform_image(self):
+    def fourier_transform(self):
         
         print("Transforming image")
         
