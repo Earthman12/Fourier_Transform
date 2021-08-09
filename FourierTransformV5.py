@@ -66,14 +66,15 @@ class MainWindow(QtWidgets.QMainWindow):
         
         #   Open the new image and set the array to the 'image_array' variable
         self.fits_image.image_array = self.fits_image.open_fits_image()
-        
         #   Set the new image array and transform to their display objects and set the min and max accordingly for the new image
         self.fits_image.display_object.set_data(self.fits_image.image_array)
         self.fits_image.display_object.set_clim(vmin = np.min(self.fits_image.image_array), vmax = np.max(self.fits_image.image_array))
         
         #   Call the transform on the new image and set it the 'transform_image' variable
         self.fits_image.transform_image = self.fits_image.fourier_transform()
+        #   Set the new transform image to its display object variable        
         self.fits_image.display_object_2.set_data(self.fits_image.transform_image)
+        self.fits_image.display_object_2.set_clim(vmin = np.min(self.fits_image.transform_image), vmax = np.max(self.fits_image.transform_image))
         
         #   Re-draw it on to the figure
         self.fits_image.draw()
@@ -81,7 +82,6 @@ class MainWindow(QtWidgets.QMainWindow):
         #   Update image name label
         self.image_name_label.setText(self.fits_image.get_image_name())
         
-        print('test')
         
 ################################################################################################################################
 ################################################################################################################################
@@ -110,7 +110,7 @@ class FitsImageCanvas(FigureCanvas):
         #   Add subplot to figure
         self.axes.append(self.figure.add_subplot(rows,col, 2))
         #   Display object variable for transform image
-        self.display_object_2 = self.axes[1].imshow(self.transform_image)
+        self.display_object_2 = self.axes[1].imshow(self.transform_image, origin='lower', cmap='gray', vmin = np.min(self.transform_image), vmax = np.max(self.transform_image))
         
         super(FitsImageCanvas, self).__init__(self.figure)
         
