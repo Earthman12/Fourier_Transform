@@ -138,6 +138,12 @@ class FitsImageCanvas(FigureCanvas):
 ################################################################################################################################
 ################################################################################################################################
 
+class FourierImageCanvas(FigureCanvas):
+    
+    def __init__(self, parent = None, image_array):
+        
+        self.image_to_transform = image_array
+
 def main():
     
     #   Every GUI must have one instance of QApplication(), inside the brackets[] would be parameters passed to the application
