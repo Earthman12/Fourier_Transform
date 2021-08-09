@@ -136,9 +136,13 @@ class FitsImageCanvas(FigureCanvas):
         
         return image_array
     
+    ##############################################################################
+    
     def get_image_name(self):
         
         return self.image_name
+    
+    ##############################################################################
     
     def transform_image(self):
         
