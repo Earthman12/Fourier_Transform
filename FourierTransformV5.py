@@ -67,9 +67,12 @@ class MainWindow(QtWidgets.QMainWindow):
         #   Open the new image and set the array to the "image_array' variable
         self.fits_image.image_array = self.fits_image.open_fits_image()
         
-        #   Set the new image array to the display object and set the min and max accordingly for the new image
+        #   Set the new image array and transform to their display objects and set the min and max accordingly for the new image
         self.fits_image.display_object.set_data(self.fits_image.image_array)
         self.fits_image.display_object.set_clim(vmin = np.min(self.fits_image.image_array), vmax = np.max(self.fits_image.image_array))
+        
+        self.fits_image.display_object_2.set_data(self.fits_image.transform_image)
+        
         #   Re-draw it on to the figure
         self.fits_image.draw()
         
@@ -86,17 +89,24 @@ class FitsImageCanvas(FigureCanvas):
     
     def __init__(self, parent = None):
         
-        #   Image variables
+        #   Fits Image variables
         self.image_name = ''
         self.image_array = self.open_fits_image()
-        
         #   Figure variables
-        self.figure = Figure()
+        self.figure = Figure(figsize = (7,7))
+        self.figure.add_subplot(2,2,1)
         self.ax = self.figure.subplots()
-        self.canvas = FigureCanvas(self.figure)
-        
+        self.canvas = FigureCanvas(self.figure)        
         #   Display object variable
         self.display_object = self.ax.imshow(self.image_array, origin='lower', cmap='gray', vmin = np.min(self.image_array), vmax = np.max(self.image_array))
+        
+        #   Transform Image Variables
+        self.transform_image = self.transform_image()
+        #   Figure variables
+        self.figure.add_subplot(2,2,1)
+        self.ax_2 = self.figure.subplots()
+        #   Display object variable
+        self.display_object_2 = self.ax_2.imshow(self.transform_image)
         
         super(FitsImageCanvas, self).__init__(self.figure)
         
@@ -133,16 +143,22 @@ class FitsImageCanvas(FigureCanvas):
     def transform_image(self):
         
         print("Transforming image")
-    
-################################################################################################################################
-################################################################################################################################
-################################################################################################################################
-
-class FourierImageCanvas(FigureCanvas):
-    
-    def __init__(self, parent = None, image_array):
         
-        self.image_to_transform = image_array
+        #   Fourier Transforming
+        f = np.fft.fft2(self.image_array)
+        #   Shifting zero frequency component to center spectrum
+        fshift = np.fft.fftshift(f)
+        
+        powerSpectrum = (np.abs(fshift) ** 2)
+        
+        #   Visual representation of Fourier Transform
+        fourierImage = np.log10(powerSpectrum)
+        
+        return fourierImage
+    
+################################################################################################################################
+################################################################################################################################
+################################################################################################################################
 
 def main():
     
