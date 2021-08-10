@@ -67,14 +67,20 @@ class MainWindow(QtWidgets.QMainWindow):
         #   Open the new image and set the array to the 'image_array' variable
         self.fits_image.image_array = self.fits_image.open_fits_image()
         #   Set the new image array and transform to their display objects and set the min and max accordingly for the new image
-        self.fits_image.display_object.set_data(self.fits_image.image_array)
-        self.fits_image.display_object.set_clim(vmin = np.min(self.fits_image.image_array), vmax = np.max(self.fits_image.image_array))
+        self.fits_image.original_display_object.set_data(self.fits_image.image_array)
+        self.fits_image.original_display_object.set_clim(vmin = np.min(self.fits_image.image_array), vmax = np.max(self.fits_image.image_array))
+        
+        #   Set new cosmics image
+        self.fits_image.cosmic_image = self.fits_image.apply_cosmics()
+        #   Set the cosmic image to its display object
+        self.fits_image.cosmic_display_object.set_data(self.fits_image.cosmic_image)
+        self.fits_image.cosmic_display_object.set_clim(vmin = np.min(self.fits_image.cosmic_image), vmax = np.max(self.fits_image.cosmic_image))
         
         #   Call the transform on the new image and set it the 'transform_image' variable
         self.fits_image.transform_image = self.fits_image.fourier_transform()
         #   Set the new transform image to its display object variable        
-        self.fits_image.display_object_2.set_data(self.fits_image.transform_image)
-        self.fits_image.display_object_2.set_clim(vmin = np.min(self.fits_image.transform_image), vmax = np.max(self.fits_image.transform_image))
+        self.fits_image.transform_display_object.set_data(self.fits_image.transform_image)
+        self.fits_image.transform_display_object.set_clim(vmin = np.min(self.fits_image.transform_image), vmax = np.max(self.fits_image.transform_image))
         
         #   Re-draw it on to the figure
         self.fits_image.draw()
@@ -91,25 +97,32 @@ class FitsImageCanvas(FigureCanvas):
     def __init__(self, parent = None):
         
         #   Figure variables
-        self.figure = Figure(figsize = (10,5))
+        self.figure = Figure(figsize = (20,10))
         self.axes = []
         rows = 1
-        col = 2
+        col = 3
         
-        #   Fits Image variables
+        #   Original Fits Image variables
         self.image_name = ''
         self.image_array = self.open_fits_image()
         #   Adding subplot to the figure
         self.axes.append(self.figure.add_subplot(rows, col, 1))
         #   Display object variable for fits image
-        self.display_object = self.axes[0].imshow(self.image_array, origin='lower', cmap='gray', vmin = np.min(self.image_array), vmax = np.max(self.image_array))
+        self.original_display_object = self.axes[0].imshow(self.image_array, origin='lower', cmap='gray', vmin = np.min(self.image_array), vmax = np.max(self.image_array))
+        
+        #   Cosmic Filtered Fits Image Variables
+        self.cosmic_image = self.apply_cosmics()
+        #   Add subplot to figure
+        self.axes.append(self.figure.add_subplot(rows,col,2))
+        #   Display object variable for cosmic image
+        self.cosmic_display_object = self.axes[1].imshow(self.cosmic_image, origin='lower', cmap='gray', vmin = np.min(self.cosmic_image), vmax = np.max(self.cosmic_image))
         
         #   Transform Image Variables
         self.transform_image = self.fourier_transform()
         #   Add subplot to figure
-        self.axes.append(self.figure.add_subplot(rows,col, 2))
+        self.axes.append(self.figure.add_subplot(rows,col, 3))
         #   Display object variable for transform image
-        self.display_object_2 = self.axes[1].imshow(self.transform_image, origin='lower', cmap='gray', vmin = np.min(self.transform_image), vmax = np.max(self.transform_image))
+        self.transform_display_object = self.axes[2].imshow(self.transform_image, origin='lower', cmap='gray', vmin = np.min(self.transform_image), vmax = np.max(self.transform_image))
         
         super(FitsImageCanvas, self).__init__(self.figure)
         
@@ -137,6 +150,7 @@ class FitsImageCanvas(FigureCanvas):
         
         print("Variable type: " + str(type(image_array)))
         
+        
         return image_array
     
     ##############################################################################
@@ -162,6 +176,18 @@ class FitsImageCanvas(FigureCanvas):
         fourierImage = np.log10(powerSpectrum)
         
         return fourierImage
+    
+    ##############################################################################
+    
+    def apply_cosmics(self):
+        
+        print("Applying cosmics filter...")
+        
+        #   Detect cosmic rays
+        cosmic_array = detect_cosmics(self.image_array, sigclip = 5.0, sigfrac = 0.3, readnoise = 10.0, gain = 2.2, satlevel = 65536, niter = 4, cleantype ='meanmask' , fsmode='median',sepmed=True, psfmodel='gauss', psffwhm =2.5, psfsize =7)
+        cosmic_array_image = cosmic_array[1]
+        
+        return cosmic_array_image
     
 ################################################################################################################################
 ################################################################################################################################
