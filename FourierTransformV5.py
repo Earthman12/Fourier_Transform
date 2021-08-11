@@ -119,6 +119,8 @@ class FitsImageCanvas(FigureCanvas):
         self.image_array = self.open_fits_image()
         #   Adding subplot to the figure
         self.axes.append(self.figure.add_subplot(self.rows, self.col, 1))
+        #   Set the limits to be adjustable with the x and y data limits
+        self.axes[0].set_adjustable(adjustable = "datalim")
         #   Display object variable for fits image
         self.original_display_object = self.axes[0].imshow(self.image_array, origin='lower', cmap='gray', vmin = np.min(self.image_array), vmax = np.max(self.image_array))
         
