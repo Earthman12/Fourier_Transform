@@ -84,7 +84,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.fits_image.axes.append(self.fits_image.figure.add_subplot(self.fits_image.rows, self.fits_image.col, 2))
         #   Set the cosmic image to its display object
         self.fits_image.cosmic_display_object.set_data(self.fits_image.cosmic_image)
-        self.fits_image.cosmic_display_object.set_clim(vmin = np.min(self.fits_image.cosmic_image), vmax = np.max(self.fits_image.cosmic_image))
+        #self.fits_image.cosmic_display_object.set_clim(vmin = np.min(self.fits_image.cosmic_image), vmax = np.max(self.fits_image.cosmic_image))
         
         #   Set transform on the new image and set it the 'transform_image' variable
         self.fits_image.transform_image = self.fits_image.fourier_transform()
