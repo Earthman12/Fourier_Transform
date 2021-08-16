@@ -62,37 +62,8 @@ class MainWindow(QtWidgets.QMainWindow):
         
     def change_fits_image_data(self):
         
-        print("Changing FITS images")
-        
-        #   Clear the list of axes to get have fresh axes to draw on in case image size is different
-        #   Must also clear the figure to avoid getting a MatPlotLib Deprecation Warning
-        self.fits_image.axes.clear()
-        self.fits_image.figure.clear()
-        
-        #   Set the new image and set the array to the 'image_array' variable
-        self.fits_image.image_array = self.fits_image.open_fits_image()
-        #   Add subplot to the figure
-        self.fits_image.axes.append(self.fits_image.figure.add_subplot(self.fits_image.rows, self.fits_image.col, 1))
-        #   Set the new image array and transform to their display objects and set the min and max accordingly for the new image
-        #   This works but could result in bug, same for cosmics and transform image. Use other way by setting display object
-        self.fits_image.original_display_object = self.fits_image.axes[0].imshow(self.fits_image.image_array, origin='lower', cmap='gray', vmin = np.min(self.fits_image.image_array), vmax = np.max(self.fits_image.image_array))
-        
-        #   Set new cosmics image
-        self.fits_image.cosmic_image = self.fits_image.apply_cosmics()
-        #   Add subplot to the figure
-        self.fits_image.axes.append(self.fits_image.figure.add_subplot(self.fits_image.rows, self.fits_image.col, 2))
-        #   Set the cosmic image to its display object
-        self.fits_image.cosmic_display_object = self.fits_image.axes[1].imshow(self.fits_image.cosmic_image, origin='lower', cmap='gray', vmin = np.min(self.fits_image.cosmic_image), vmax = np.max(self.fits_image.cosmic_image))
-        
-        #   Set transform on the new image and set it the 'transform_image' variable
-        self.fits_image.transform_image = self.fits_image.fourier_transform()
-        #   Add subplot to the figure
-        self.fits_image.axes.append(self.fits_image.figure.add_subplot(self.fits_image.rows, self.fits_image.col, 3))
-        #   Set the new transform image to its display object variable        
-        self.fits_image.transform_display_object = self.fits_image.axes[2].imshow(self.fits_image.transform_image, origin='lower', cmap='gray', vmin = np.min(self.fits_image.transform_image), vmax = np.max(self.fits_image.transform_image))
-        
-        #   Re-draw it on to the figure
-        self.fits_image.draw()
+        #   Change image data from image class
+        self.fits_image.change_image()
         
         #   Update image name label
         self.image_name_label.setText(self.fits_image.get_image_name())
@@ -114,22 +85,25 @@ class FitsImageCanvas(FigureCanvas):
         #   Original Fits Image variables
         self.image_name = ''
         self.image_array = self.open_fits_image()
-        #   Adding subplot to the figure
+        #   Adding subplot to the figure and setting title
         self.axes.append(self.figure.add_subplot(self.rows, self.col, 1))
+        self.axes[0].set_title("Original Fits Image")
         #   Display object variable for fits image
         self.original_display_object = self.axes[0].imshow(self.image_array, origin='lower', cmap='gray', vmin = np.min(self.image_array), vmax = np.max(self.image_array))
         
         #   Cosmic Filtered Fits Image Variables
         self.cosmic_image = self.apply_cosmics()
-        #   Add subplot to figure
+        #   Add subplot to figure and set title
         self.axes.append(self.figure.add_subplot(self.rows,self.col,2))
+        self.axes[1].set_title("Cosmics filtered image")
         #   Display object variable for cosmic image
         self.cosmic_display_object = self.axes[1].imshow(self.cosmic_image, origin='lower', cmap='gray', vmin = np.min(self.cosmic_image), vmax = np.max(self.cosmic_image))
         
         #   Transform Image Variables
         self.transform_image = self.fourier_transform()
-        #   Add subplot to figure
+        #   Add subplot to figure and set title
         self.axes.append(self.figure.add_subplot(self.rows,self.col, 3))
+        self.axes[2].set_title("Fourier Transform")
         #   Display object variable for transform image
         self.transform_display_object = self.axes[2].imshow(self.transform_image, origin='lower', cmap='gray', vmin = np.min(self.transform_image), vmax = np.max(self.transform_image))
         
@@ -198,6 +172,44 @@ class FitsImageCanvas(FigureCanvas):
         cosmic_array_image = cosmic_array[1]
         
         return cosmic_array_image
+    
+    ##############################################################################
+    
+    def change_image(self):
+        
+        print("Changing FITS images")
+        
+        #   Clear the list of axes to get have fresh axes to draw on in case image size is different
+        #   Must also clear the figure to avoid getting a MatPlotLib Deprecation Warning
+        self.axes.clear()
+        self.figure.clear()
+        
+        #   Set the new image and set the array to the 'image_array' variable
+        self.image_array = self.open_fits_image()
+        #   Add subplot to the figure and set title
+        self.axes.append(self.figure.add_subplot(self.rows, self.col, 1))
+        self.axes[0].set_title("Original Fits Image")
+        #   Set the new image array and transform to their display objects and set the min and max accordingly for the new image
+        self.original_display_object = self.axes[0].imshow(self.image_array, origin='lower', cmap='gray', vmin = np.min(self.image_array), vmax = np.max(self.image_array))
+        
+        #   Set new cosmics image
+        self.cosmic_image = self.apply_cosmics()
+        #   Add subplot to the figure and set title
+        self.axes.append(self.figure.add_subplot(self.rows, self.col, 2))
+        self.axes[1].set_title("Cosmics filtered image")
+        #   Set the cosmic image to its display object
+        self.cosmic_display_object = self.axes[1].imshow(self.cosmic_image, origin='lower', cmap='gray', vmin = np.min(self.cosmic_image), vmax = np.max(self.cosmic_image))
+        
+        #   Set transform on the new image and set it the 'transform_image' variable
+        self.transform_image = self.fourier_transform()
+        #   Add subplot to the figure and set title
+        self.axes.append(self.figure.add_subplot(self.rows, self.col, 3))
+        self.axes[2].set_title("Fourier Transform")
+        #   Set the new transform image to its display object variable        
+        self.transform_display_object = self.axes[2].imshow(self.transform_image, origin='lower', cmap='gray', vmin = np.min(self.transform_image), vmax = np.max(self.transform_image))
+        
+        #   Re-draw it on to the figure
+        self.draw()
     
 ################################################################################################################################
 ################################################################################################################################
