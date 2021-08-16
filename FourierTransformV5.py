@@ -107,14 +107,14 @@ class FitsImageCanvas(FigureCanvas):
         #   Display object variable for transform image
         self.transform_display_object = self.axes[2].imshow(self.transform_image, origin='lower', cmap='gray', vmin = np.min(self.transform_image), vmax = np.max(self.transform_image))
         
-        #   Fourier Transform row plot
+        #   Fourier Transform Row Plot Variables
         #   Default row cut will be in the middle of the transform
         self.y_row = int(len(self.transform_image) / 2)
         #   Get row values that have the absolute values and squares of the row and its top and bottom row added
         self.row_cut_values = self.row_cut()
         #   Add subplot to figure and set title
-        self.axes.append(self.figure.add_subplot(self.rows,self.col, 4))
-        self.axes[3].set_title("Row cut plot")
+        self.axes.append(self.figure.add_subplot(self.rows,self.col, 5))
+        self.axes[3].set_title("Row Cut Plot")
         #   Display object for transform row plot
         self.row_plot_display_object = self.axes[3].plot(self.row_cut_values)
         
@@ -219,6 +219,18 @@ class FitsImageCanvas(FigureCanvas):
         #   Set the new transform image to its display object variable        
         self.transform_display_object = self.axes[2].imshow(self.transform_image, origin='lower', cmap='gray', vmin = np.min(self.transform_image), vmax = np.max(self.transform_image))
         
+        #   Set the plot for the new image
+        #   Middle of image
+        self.y_row = int(len(self.transform_image) / 2)
+        
+        #   Get row values that have the absolute values and squares of the row and its top and bottom row added
+        self.row_cut_values = self.row_cut()
+        #   Add subplot to figure and set title
+        self.axes.append(self.figure.add_subplot(self.rows,self.col, 5))
+        self.axes[3].set_title("Row Cut Plot")
+        #   Display object for transform row plot
+        self.row_plot_display_object = self.axes[3].plot(self.row_cut_values)
+        
         #   Re-draw it on to the figure
         self.draw()
         
@@ -230,6 +242,19 @@ class FitsImageCanvas(FigureCanvas):
         
         #   Create empty array the length of the rows
         row_values_array = np.zeros(shape = len(self.transform_image[self.y_row]))
+        
+        #  Loop through the values in the row and take the absolute value and the square of the row and the row above and below it and add them together
+        for i in range(0, len(row_values_array), 1):
+            #   Get absolute value of the row and its top and bottom
+            abs_top = abs(self.transform_image[self.y_row + 1][i])
+            abs_row = abs(self.transform_image[self.y_row][i])
+            abs_bottom = abs(self.transform_image[self.y_row - 1][i])
+            #   Get the square 
+            square_top = abs_top * abs_top
+            square_row = abs_row * abs_row
+            square_bottom = abs_bottom * abs_bottom
+            #   Add them together
+            row_values_array[i] = square_top + square_row + square_bottom
         
         return row_values_array
     
