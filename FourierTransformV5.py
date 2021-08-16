@@ -108,6 +108,15 @@ class FitsImageCanvas(FigureCanvas):
         self.transform_display_object = self.axes[2].imshow(self.transform_image, origin='lower', cmap='gray', vmin = np.min(self.transform_image), vmax = np.max(self.transform_image))
         
         #   Fourier Transform row plot
+        #   Default row cut will be in the middle of the transform
+        self.y_row = int(len(self.transform_image) / 2)
+        #   Create empty array the length of the row
+        self.row_cut_values = np.zeros(shape = len(self.transform_image[self.y_row]))
+        #   Add subplot to figure and set title
+        self.axes.append(self.figure.add_subplot(self.rows,self.col, 4))
+        self.axes[3].set_title("Row cut plot")
+        #   Display object for transform row plot
+        self.row_plot_display_object = self.axes[3].plot(self.row_cut_values)
         
         super(FitsImageCanvas, self).__init__(self.figure)
         
