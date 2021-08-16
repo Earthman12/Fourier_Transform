@@ -79,7 +79,7 @@ class FitsImageCanvas(FigureCanvas):
         #   Figure variables
         self.figure = Figure(figsize = (20,10))
         self.axes = []
-        self.rows = 1
+        self.rows = 2
         self.col = 3
         
         #   Original Fits Image variables
@@ -106,6 +106,8 @@ class FitsImageCanvas(FigureCanvas):
         self.axes[2].set_title("Fourier Transform")
         #   Display object variable for transform image
         self.transform_display_object = self.axes[2].imshow(self.transform_image, origin='lower', cmap='gray', vmin = np.min(self.transform_image), vmax = np.max(self.transform_image))
+        
+        #   Fourier Transform row plot
         
         super(FitsImageCanvas, self).__init__(self.figure)
         
