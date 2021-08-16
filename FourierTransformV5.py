@@ -110,8 +110,8 @@ class FitsImageCanvas(FigureCanvas):
         #   Fourier Transform row plot
         #   Default row cut will be in the middle of the transform
         self.y_row = int(len(self.transform_image) / 2)
-        #   Create empty array the length of the row
-        self.row_cut_values = np.zeros(shape = len(self.transform_image[self.y_row]))
+        #   Get row values that have the absolute values and squares of the row and its top and bottom row added
+        self.row_cut_values = self.row_cut()
         #   Add subplot to figure and set title
         self.axes.append(self.figure.add_subplot(self.rows,self.col, 4))
         self.axes[3].set_title("Row cut plot")
@@ -221,6 +221,17 @@ class FitsImageCanvas(FigureCanvas):
         
         #   Re-draw it on to the figure
         self.draw()
+        
+    ##############################################################################
+    
+    def row_cut(self):
+        
+        print("Getting values for row of Y values")
+        
+        #   Create empty array the length of the rows
+        row_values_array = np.zeros(shape = len(self.transform_image[self.y_row]))
+        
+        return row_values_array
     
 ################################################################################################################################
 ################################################################################################################################
