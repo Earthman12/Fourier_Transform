@@ -65,13 +65,16 @@ class MainWindow(QtWidgets.QMainWindow):
         print("Changing FITS images")
         
         #   Clear the list of axes to get have fresh axes to draw on in case image size is different
+        #   Must also clear the figure to avoid getting a MatPlotLib Deprecation Warning
         self.fits_image.axes.clear()
+        self.fits_image.figure.clear()
         
         #   Set the new image and set the array to the 'image_array' variable
         self.fits_image.image_array = self.fits_image.open_fits_image()
         #   Add subplot to the figure
         self.fits_image.axes.append(self.fits_image.figure.add_subplot(self.fits_image.rows, self.fits_image.col, 1))
         #   Set the new image array and transform to their display objects and set the min and max accordingly for the new image
+        #   This works but could result in bug, same for cosmics and transform image. Use other way by setting display object
         self.fits_image.original_display_object = self.fits_image.axes[0].imshow(self.fits_image.image_array, origin='lower', cmap='gray', vmin = np.min(self.fits_image.image_array), vmax = np.max(self.fits_image.image_array))
         
         #   Set new cosmics image
