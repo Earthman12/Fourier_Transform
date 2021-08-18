@@ -289,6 +289,8 @@ class FitsImageCanvas(FigureCanvas):
         
         #   Clear the axes
         self.axes[3].clear()
+        self.axes.append(self.figure.add_subplot(self.rows, self.col, 5))
+        self.row_plot_display_object = self.axes[3].plot(self.row_cut())
         print(self.axes)
         
         
