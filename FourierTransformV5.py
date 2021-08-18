@@ -137,7 +137,7 @@ class FitsImageCanvas(FigureCanvas):
         self.row_cut_values = self.row_cut()
         #   Add subplot to figure and set title
         self.axes.append(self.figure.add_subplot(self.rows,self.col, 5))
-        self.axes[3].set_title("Row Cut Plot")
+        self.axes[3].set_title("Row " + str(self.y_row) + " Plot")
         #   Display object for transform row plot
         self.row_plot_display_object = self.axes[3].plot(self.row_cut_values)
         
@@ -250,7 +250,7 @@ class FitsImageCanvas(FigureCanvas):
         self.row_cut_values = self.row_cut()
         #   Add subplot to figure and set title
         self.axes.append(self.figure.add_subplot(self.rows,self.col, 5))
-        self.axes[3].set_title("Row Cut Plot")
+        self.axes[3].set_title("Row " + str(self.y_row) + " Plot")
         #   Display object for transform row plot
         self.row_plot_display_object = self.axes[3].plot(self.row_cut_values)
         
