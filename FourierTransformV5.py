@@ -39,12 +39,19 @@ class MainWindow(QtWidgets.QMainWindow):
         self.open_button = QtWidgets.QPushButton("Open File")
         self.open_button.clicked.connect(self.change_fits_image_data)
         
+        #   Input text and button to set Y row for transform plot
+        self.y_row_input = QtWidgets.QLineEdit()
+        self.y_row_submit_button = QtWidgets.QPushButton("Set Y Row")
+        self.y_row_submit_button.clicked.connect(self.change_plot_y_row)
+        
         #   GUI Grid Layout
         self.layout = QtWidgets.QGridLayout()
-        self.layout.addWidget(self.image_name_label, 0, 0)
-        self.layout.addWidget(self.toolbar, 1, 0)
-        self.layout.addWidget(self.fits_image, 2, 0)
-        self.layout.addWidget(self.open_button, 3, 0)
+        self.layout.addWidget(self.open_button, 0, 0)
+        self.layout.addWidget(self.image_name_label, 1, 0)
+        self.layout.addWidget(self.toolbar, 2, 0)
+        self.layout.addWidget(self.fits_image, 3, 0)
+        self.layout.addWidget(self.y_row_input, 4, 0)
+        self.layout.addWidget(self.y_row_submit_button, 5, 0)
         
         #   Central widget for everything to sit inside
         self.placeholder_widget = QtWidgets.QWidget()
@@ -67,6 +74,22 @@ class MainWindow(QtWidgets.QMainWindow):
         
         #   Update image name label
         self.image_name_label.setText(self.fits_image.get_image_name())
+        
+    ##############################################################################
+    
+    def change_plot_y_row(self):
+        
+        print("Changing Y Rows")
+        
+        #   Check that the new input is greater than 0 and does not exceed Y image length, if it is set the new value 'fits_image' update function 
+        if(int(self.y_row_input.text()) > 0 and int(self.y_row_input.text()) < len(self.fits_image.image_array)):
+            
+            self.fits_image.y_row = int(self.y_row_input.text())
+            self.fits_image.update_plot()
+            
+        else:
+            
+            print("Input not between 0 and the Y length of the image")
         
 ################################################################################################################################
 ################################################################################################################################
@@ -257,6 +280,18 @@ class FitsImageCanvas(FigureCanvas):
             row_values_array[i] = square_top + square_row + square_bottom
         
         return row_values_array
+    
+    ##############################################################################
+    
+    def update_plot(self):
+        
+        print("Updating Plot")
+        
+        #   Clear the axes
+        self.axes[3].clear()
+        print(self.axes)
+        
+        
     
 ################################################################################################################################
 ################################################################################################################################
