@@ -85,7 +85,7 @@ class MainWindow(QtWidgets.QMainWindow):
         if(int(self.y_row_input.text()) > 0 and int(self.y_row_input.text()) < len(self.fits_image.image_array)):
             
             self.fits_image.y_row = int(self.y_row_input.text())
-            self.fits_image.update_plot()
+            self.fits_image.update_figure()
             
         else:
             
@@ -213,49 +213,20 @@ class FitsImageCanvas(FigureCanvas):
         
         print("Changing FITS images")
         
-        #   Clear the list of axes to get have fresh axes to draw on in case image size is different
-        #   Must also clear the figure to avoid getting a MatPlotLib Deprecation Warning
-        self.axes.clear()
-        self.figure.clear()
-        
         #   Set the new image and set the array to the 'image_array' variable
         self.image_array = self.open_fits_image()
-        #   Add subplot to the figure and set title
-        self.axes.append(self.figure.add_subplot(self.rows, self.col, 1))
-        self.axes[0].set_title("Original Fits Image")
-        #   Set the new image array and transform to their display objects and set the min and max accordingly for the new image
-        self.original_display_object = self.axes[0].imshow(self.image_array, origin='lower', cmap='gray', vmin = np.min(self.image_array), vmax = np.max(self.image_array))
         
-        #   Set new cosmics image
+        #   Set new cosmic filtered image
         self.cosmic_image = self.apply_cosmics()
-        #   Add subplot to the figure and set title
-        self.axes.append(self.figure.add_subplot(self.rows, self.col, 2))
-        self.axes[1].set_title("Cosmics filtered image")
-        #   Set the cosmic image to its display object
-        self.cosmic_display_object = self.axes[1].imshow(self.cosmic_image, origin='lower', cmap='gray', vmin = np.min(self.cosmic_image), vmax = np.max(self.cosmic_image))
         
-        #   Set transform on the new image and set it the 'transform_image' variable
+        #   Set new transform image
         self.transform_image = self.fourier_transform()
-        #   Add subplot to the figure and set title
-        self.axes.append(self.figure.add_subplot(self.rows, self.col, 3))
-        self.axes[2].set_title("Fourier Transform")
-        #   Set the new transform image to its display object variable        
-        self.transform_display_object = self.axes[2].imshow(self.transform_image, origin='lower', cmap='gray', vmin = np.min(self.transform_image), vmax = np.max(self.transform_image))
         
-        #   Set the plot for the new image
-        #   Middle of image
+        #   Reset row cut to middle of image
         self.y_row = int(len(self.transform_image) / 2)
         
-        #   Get row values that have the absolute values and squares of the row and its top and bottom row added
-        self.row_cut_values = self.row_cut()
-        #   Add subplot to figure and set title
-        self.axes.append(self.figure.add_subplot(self.rows,self.col, 5))
-        self.axes[3].set_title("Row " + str(self.y_row) + " Plot")
-        #   Display object for transform row plot
-        self.row_plot_display_object = self.axes[3].plot(self.row_cut_values)
-        
-        #   Re-draw it on to the figure
-        self.draw()
+        #   Call update_figure function to re-draw it
+        self.update_figure()
         
     ##############################################################################
     
@@ -319,24 +290,10 @@ class FitsImageCanvas(FigureCanvas):
         self.axes.append(self.figure.add_subplot(self.rows,self.col, 5))
         self.axes[3].set_title("Row " + str(self.y_row) + " Plot")
         #   Display object for transform row plot
-        self.row_plot_display_object = self.axes[3].plot(self.row_cut_values)
+        self.row_plot_display_object = self.axes[3].plot(self.row_cut())
         
         #   Re-draw it on to the figure
         self.draw()
-    
-    def update_plot(self):
-        
-        print("Updating Plot")
-        
-        #   Clear the axes
-        self.axes[3].clear()
-        self.axes.append(self.figure.add_subplot(self.rows, self.col, 5))
-        self.row_plot_display_object = self.axes[3].plot(self.row_cut())
-        self.axes[3].set_title("Row " + str(self.y_row) + " Plot")
-        self.draw()
-        print(self.axes)
-        
-        
     
 ################################################################################################################################
 ################################################################################################################################
