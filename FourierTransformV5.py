@@ -44,6 +44,10 @@ class MainWindow(QtWidgets.QMainWindow):
         self.y_row_submit_button = QtWidgets.QPushButton("Set Y Row")
         self.y_row_submit_button.clicked.connect(self.change_plot_y_row)
         
+        #   Save .DAT file button
+        self.save_dat_button = QtWidgets.QPushButton("Save Spectrum")
+        self.save_dat_button.clicked.connect(self.fits_image.save_spectrum_as_dat_file)
+        
         #   GUI Grid Layout
         self.layout = QtWidgets.QGridLayout()
         self.layout.addWidget(self.open_button, 0, 0)
@@ -52,6 +56,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.layout.addWidget(self.fits_image, 3, 0)
         self.layout.addWidget(self.y_row_input, 4, 0)
         self.layout.addWidget(self.y_row_submit_button, 5, 0)
+        self.layout.addWidget(self.save_dat_button, 6, 0)
         
         #   Central widget for everything to sit inside
         self.placeholder_widget = QtWidgets.QWidget()
