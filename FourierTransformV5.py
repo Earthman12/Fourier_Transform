@@ -84,7 +84,7 @@ class MainWindow(QtWidgets.QMainWindow):
         
         print("Changing Y Rows")
         
-        #   Check that the new input is greater than 0 and does not exceed Y image length, if it is set the new value 'fits_image' update function 
+        #   Check that the new input is greater than 0 and does not exceed Y image length, if it okay, set the new value and call the 'fits_image' update function 
         if(int(self.y_row_input.text()) > 0 and int(self.y_row_input.text()) < len(self.fits_image.image_array)):
             
             self.fits_image.y_row = int(self.y_row_input.text())
