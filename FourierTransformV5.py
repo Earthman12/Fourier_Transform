@@ -32,7 +32,7 @@ class MainWindow(QtWidgets.QMainWindow):
         #   Toolbar
         self.toolbar = NavigationToolbar(self.fits_image, self)
         #   Image name label
-        self.image_name_label = QtWidgets.QLabel(self.fits_image.get_image_name())
+        self.image_name_label = QtWidgets.QLabel("Image Name: " + self.fits_image.get_image_name())
         #   Open new image button
         self.open_button = QtWidgets.QPushButton("Open File")
         self.open_button.clicked.connect(self.change_fits_image_data)
