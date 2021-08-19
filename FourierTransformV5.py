@@ -166,7 +166,6 @@ class FitsImageCanvas(FigureCanvas):
         primary_HDU = hdul[0]
         image_array = primary_HDU.data[:,:]
         
-        print("Variable type: " + str(type(image_array)))
         print(len(image_array[0]), "values in the X axis")
         print(len(image_array), "values in the Y axis")
         
