@@ -8,9 +8,7 @@ Created on Wed Jul 21 09:52:55 2021
 import matplotlib.pyplot as plt
 from matplotlib.figure import Figure
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas, NavigationToolbar2QT as NavigationToolbar
-from matplotlib.colors import LogNorm
 import numpy as np
-import scipy.ndimage as ndi
 import os
 import sys
 from astropy.io import fits
@@ -304,7 +302,7 @@ class FitsImageCanvas(FigureCanvas):
         
         print("Saving spectrum plot as .DAT")
         
-        #   Get just file name
+        #   Get just file name, takes the '.fits' out
         file_name_split = self.get_image_name().split(".")
         #   The file should save as "name_values_row_num_0"
         title = file_name_split[0] + "_values_row_num_" + str(self.y_row)
