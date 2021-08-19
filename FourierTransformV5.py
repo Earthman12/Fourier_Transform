@@ -303,6 +303,14 @@ class FitsImageCanvas(FigureCanvas):
     def save_spectrum_as_dat_file(self):
         
         print("Saving spectrum plot as .DAT")
+        
+        #   Get just file name
+        file_name_split = self.get_image_name().split(".")
+        
+        #   The file should save as "name_values_row_num_0"
+        title = file_name_split[0] + "_values_row_num_" + str(self.y_row)
+        save_file = open(title + ".dat", "w")
+        np.savetxt(save_file, self.row_cut(), fmt = "%.4e")
     
 ################################################################################################################################
 ################################################################################################################################
