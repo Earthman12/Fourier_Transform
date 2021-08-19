@@ -62,12 +62,12 @@ class MainWindow(QtWidgets.QMainWindow):
         self.setCentralWidget(self.placeholder_widget)
         
         #   This will start the GUI in fullscreen
-        #self.showMaximized()
+        self.showMaximized()
         
         self.show()
         
     #--------------------------------------------------------------------------------------------------
-    #----------------------------------MainWindow FUNCTIONS--------------------------------------------
+    #----------------------------------MainWindow Functions--------------------------------------------
     #--------------------------------------------------------------------------------------------------
         
     def change_fits_image_data(self):
@@ -145,7 +145,7 @@ class FitsImageCanvas(FigureCanvas):
         super(FitsImageCanvas, self).__init__(self.figure)
         
     #--------------------------------------------------------------------------------------------------
-    #----------------------------------ImageCanvas FUNCTIONS-------------------------------------------
+    #----------------------------------ImageCanvas Functions-------------------------------------------
     #--------------------------------------------------------------------------------------------------
         
     def open_fits_image(self):
