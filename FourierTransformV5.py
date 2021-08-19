@@ -105,7 +105,7 @@ class FitsImageCanvas(FigureCanvas):
         self.rows = 2
         self.col = 3
         
-        #   Original Fits Image variables
+        #   ORIGINAL FITS IMAGE VARIABLES
         self.image_name = ''
         self.image_array = self.open_fits_image()
         #   Adding subplot to the figure and setting title
@@ -114,7 +114,7 @@ class FitsImageCanvas(FigureCanvas):
         #   Display object variable for fits image
         self.original_display_object = self.axes[0].imshow(self.image_array, origin='lower', cmap='gray', vmin = np.min(self.image_array), vmax = np.max(self.image_array))
         
-        #   Cosmic Filtered Fits Image Variables
+        #   COSMIC FILTERED IMAGE VARIABLES
         self.cosmic_image = self.apply_cosmics()
         #   Add subplot to figure and set title
         self.axes.append(self.figure.add_subplot(self.rows,self.col,2))
@@ -122,7 +122,7 @@ class FitsImageCanvas(FigureCanvas):
         #   Display object variable for cosmic image
         self.cosmic_display_object = self.axes[1].imshow(self.cosmic_image, origin='lower', cmap='gray', vmin = np.min(self.cosmic_image), vmax = np.max(self.cosmic_image))
         
-        #   Transform Image Variables
+        #   TRANSFORM IMAGE VARIABLES
         self.transform_image = self.fourier_transform()
         #   Add subplot to figure and set title
         self.axes.append(self.figure.add_subplot(self.rows,self.col, 3))
@@ -130,16 +130,14 @@ class FitsImageCanvas(FigureCanvas):
         #   Display object variable for transform image
         self.transform_display_object = self.axes[2].imshow(self.transform_image, origin='lower', cmap='gray', vmin = np.min(self.transform_image), vmax = np.max(self.transform_image))
         
-        #   Fourier Transform Row Plot Variables
+        #   ROW OF VALUES PLOT VARIABLES
         #   Default row cut will be in the middle of the transform
         self.y_row = int(len(self.transform_image) / 2)
-        #   Get row values that have the absolute values and squares of the row and its top and bottom row added
-        self.row_cut_values = self.row_cut()
         #   Add subplot to figure and set title
         self.axes.append(self.figure.add_subplot(self.rows,self.col, 5))
         self.axes[3].set_title("Row " + str(self.y_row) + " Plot")
-        #   Display object for transform row plot
-        self.row_plot_display_object = self.axes[3].plot(self.row_cut_values)
+        #   Get row values that have the absolute values and squares of the row and its top and bottom row added and set it to the display object for transform row plot
+        self.row_plot_display_object = self.axes[3].plot(self.row_cut())
         
         super(FitsImageCanvas, self).__init__(self.figure)
         
