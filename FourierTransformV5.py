@@ -74,7 +74,6 @@ class MainWindow(QtWidgets.QMainWindow):
         
         #   Change image data from image class
         self.fits_image.change_image()
-        
         #   Update image name label
         self.image_name_label.setText(self.fits_image.get_image_name())
         
@@ -86,12 +85,10 @@ class MainWindow(QtWidgets.QMainWindow):
         
         #   Check that the new input is greater than 0 and does not exceed Y image length, if it okay, set the new value and call the 'fits_image' update function 
         if(int(self.y_row_input.text()) > 0 and int(self.y_row_input.text()) < len(self.fits_image.image_array)):
-            
             self.fits_image.y_row = int(self.y_row_input.text())
             self.fits_image.update_figure()
             
         else:
-            
             print("Input not between 0 and the Y length of the image")
         
 ################################################################################################################################
