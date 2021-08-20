@@ -48,13 +48,13 @@ class MainWindow(QtWidgets.QMainWindow):
         
         #   GUI Grid Layout
         self.layout = QtWidgets.QGridLayout()
-        self.layout.addWidget(self.open_button, 0, 0)
-        self.layout.addWidget(self.image_name_label, 1, 0)
-        self.layout.addWidget(self.toolbar, 2, 0)
-        self.layout.addWidget(self.fits_image, 3, 0)
-        self.layout.addWidget(self.y_row_input, 4, 0)
-        self.layout.addWidget(self.y_row_submit_button, 5, 0)
-        self.layout.addWidget(self.save_dat_button, 6, 0)
+        self.layout.addWidget(self.toolbar, 0, 0)
+        self.layout.addWidget(self.fits_image, 1, 0, 4, 1)
+        self.layout.addWidget(self.open_button, 0, 1)
+        self.layout.addWidget(self.image_name_label, 1, 1)
+        self.layout.addWidget(self.y_row_input, 2, 1)
+        self.layout.addWidget(self.y_row_submit_button, 3, 1)
+        self.layout.addWidget(self.save_dat_button, 4, 1)
         
         #   Central widget for everything to sit inside
         self.placeholder_widget = QtWidgets.QWidget()
