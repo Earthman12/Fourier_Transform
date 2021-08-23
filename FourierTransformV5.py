@@ -46,8 +46,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.save_dat_button = QtWidgets.QPushButton("Save Spectrum")
         self.save_dat_button.clicked.connect(self.fits_image.save_spectrum_as_dat_file)
         
-        #   Crop widget, labels, inputs, button, and layout
-        #   Widget for crop labels, inputs, and button to sit in
+        #   Widget for all crop stuff to sit in
         self.crop_widget = QtWidgets.QWidget()
         #   Crop label
         self.crop_label = QtWidgets.QLabel("Crop Image")
@@ -66,9 +65,21 @@ class MainWindow(QtWidgets.QMainWindow):
         #   Crop button
         self.crop_button = QtWidgets.QPushButton("Set Image Crop")
         self.crop_button.clicked.connect(self.crop_image)
-        #   Set crop layout
+        #   Set crop layout to grid
         self.crop_layout = QtWidgets.QGridLayout()
         #   Add crop widgets
+        self.crop_layout.addWidget(self.crop_label, 0, 1)
+        self.crop_layout.addWidget(self.x_low_label, 1, 0)
+        self.crop_layout.addWidget(self.x_low_input, 2, 0)
+        self.crop_layout.addWidget(self.x_high_label, 3, 0)
+        self.crop_layout.addWidget(self.x_high_input, 4, 0)
+        self.crop_layout.addWidget(self.y_low_label, 1, 2)
+        self.crop_layout.addWidget(self.y_low_input, 2, 2)
+        self.crop_layout.addWidget(self.y_high_label, 3, 2)
+        self.crop_layout.addWidget(self.y_high_input, 4, 2)
+        self.crop_layout.addWidget(self.crop_button, 5, 1)
+        #   Set crop widget layout
+        self.crop_widget.setLayout(self.crop_layout)
         
         #   GUI Grid Layout
         self.layout = QtWidgets.QGridLayout()
@@ -79,7 +90,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.layout.addWidget(self.y_row_input, 2, 1)
         self.layout.addWidget(self.y_row_submit_button, 3, 1)
         self.layout.addWidget(self.save_dat_button, 4, 1)
-        self.layout.addWidget(self.crop_layout, 5, 3)
+        self.layout.addWidget(self.crop_widget, 5, 3)
         
         #   Central widget for everything to sit inside
         self.placeholder_widget = QtWidgets.QWidget()
