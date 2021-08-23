@@ -46,6 +46,30 @@ class MainWindow(QtWidgets.QMainWindow):
         self.save_dat_button = QtWidgets.QPushButton("Save Spectrum")
         self.save_dat_button.clicked.connect(self.fits_image.save_spectrum_as_dat_file)
         
+        #   Crop widget, labels, inputs, button, and layout
+        #   Widget for crop labels, inputs, and button to sit in
+        self.crop_widget = QtWidgets.QWidget()
+        #   Crop label
+        self.crop_label = QtWidgets.QLabel("Crop Image")
+        #   X low
+        self.x_low_label = QtWidgets.QLabel("Set X min: ")
+        self.x_low_input = QtWidgets.QLineEdit()
+        #   X high
+        self.x_high_label = QtWidgets.QLabel("Set X max: ")
+        self.x_high_input = QtWidgets.QLineEdit()
+        #   Y low
+        self.y_low_label = QtWidgets.QLabel("Set Y min: ")
+        self.y_low_input = QtWidgets.QLineEdit()
+        #   Y high
+        self.y_high_label = QtWidgets.QLabel("Set Y max: ")
+        self.y_high_input = QtWidgets.QLineEdit()
+        #   Crop button
+        self.crop_button = QtWidgets.QPushButton("Set Image Crop")
+        self.crop_button.clicked.connect(self.crop_image)
+        #   Set crop layout
+        self.crop_layout = QtWidgets.QGridLayout()
+        #   Add crop widgets
+        
         #   GUI Grid Layout
         self.layout = QtWidgets.QGridLayout()
         self.layout.addWidget(self.toolbar, 0, 0)
@@ -55,9 +79,11 @@ class MainWindow(QtWidgets.QMainWindow):
         self.layout.addWidget(self.y_row_input, 2, 1)
         self.layout.addWidget(self.y_row_submit_button, 3, 1)
         self.layout.addWidget(self.save_dat_button, 4, 1)
+        self.layout.addWidget(self.crop_layout, 5, 3)
         
         #   Central widget for everything to sit inside
         self.placeholder_widget = QtWidgets.QWidget()
+        #   Central widget takes GUI layout written out above
         self.placeholder_widget.setLayout(self.layout)
         self.setCentralWidget(self.placeholder_widget)
         
@@ -81,7 +107,7 @@ class MainWindow(QtWidgets.QMainWindow):
     
     def change_plot_y_row(self):
         
-        print("Changing Y Rows")
+        print("Changing Y Rows...")
         
         #   Check that the new input is greater than 0 and does not exceed Y image length, if it okay, set the new value and call the 'fits_image' update function 
         if(int(self.y_row_input.text()) > 0 and int(self.y_row_input.text()) < len(self.fits_image.image_array)):
@@ -90,6 +116,12 @@ class MainWindow(QtWidgets.QMainWindow):
             
         else:
             print("Input not between 0 and the Y length of the image")
+            
+    ##############################################################################
+    
+    def crop_image(self):
+        
+        print("Cropping image...")
         
 ################################################################################################################################
 ################################################################################################################################
