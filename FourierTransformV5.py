@@ -37,14 +37,23 @@ class MainWindow(QtWidgets.QMainWindow):
         self.open_button = QtWidgets.QPushButton("Open File")
         self.open_button.clicked.connect(self.change_fits_image_data)
         
+        #   Widget for stuff when selecting Y row to plot to sit in
+        self.y_row_widget = QtWidgets.QWidget()
         #   Input text and button to set Y row for transform plot
         self.y_row_input = QtWidgets.QLineEdit()
         self.y_row_submit_button = QtWidgets.QPushButton("Set Y Row")
         self.y_row_submit_button.clicked.connect(self.change_plot_y_row)
-        
         #   Save .DAT file button
         self.save_dat_button = QtWidgets.QPushButton("Save Spectrum")
         self.save_dat_button.clicked.connect(self.fits_image.save_spectrum_as_dat_file)
+        #   Set Y row widget layout to grid
+        self.y_row_layout = QtWidgets.QGridLayout()
+        #   Add Y row widgets to layout
+        self.y_row_layout.addWidget(self.y_row_input, 0, 0)
+        self.y_row_layout.addWidget(self.y_row_submit_button, 1, 0)
+        self.y_row_layout.addWidget(self.save_dat_button, 2, 0)
+        #   Set Y row widget layout
+        self.y_row_widget.setLayout(self.y_row_layout)
         
         #   Widget for all crop stuff to sit in
         self.crop_widget = QtWidgets.QWidget()
@@ -65,7 +74,7 @@ class MainWindow(QtWidgets.QMainWindow):
         #   Crop button
         self.crop_button = QtWidgets.QPushButton("Set Image Crop")
         self.crop_button.clicked.connect(self.crop_image)
-        #   Set crop layout to grid
+        #   Set crop widget layout to grid
         self.crop_layout = QtWidgets.QGridLayout()
         #   Add crop widgets
         self.crop_layout.addWidget(self.crop_label, 0, 1)
@@ -83,14 +92,12 @@ class MainWindow(QtWidgets.QMainWindow):
         
         #   GUI Grid Layout
         self.layout = QtWidgets.QGridLayout()
-        self.layout.addWidget(self.toolbar, 0, 0)
-        self.layout.addWidget(self.fits_image, 1, 0, 4, 1)
-        self.layout.addWidget(self.open_button, 0, 1)
-        self.layout.addWidget(self.image_name_label, 1, 1)
-        self.layout.addWidget(self.y_row_input, 2, 1)
-        self.layout.addWidget(self.y_row_submit_button, 3, 1)
-        self.layout.addWidget(self.save_dat_button, 4, 1)
-        self.layout.addWidget(self.crop_widget, 5, 3)
+        self.layout.addWidget(self.open_button, 0, 0)
+        self.layout.addWidget(self.image_name_label, 0, 1)
+        self.layout.addWidget(self.y_row_widget, 0, 2)
+        self.layout.addWidget(self.crop_widget, 0, 3)
+        self.layout.addWidget(self.toolbar, 1, 0)
+        self.layout.addWidget(self.fits_image, 2, 0, 1, 4)
         
         #   Central widget for everything to sit inside
         self.placeholder_widget = QtWidgets.QWidget()
@@ -143,7 +150,9 @@ class FitsImageCanvas(FigureCanvas):
     def __init__(self, parent = None):
         
         #   Figure variables
-        self.figure = Figure(figsize = (20,10))
+        self.figure_size_x = 20
+        self.figure_size_y = 10
+        self.figure = Figure(figsize = (self.figure_size_x,self.figure_size_y))
         self.axes = []
         self.rows = 2
         self.col = 3
@@ -306,7 +315,7 @@ class FitsImageCanvas(FigureCanvas):
     
     def row_cut(self):
         
-        print("Getting Y row of values...")
+        print("Getting row num: " + str(self.y_row) + " values...")
         
         #   Create empty array the length of the rows
         row_values_array = np.zeros(shape = len(self.transform_image[self.y_row]))
