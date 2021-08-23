@@ -186,7 +186,7 @@ class FitsImageCanvas(FigureCanvas):
     
     def fourier_transform(self):
         
-        print("Transforming image")
+        print("Transforming image...")
         
         #   Fourier Transforming
         f = np.fft.fft2(self.hanning_image)
@@ -235,6 +235,15 @@ class FitsImageCanvas(FigureCanvas):
         #   Set the new image and set the array to the 'image_array' variable
         self.image_array = self.open_fits_image()
         
+        #   Set the rest of the images
+        self.set_filters_and_plot()
+        
+    ##############################################################################
+    
+    def set_filters_and_plot(self):
+        
+        print("Setting filtered images and plot...")
+        
         #   Set new cosmic filtered image
         self.cosmic_image = self.apply_cosmics()
         
@@ -254,7 +263,7 @@ class FitsImageCanvas(FigureCanvas):
     
     def row_cut(self):
         
-        print("Getting Y row of values")
+        print("Getting Y row of values...")
         
         #   Create empty array the length of the rows
         row_values_array = np.zeros(shape = len(self.transform_image[self.y_row]))
