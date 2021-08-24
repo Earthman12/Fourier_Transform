@@ -139,9 +139,14 @@ class MainWindow(QtWidgets.QMainWindow):
     
     def crop_image(self):
         
-        print("Cropping image...")
+        print("Cropping image")
         
+        x_low = int(self.x_low_input.text())
+        x_high = int(self.x_high_input.text())
+        y_low = int(self.y_low_input.text())
+        y_high = int(self.y_high_input.text())
         
+        self.fits_image.set_crop_image(x_low, x_high, y_low, y_high)
         
 ################################################################################################################################
 ################################################################################################################################
@@ -403,6 +408,16 @@ class FitsImageCanvas(FigureCanvas):
         np.savetxt(save_file, self.row_cut(), fmt = "%.4e")
         
         print("Save Successful")
+        
+    ##############################################################################
+    
+    def set_crop_image(self, x_low, x_high, y_low, y_high):
+        
+        print("Setting the cropped image")
+        print(x_low)
+        print(x_high)
+        print(y_low)
+        print(y_high)
     
 ################################################################################################################################
 ################################################################################################################################
