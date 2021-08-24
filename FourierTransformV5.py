@@ -15,7 +15,7 @@ from astropy.io import fits
 from tkinter.filedialog import askopenfilename
 from tkinter import Tk
 from astroscrappy import detect_cosmics
-from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt5 import QtWidgets
 
 ################################################################################################################################
 ################################################################################################################################
@@ -34,7 +34,7 @@ class MainWindow(QtWidgets.QMainWindow):
         #   Image name label
         self.image_name_label = QtWidgets.QLabel("Image Name: " + self.fits_image.get_image_name())
         #   Open new image button
-        self.open_button = QtWidgets.QPushButton("Open File")
+        self.open_button = QtWidgets.QPushButton("Open New File")
         self.open_button.clicked.connect(self.change_fits_image_data)
         
         #   Widget for stuff when selecting Y row to plot to sit in
@@ -125,7 +125,7 @@ class MainWindow(QtWidgets.QMainWindow):
     
     def change_plot_y_row(self):
         
-        print("Changing Y Rows...")
+        print("-----Changing Y Rows-----")
         
         #   Check that the new input is greater than 0 and does not exceed Y image length, if it okay, set the new value and call the 'fits_image' update function 
         if(int(self.y_row_input.text()) > 0 and int(self.y_row_input.text()) < len(self.fits_image.image_array)):
@@ -141,7 +141,7 @@ class MainWindow(QtWidgets.QMainWindow):
         
         #   Check that x_low is less than x_high and same for y and also that they are in image bounds
         
-        print("Cropping image")
+        print("-----Cropping image-----")
         
         #   Get values from text inputs
         x_low = int(self.x_low_input.text())
@@ -437,10 +437,12 @@ class FitsImageCanvas(FigureCanvas):
             y = 0
             j = y_low
             i += 1
-            x += 1
-            
+            x += 1   
+        
         #   Set the image to the new cropped image and update the rest of the images and plot
-        self.image_array = cropped_image        
+        self.image_array = cropped_image
+        print(len(self.image_array[0]), "values in the X axis")
+        print(len(self.image_array), "values in the Y axis") 
         self.set_filters_and_plot()
     
 ################################################################################################################################
