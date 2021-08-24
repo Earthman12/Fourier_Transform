@@ -139,13 +139,17 @@ class MainWindow(QtWidgets.QMainWindow):
     
     def crop_image(self):
         
+        #   Check that x_low is less than x_high and same for y and also that they are in image bounds
+        
         print("Cropping image")
         
+        #   Get values from text inputs
         x_low = int(self.x_low_input.text())
         x_high = int(self.x_high_input.text())
         y_low = int(self.y_low_input.text())
         y_high = int(self.y_high_input.text())
         
+        #   Send them to the fits_image crop function to be cropped
         self.fits_image.set_crop_image(x_low, x_high, y_low, y_high)
         
 ################################################################################################################################
@@ -414,10 +418,30 @@ class FitsImageCanvas(FigureCanvas):
     def set_crop_image(self, x_low, x_high, y_low, y_high):
         
         print("Setting the cropped image")
-        print(x_low)
-        print(x_high)
-        print(y_low)
-        print(y_high)
+        
+        #   Create empty array for the new cropped image
+        cropped_image = np.zeros(shape = (y_high - y_low, x_high - x_low))
+        
+        #   Loop variables
+        i = x_low
+        j = y_low
+        x = 0
+        y = 0
+        
+        #   Loop to set the cropped image
+        while(i < x_high):
+            while(j < y_high):
+                cropped_image[y][x] = self.image_array[j][i]
+                j += 1
+                y += 1
+            y = 0
+            j = y_low
+            i += 1
+            x += 1
+            
+        #   Set the image to the new cropped image and update the rest of the images and plot
+        self.image_array = cropped_image        
+        self.set_filters_and_plot()
     
 ################################################################################################################################
 ################################################################################################################################
