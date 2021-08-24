@@ -39,7 +39,12 @@ class MainWindow(QtWidgets.QMainWindow):
         
         #   Y plot widget for stuff when selecting Y row to plot to sit in
         self.y_row_widget = QtWidgets.QWidget()
+        #   Frame
+        self.y_row_widget.setStyleSheet('''
+                                        .QWidget{border: 1px solid black}
+                                        ''')
         #   Input text and button to set Y row for transform plot
+        self.y_row_label = QtWidgets.QLabel("Enter row:")
         self.y_row_input = QtWidgets.QLineEdit()
         self.y_row_submit_button = QtWidgets.QPushButton("Set Y Row")
         self.y_row_submit_button.clicked.connect(self.change_plot_y_row)
@@ -49,7 +54,8 @@ class MainWindow(QtWidgets.QMainWindow):
         #   Set Y row widget layout to grid
         self.y_row_layout = QtWidgets.QGridLayout()
         #   Add Y row widgets to layout
-        self.y_row_layout.addWidget(self.y_row_input, 0, 0)
+        self.y_row_layout.addWidget(self.y_row_label, 0, 0)
+        self.y_row_layout.addWidget(self.y_row_input, 0, 1)
         self.y_row_layout.addWidget(self.y_row_submit_button, 1, 0)
         self.y_row_layout.addWidget(self.save_dat_button, 2, 0)
         #   Set Y row widget layout
@@ -59,9 +65,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.crop_widget = QtWidgets.QWidget()
         #   Frame
         self.crop_widget.setStyleSheet('''
-                                       .QWidget{
-                                           border: 1px solid black;
-                                           }
+                                       .QWidget{border: 1px solid black;}
                                        ''')
         #   Crop label
         self.crop_label = QtWidgets.QLabel("Crop Image")
@@ -99,11 +103,11 @@ class MainWindow(QtWidgets.QMainWindow):
         #   GUI Grid Layout
         self.layout = QtWidgets.QGridLayout()
         self.layout.addWidget(self.open_button, 0, 0)
-        self.layout.addWidget(self.image_name_label, 0, 1)
-        self.layout.addWidget(self.y_row_widget, 0, 2)
-        self.layout.addWidget(self.crop_widget, 0, 3)
-        self.layout.addWidget(self.toolbar, 1, 0)
-        self.layout.addWidget(self.fits_image, 2, 0, 1, 4)
+        self.layout.addWidget(self.image_name_label, 1, 0)
+        self.layout.addWidget(self.y_row_widget, 0, 1, 2, 1)
+        self.layout.addWidget(self.crop_widget, 0, 2, 2, 1)
+        self.layout.addWidget(self.toolbar, 2, 1)
+        self.layout.addWidget(self.fits_image, 3, 0, 1, 3)
         
         #   Central widget for everything to sit inside
         self.placeholder_widget = QtWidgets.QWidget()
