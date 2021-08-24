@@ -58,7 +58,7 @@ class MainWindow(QtWidgets.QMainWindow):
         #   Crop widget for all crop stuff to sit in
         self.crop_widget = QtWidgets.QWidget()
         #   Frame
-        #self.crop_widget.setStyleSheet("QWidget{border: 1px solid black;}")
+        self.crop_widget.setStyleSheet(".QWidget{border: 1px solid black;}")
         #   Crop label
         self.crop_label = QtWidgets.QLabel("Crop Image")
         #   X low
