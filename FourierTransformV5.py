@@ -37,7 +37,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.open_button = QtWidgets.QPushButton("Open New File")
         self.open_button.clicked.connect(self.change_fits_image_data)
         
-        #   Widget for stuff when selecting Y row to plot to sit in
+        #   Y plot widget for stuff when selecting Y row to plot to sit in
         self.y_row_widget = QtWidgets.QWidget()
         #   Input text and button to set Y row for transform plot
         self.y_row_input = QtWidgets.QLineEdit()
@@ -55,8 +55,10 @@ class MainWindow(QtWidgets.QMainWindow):
         #   Set Y row widget layout
         self.y_row_widget.setLayout(self.y_row_layout)
         
-        #   Widget for all crop stuff to sit in
+        #   Crop widget for all crop stuff to sit in
         self.crop_widget = QtWidgets.QWidget()
+        #   Frame
+        #self.crop_widget.setStyleSheet("QWidget{border: 1px solid black;}")
         #   Crop label
         self.crop_label = QtWidgets.QLabel("Crop Image")
         #   X low
