@@ -339,7 +339,7 @@ class FitsImageCanvas(FigureCanvas):
     
     def row_cut(self):
         
-        print("Getting row num: " + str(self.y_row) + " values...")
+        print("Getting values for row num: " + str(self.y_row))
         
         #   Create empty array the length of the rows
         row_values_array = np.zeros(shape = len(self.transform_image[self.y_row]))
