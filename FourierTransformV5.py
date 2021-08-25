@@ -5,7 +5,6 @@ Created on Wed Jul 21 09:52:55 2021
 @author: Earthman
 """
 
-import matplotlib.pyplot as plt
 from matplotlib.figure import Figure
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas, NavigationToolbar2QT as NavigationToolbar
 import numpy as np
@@ -247,8 +246,8 @@ class FitsImageCanvas(FigureCanvas):
         primary_HDU = hdul[0]
         image_array = primary_HDU.data[:,:]
         
-        print(len(image_array[0]), "values in the X axis")
-        print(len(image_array), "values in the Y axis")
+        print("Number of values in the X axis: " + str(len(image_array[0])))
+        print("Number of values in the Y axis: " + str(len(image_array)))
         
         return image_array
     
@@ -454,8 +453,8 @@ class FitsImageCanvas(FigureCanvas):
         
         #   Set the image to the new cropped image and update the rest of the images and plot
         self.image_array = cropped_image
-        print(len(self.image_array[0]), "values in the X axis")
-        print(len(self.image_array), "values in the Y axis") 
+        print("Number of values in the X axis: " + str(len(self.image_array[0])))
+        print("Number of values in the Y axis: " + str(len(self.image_array)))
         self.set_filters_and_plot()
     
 ################################################################################################################################
