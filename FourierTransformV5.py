@@ -136,7 +136,7 @@ class MainWindow(QtWidgets.QMainWindow):
 
         print("-----Changing Y Rows-----")
 
-        #   Check that the new input is greater than 0 and does not exceed Y image length, if it okay, set the new value and call the 'fits_image' update function 
+        #   Check that the new input is greater than 0 and does not exceed Y image length, if it okay, set the new value and call the 'fits_image' update function
         if(int(self.y_row_input.text()) > 0 and int(self.y_row_input.text()) < len(self.fits_image.image_array)):
             self.fits_image.y_row = int(self.y_row_input.text())
             self.fits_image.update_figure()
@@ -349,7 +349,7 @@ class FitsImageCanvas(FigureCanvas):
             abs_top = abs(self.transform_image[self.y_row + 1][i])
             abs_row = abs(self.transform_image[self.y_row][i])
             abs_bottom = abs(self.transform_image[self.y_row - 1][i])
-            #   Get the square 
+            #   Get the square
             square_top = abs_top * abs_top
             square_row = abs_row * abs_row
             square_bottom = abs_bottom * abs_bottom
@@ -394,7 +394,7 @@ class FitsImageCanvas(FigureCanvas):
         #   Add subplot to the figure and set title
         self.axes.append(self.figure.add_subplot(self.rows, self.col, 4))
         self.axes[3].set_title("Fourier Transform")
-        #   Set the new transform image to its display object variable        
+        #   Set the new transform image to its display object variable
         self.transform_display_object = self.axes[3].imshow(self.transform_image, origin='lower', cmap='gray', vmin = np.min(self.transform_image), vmax = np.max(self.transform_image))
 
         #   ROW OF VALUES PLOT
@@ -441,15 +441,15 @@ class FitsImageCanvas(FigureCanvas):
         y = 0
 
         #   Loop to set the cropped image
-        while(i < x_high):
-            while(j < y_high):
+        while i < x_high:
+            while j < y_high:
                 cropped_image[y][x] = self.image_array[j][i]
                 j += 1
                 y += 1
             y = 0
             j = y_low
             i += 1
-            x += 1   
+            x += 1
 
         #   Set the image to the new cropped image and update the rest of the images and plot
         self.image_array = cropped_image
