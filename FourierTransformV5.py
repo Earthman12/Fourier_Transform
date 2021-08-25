@@ -148,19 +148,22 @@ class MainWindow(QtWidgets.QMainWindow):
     ##############################################################################
     
     def crop_image(self):
-        
-        #   Check that x_low is less than x_high and same for y and also that they are in image bounds
-        
-        print("-----Cropping image-----")
-        
+
         #   Get values from text inputs
         x_low = int(self.x_low_input.text())
         x_high = int(self.x_high_input.text())
         y_low = int(self.y_low_input.text())
         y_high = int(self.y_high_input.text())
         
-        #   Send them to the fits_image crop function to be cropped
-        self.fits_image.set_crop_image(x_low, x_high, y_low, y_high)
+        #   Check that x_low is less than x_high and same for y and also that they are in image bounds
+        if ((x_low >= 0) and (x_low < x_high) and (y_low >= 0) and (y_low < y_high) and (x_high < len(self.fits_image.image_array[0])) and (y_high < len(self.fits_image.image_array))):
+            
+            print("-----Cropping image-----")
+            #   Send them to the fits_image crop function to be cropped
+            self.fits_image.set_crop_image(x_low, x_high, y_low, y_high)
+            
+        else:
+            print("-----Crop limits out of bounds-----")
         
 ################################################################################################################################
 ################################################################################################################################
