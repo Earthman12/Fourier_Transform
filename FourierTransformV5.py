@@ -35,6 +35,9 @@ class MainWindow(QtWidgets.QMainWindow):
         #   Open new image button
         self.open_button = QtWidgets.QPushButton("Open New File")
         self.open_button.clicked.connect(self.change_fits_image_data)
+        #   Debias button
+        self.debias_button = QtWidgets.QPushButton("Debias Image")
+        self.debias_button.clicked.connect(self.fits_image.debias_image)
 
         #   Y plot widget for stuff when selecting Y row to plot to sit in
         self.y_row_widget = QtWidgets.QWidget()
@@ -102,10 +105,11 @@ class MainWindow(QtWidgets.QMainWindow):
         #   GUI Grid Layout
         self.layout = QtWidgets.QGridLayout()
         self.layout.addWidget(self.open_button, 0, 0)
-        self.layout.addWidget(self.image_name_label, 1, 0)
+        self.layout.addWidget(self.debias_button, 1, 0)
+        self.layout.addWidget(self.image_name_label, 2, 0)
         self.layout.addWidget(self.y_row_widget, 0, 1, 2, 1)
         self.layout.addWidget(self.crop_widget, 0, 2, 2, 1)
-        self.layout.addWidget(self.toolbar, 2, 1)
+        self.layout.addWidget(self.toolbar, 2, 1, 1, 3)
         self.layout.addWidget(self.fits_image, 3, 0, 1, 3)
 
         #   Central widget for everything to sit inside
@@ -456,6 +460,12 @@ class FitsImageCanvas(FigureCanvas):
         print("Number of values in the X axis: " + str(len(self.image_array[0])))
         print("Number of values in the Y axis: " + str(len(self.image_array)))
         self.set_filters_and_plot()
+
+    ##############################################################################
+
+    def debias_image(self):
+
+        print("-----Debiasing image-----")
 
 ################################################################################################################################
 ################################################################################################################################
