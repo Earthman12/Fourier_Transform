@@ -502,8 +502,9 @@ class FitsImageCanvas(FigureCanvas):
 
             #   Subtract the bias and update the image variable and figure
             self.image_array = self.image_array - bias_image
-            
+
             #   Update the figure
+            
 
         else:
             print("Image and bias image dimensions do not match, please select a different one")
