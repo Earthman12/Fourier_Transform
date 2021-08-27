@@ -257,6 +257,32 @@ class FitsImageCanvas(FigureCanvas):
 
     ##############################################################################
 
+    def open_bias_image(self):
+
+        print("Opening bias image...")
+        
+        #   Not having Tk().withdraw() does not make the code execute properly, not completely sure why, but it is necessary
+        Tk().withdraw()
+        #   Opens up file explorer to select the file
+        file_path = askopenfilename()
+        file_name = os.path.basename(file_path)
+
+        print("File Name:",file_name)
+
+        #   Opening fits file. Returns Header Data Unit(HDU) List (hdul: header and data array/table)
+        hdul = fits.open(file_path)
+
+        #   Primary HDU
+        primary_HDU = hdul[0]
+        image_array = primary_HDU.data[:,:]
+
+        print("Number of values in the X axis: " + str(len(image_array[0])))
+        print("Number of values in the Y axis: " + str(len(image_array)))
+
+        return image_array
+
+    ##############################################################################
+
     def get_image_name(self):
 
         return self.image_name
@@ -466,6 +492,12 @@ class FitsImageCanvas(FigureCanvas):
     def debias_image(self):
 
         print("-----Debiasing image-----")
+        
+        #   Open debiased image and save to a variable
+        
+        #   Check to make sure that the X and Y dimensions are the same
+        
+        #   Subtract the bias and update the image variable and figure
 
 ################################################################################################################################
 ################################################################################################################################
