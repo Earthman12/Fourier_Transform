@@ -497,8 +497,14 @@ class FitsImageCanvas(FigureCanvas):
         bias_image = self.open_bias_image()
         
         #   Check to make sure that the X and Y dimensions are the same
-        
-        #   Subtract the bias and update the image variable and figure
+        if(len(bias_image[0]) == len(self.image_array[0]) and len(bias_image) == len(self.image_array)):
+            print("Dimensions match, proceeding to debias image...")
+
+            #   Subtract the bias and update the image variable and figure
+            
+
+        else:
+            print("Image and bias image dimensions do not match, please select a different one")
 
 ################################################################################################################################
 ################################################################################################################################
