@@ -495,7 +495,7 @@ class FitsImageCanvas(FigureCanvas):
         
         #   Open debiased image and save to a variable
         bias_image = self.open_bias_image()
-        
+
         #   Check to make sure that the X and Y dimensions are the same
         if(len(bias_image[0]) == len(self.image_array[0]) and len(bias_image) == len(self.image_array)):
             print("Dimensions match, proceeding to debias image...")
