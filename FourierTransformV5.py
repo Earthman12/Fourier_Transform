@@ -30,8 +30,6 @@ class MainWindow(QtWidgets.QMainWindow):
         self.fits_image = FitsImageCanvas()
         #   Toolbar
         self.toolbar = NavigationToolbar(self.fits_image, self)
-        #   Image name label
-        self.image_name_label = QtWidgets.QLabel("Image Name: " + self.fits_image.get_image_name())
         #   Open new image button
         self.open_button = QtWidgets.QPushButton("Open New File")
         self.open_button.clicked.connect(self.change_fits_image_data)
@@ -106,7 +104,6 @@ class MainWindow(QtWidgets.QMainWindow):
         self.layout = QtWidgets.QGridLayout()
         self.layout.addWidget(self.open_button, 0, 0)
         self.layout.addWidget(self.debias_button, 1, 0)
-        self.layout.addWidget(self.image_name_label, 2, 0)
         self.layout.addWidget(self.y_row_widget, 0, 1, 2, 1)
         self.layout.addWidget(self.crop_widget, 0, 2, 2, 1)
         self.layout.addWidget(self.toolbar, 2, 1, 1, 3)
@@ -131,8 +128,6 @@ class MainWindow(QtWidgets.QMainWindow):
 
         #   Change image data from image class
         self.fits_image.change_image()
-        #   Update image name label
-        self.image_name_label.setText(self.fits_image.get_image_name())
 
     ##############################################################################
 
@@ -189,7 +184,7 @@ class FitsImageCanvas(FigureCanvas):
         self.image_array = self.open_fits_image()
         #   Adding subplot to the figure and setting title
         self.axes.append(self.figure.add_subplot(self.rows, self.col, 1))
-        self.axes[0].set_title("Original Fits Image")
+        self.axes[0].set_title("Original " + self.image_name + " Image")
         #   Display object variable for fits image
         self.original_display_object = self.axes[0].imshow(self.image_array, origin='lower', cmap='gray', vmin = np.min(self.image_array), vmax = np.max(self.image_array))
 
@@ -402,7 +397,7 @@ class FitsImageCanvas(FigureCanvas):
         #   ORIGINAL FITS IMAGE
         #   Add subplot to the figure and set title
         self.axes.append(self.figure.add_subplot(self.rows, self.col, 1))
-        self.axes[0].set_title("Original Fits Image")
+        self.axes[0].set_title("Original " + self.image_name + " Image")
         #   Set the new image array and transform to their display objects and set the min and max accordingly for the new image
         self.original_display_object = self.axes[0].imshow(self.image_array, origin='lower', cmap='gray', vmin = np.min(self.image_array), vmax = np.max(self.image_array))
 
@@ -517,7 +512,7 @@ def main():
 
     #   Every GUI must have one instance of QApplication(), inside the brackets[] would be parameters passed to the application
     app = QtWidgets.QApplication([])
-    app.setStyle('Fusion')
+    app.setStyle('Breeze')
 
     main_window = MainWindow()
 
