@@ -16,9 +16,9 @@ from tkinter import Tk
 from astroscrappy import detect_cosmics
 from PyQt5 import QtWidgets
 
-################################################################################################################################
-################################################################################################################################
-################################################################################################################################
+####################################################################################################
+####################################################################################################
+####################################################################################################
 
 class MainWindow(QtWidgets.QMainWindow):
 
@@ -118,9 +118,9 @@ class MainWindow(QtWidgets.QMainWindow):
         #   This will start the GUI in fullscreen
         self.showMaximized()
 
-    #--------------------------------------------------------------------------------------------------
-    #----------------------------------MainWindow Functions--------------------------------------------
-    #--------------------------------------------------------------------------------------------------
+    #---------------------------------------------------------------------------
+    #-----------------------MainWindow Functions--------------------------------
+    #---------------------------------------------------------------------------
 
     def change_fits_image_data(self):
 
@@ -161,9 +161,9 @@ class MainWindow(QtWidgets.QMainWindow):
         else:
             print("-----Crop limits out of bounds-----")
 
-################################################################################################################################
-################################################################################################################################
-################################################################################################################################
+##############################################################################
+##############################################################################
+##############################################################################
 
 class FitsImageCanvas(FigureCanvas):
 
@@ -221,9 +221,9 @@ class FitsImageCanvas(FigureCanvas):
 
         super(FitsImageCanvas, self).__init__(self.figure)
 
-    #--------------------------------------------------------------------------------------------------
-    #----------------------------------ImageCanvas Functions-------------------------------------------
-    #--------------------------------------------------------------------------------------------------
+    #---------------------------------------------------------------------------
+    #-----------------------ImageCanvas Functions-------------------------------
+    #---------------------------------------------------------------------------
 
     def open_fits_image(self):
 
@@ -240,8 +240,8 @@ class FitsImageCanvas(FigureCanvas):
         hdul = fits.open(file_path)
 
         #   Primary HDU
-        primary_HDU = hdul[0]
-        image_array = primary_HDU.data[:,:]
+        primary_hdu = hdul[0]
+        image_array = primary_hdu.data[:,:]
 
         print("Number of values in the X axis: " + str(len(image_array[0])))
         print("Number of values in the Y axis: " + str(len(image_array)))
@@ -250,10 +250,10 @@ class FitsImageCanvas(FigureCanvas):
 
     ##############################################################################
 
-    def open_bias_image(self):
+    def open_bias_image():
 
         print("Opening bias image...")
-        
+
         #   Not having Tk().withdraw() does not make the code execute properly, not completely sure why, but it is necessary
         Tk().withdraw()
         #   Opens up file explorer to select the file
@@ -287,16 +287,16 @@ class FitsImageCanvas(FigureCanvas):
         print("Transforming image...")
 
         #   Fourier Transforming
-        f = np.fft.fft2(self.hanning_image)
+        f_transform = np.fft.fft2(self.hanning_image)
         #   Shifting zero frequency component to center spectrum
-        fshift = np.fft.fftshift(f)
+        f_shift = np.fft.fftshift(f_transform)
 
-        powerSpectrum = (np.abs(fshift) ** 2)
+        power_spectrum = (np.abs(f_shift) ** 2)
 
         #   Visual representation of Fourier Transform
-        fourierImage = np.log10(powerSpectrum)
+        fourier_image = np.log10(power_spectrum)
 
-        return fourierImage
+        return fourier_image
 
     ##############################################################################
 
@@ -460,19 +460,19 @@ class FitsImageCanvas(FigureCanvas):
         #   Loop variables
         i = x_low
         j = y_low
-        x = 0
-        y = 0
+        x_count = 0
+        y_count = 0
 
         #   Loop to set the cropped image
         while i < x_high:
             while j < y_high:
-                cropped_image[y][x] = self.image_array[j][i]
+                cropped_image[y_count][x_count] = self.image_array[j][i]
                 j += 1
-                y += 1
-            y = 0
+                y_count += 1
+            y_count = 0
             j = y_low
             i += 1
-            x += 1
+            x_count += 1
 
         #   Set the image to the new cropped image and update the rest of the images and plot
         self.image_array = cropped_image
@@ -485,7 +485,7 @@ class FitsImageCanvas(FigureCanvas):
     def debias_image(self):
 
         print("-----Debiasing image-----")
-        
+
         #   Open debiased image and save to a variable
         bias_image = self.open_bias_image()
 
@@ -502,9 +502,9 @@ class FitsImageCanvas(FigureCanvas):
         else:
             print("Image and bias image dimensions do not match, please select a different one")
 
-################################################################################################################################
-################################################################################################################################
-################################################################################################################################
+##############################################################################
+##############################################################################
+##############################################################################
 
 def main():
 
@@ -513,7 +513,7 @@ def main():
 
     main_window = MainWindow()
     main_window.show()
-    
+
     #   app.exec() hands control over to Qt and will run the application till the user closes it
     app.exec()
     print ("End of program")
