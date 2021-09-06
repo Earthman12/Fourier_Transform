@@ -118,8 +118,6 @@ class MainWindow(QtWidgets.QMainWindow):
         #   This will start the GUI in fullscreen
         self.showMaximized()
 
-        self.show()
-
     #--------------------------------------------------------------------------------------------------
     #----------------------------------MainWindow Functions--------------------------------------------
     #--------------------------------------------------------------------------------------------------
@@ -514,7 +512,8 @@ def main():
     app = QtWidgets.QApplication([])
 
     main_window = MainWindow()
-
+    main_window.show()
+    
     #   app.exec() hands control over to Qt and will run the application till the user closes it
     app.exec()
     print ("End of program")
