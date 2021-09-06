@@ -172,8 +172,8 @@ class FitsImageCanvas(FigureCanvas):
     def __init__(self, parent = None):
 
         #   Figure variables
-        self.figure_size_x = 20
-        self.figure_size_y = 10
+        self.figure_size_x = 2
+        self.figure_size_y = 1
         self.figure = Figure(figsize = (self.figure_size_x,self.figure_size_y))
         self.axes = []
         self.rows = 2
@@ -512,7 +512,6 @@ def main():
 
     #   Every GUI must have one instance of QApplication(), inside the brackets[] would be parameters passed to the application
     app = QtWidgets.QApplication([])
-    app.setStyle('Breeze')
 
     main_window = MainWindow()
 
