@@ -32,7 +32,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.toolbar = NavigationToolbar(self.fits_image, self)
         #   Open new image button
         self.open_button = QtWidgets.QPushButton("Open New File")
-        self.open_button.clicked.connect(self.change_fits_image_data)
+        self.open_button.clicked.connect(self.fits_image.change_image)
         #   Debias button
         self.debias_button = QtWidgets.QPushButton("Debias Image")
         self.debias_button.clicked.connect(self.fits_image.debias_image)
@@ -121,13 +121,6 @@ class MainWindow(QtWidgets.QMainWindow):
     #---------------------------------------------------------------------------
     #-----------------------MainWindow Functions--------------------------------
     #---------------------------------------------------------------------------
-
-    def change_fits_image_data(self):
-
-        #   Change image data from image class
-        self.fits_image.change_image()
-
-    ##############################################################################
 
     def change_plot_y_row(self):
 
