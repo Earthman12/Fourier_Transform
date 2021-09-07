@@ -243,7 +243,7 @@ class FitsImageCanvas(FigureCanvas):
 
     ##############################################################################
 
-    def open_bias_image():
+    def open_bias_image(self):
 
         print("Opening bias image...")
 
