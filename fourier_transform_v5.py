@@ -5,14 +5,14 @@ Created on Wed Jul 21 09:52:55 2021
 @author: Earthman
 """
 
+import os
+import sys
+from tkinter.filedialog import askopenfilename
+from tkinter import Tk
 from matplotlib.figure import Figure
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas, NavigationToolbar2QT as NavigationToolbar
 import numpy as np
-import os
-import sys
 from astropy.io import fits
-from tkinter.filedialog import askopenfilename
-from tkinter import Tk
 from astroscrappy import detect_cosmics
 from PyQt5 import QtWidgets
 
@@ -128,7 +128,8 @@ class MainWindow(QtWidgets.QMainWindow):
 
         print("-----Changing Y Rows-----")
 
-        #   Check that the new input is greater than 0 and does not exceed Y image length, if it okay, set the new value and call the 'fits_image' update function
+        #   Check that the new input is greater than 0 and does not exceed Y image length,
+        #   if it okay, set the new value and call the 'fits_image' update function
         if(int(self.y_row_input.text()) > 0 and int(self.y_row_input.text()) < len(self.fits_image.image_array)):
             self.fits_image.y_row = int(self.y_row_input.text())
             self.fits_image.update_figure()
@@ -147,7 +148,8 @@ class MainWindow(QtWidgets.QMainWindow):
         y_low = int(self.y_low_input.text())
         y_high = int(self.y_high_input.text())
 
-        #   Check that x_low is less than x_high and same for y and also that they are in image bounds
+        #   Check that x_low is less than x_high and same for y and also that
+        #   they are in image bounds
         if ((x_low >= 0) and (x_low < x_high) and (y_low >= 0) and (y_low < y_high) and (x_high < len(self.fits_image.image_array[0])) and (y_high < len(self.fits_image.image_array))):
 
             print("-----Cropping image-----")
@@ -213,7 +215,9 @@ class FitsImageCanvas(FigureCanvas):
         #   Add subplot to figure and set title
         self.axes.append(self.figure.add_subplot(self.rows,self.col, 5))
         self.axes[4].set_title("Row " + str(self.y_row) + " Plot")
-        #   Get row values that have the absolute values and squares of the row and its top and bottom row added and set it to the display object for transform row plot
+        #   Get row values that have the absolute values and squares of the row
+        #   and its top and bottom row added and set it to the display object for
+        #   transform row plot
         self.row_plot_display_object = self.axes[4].plot(self.row_cut())
 
         super(FitsImageCanvas, self).__init__(self.figure)
@@ -225,7 +229,8 @@ class FitsImageCanvas(FigureCanvas):
     def open_fits_image(self):
         '''Opens a new fits image'''
 
-        #   Not having Tk().withdraw() does not make the code execute properly, not completely sure why, but it is necessary
+        #   Not having Tk().withdraw() does not make the code execute properly,
+        #   not completely sure why, but it is necessary
         Tk().withdraw()
         #   Opens up file explorer to select the file
         file_path = askopenfilename()
@@ -234,7 +239,8 @@ class FitsImageCanvas(FigureCanvas):
         print("File Name:",file_name)
         self.image_name = file_name
 
-        #   Opening fits file. Returns Header Data Unit(HDU) List (hdul: header and data array/table)
+        #   Opening fits file. Returns Header Data Unit(HDU) List
+        #   (hdul: header and data array/table)
         hdul = fits.open(file_path)
 
         #   Primary HDU
@@ -253,7 +259,8 @@ class FitsImageCanvas(FigureCanvas):
 
         print("Opening bias image...")
 
-        #   Not having Tk().withdraw() does not make the code execute properly, not completely sure why, but it is necessary
+        #   Not having Tk().withdraw() does not make the code execute properly,
+        #   not completely sure why, but it is necessary
         Tk().withdraw()
         #   Opens up file explorer to select the file
         file_path = askopenfilename()
@@ -261,7 +268,8 @@ class FitsImageCanvas(FigureCanvas):
 
         print("File Name:",file_name)
 
-        #   Opening fits file. Returns Header Data Unit(HDU) List (hdul: header and data array/table)
+        #   Opening fits file. Returns Header Data Unit(HDU) List
+        #   (hdul: header and data array/table)
         hdul = fits.open(file_path)
 
         #   Primary HDU
@@ -372,7 +380,8 @@ class FitsImageCanvas(FigureCanvas):
         #   Create empty array the length of the rows
         row_values_array = np.zeros(shape = len(self.transform_image[self.y_row]))
 
-        #  Loop through the values in the row and take the absolute value and the square of the row and the row above and below it and add them together
+        #  Loop through the values in the row and take the absolute value and the square
+        #   of the row and the row above and below it and add them together
         for i in range(0, len(row_values_array), 1):
             #   Get absolute value of the row and its top and bottom
             abs_top = abs(self.transform_image[self.y_row + 1][i])
@@ -392,7 +401,8 @@ class FitsImageCanvas(FigureCanvas):
     def update_figure(self):
         '''Updates the figure on the GUI to new image variables'''
 
-        #   This function will be called whenever the images or plot needs to be updated, it will make it easier to keep calling this then re-write code
+        #   This function will be called whenever the images or plot needs to be updated,
+        #   it will make it easier to keep calling this then re-write code
 
         #   Clear the list of axes to get have fresh axes to draw on in case image size is different
         #   Must also clear the figure to avoid getting a MatPlotLib Deprecation Warning
@@ -403,7 +413,8 @@ class FitsImageCanvas(FigureCanvas):
         #   Add subplot to the figure and set title
         self.axes.append(self.figure.add_subplot(self.rows, self.col, 1))
         self.axes[0].set_title("Original " + self.image_name + " Image")
-        #   Set the new image array and transform to their display objects and set the min and max accordingly for the new image
+        #   Set the new image array and transform to their display objects and set
+        #   the min and max accordingly for the new image
         self.original_display_object = self.axes[0].imshow(self.image_array, origin='lower', cmap='gray', vmin = np.min(self.image_array), vmax = np.max(self.image_array))
 
         #   COSMICS IMAGE
@@ -517,8 +528,10 @@ class FitsImageCanvas(FigureCanvas):
 ##############################################################################
 
 def main():
+    '''Main driver code'''
 
-    #   Every GUI must have one instance of QApplication(), inside the brackets[] would be parameters passed to the application
+    #   Every GUI must have one instance of QApplication(), inside the brackets[]
+    #   would be parameters passed to the application
     app = QtWidgets.QApplication([])
 
     main_window = MainWindow()
