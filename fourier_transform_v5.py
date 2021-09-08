@@ -169,8 +169,8 @@ class FitsImageCanvas(FigureCanvas):
     def __init__(self, parent = None):
 
         #   Figure variables
-        self.figure_size_x = 2
-        self.figure_size_y = 1
+        self.figure_size_x = 20
+        self.figure_size_y = 10
         self.figure = Figure(figsize = (self.figure_size_x,self.figure_size_y))
         self.axes = []
         self.rows = 2
