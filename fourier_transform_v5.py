@@ -21,6 +21,7 @@ from PyQt5 import QtWidgets
 ##############################################################################
 
 class MainWindow(QtWidgets.QMainWindow):
+    '''GUI Object'''
 
     def __init__(self, *args, **kwargs):
 
@@ -123,6 +124,7 @@ class MainWindow(QtWidgets.QMainWindow):
     #---------------------------------------------------------------------------
 
     def change_plot_y_row(self):
+        '''Changes the row that is plotted'''
 
         print("-----Changing Y Rows-----")
 
@@ -137,6 +139,7 @@ class MainWindow(QtWidgets.QMainWindow):
     ##############################################################################
 
     def crop_image(self):
+        '''Takes the inputs from the user and crops the image'''
 
         #   Get values from text inputs
         x_low = int(self.x_low_input.text())
@@ -159,6 +162,7 @@ class MainWindow(QtWidgets.QMainWindow):
 ##############################################################################
 
 class FitsImageCanvas(FigureCanvas):
+    '''Image object'''
 
     def __init__(self, parent = None):
 
@@ -219,6 +223,7 @@ class FitsImageCanvas(FigureCanvas):
     #---------------------------------------------------------------------------
 
     def open_fits_image(self):
+        '''Opens a new fits image'''
 
         #   Not having Tk().withdraw() does not make the code execute properly, not completely sure why, but it is necessary
         Tk().withdraw()
@@ -244,6 +249,7 @@ class FitsImageCanvas(FigureCanvas):
     ##############################################################################
 
     def open_bias_image(self):
+        '''Opens a bias image to subtract from the fits image'''
 
         print("Opening bias image...")
 
@@ -259,8 +265,8 @@ class FitsImageCanvas(FigureCanvas):
         hdul = fits.open(file_path)
 
         #   Primary HDU
-        primary_HDU = hdul[0]
-        image_array = primary_HDU.data[:,:]
+        primary_hdu = hdul[0]
+        image_array = primary_hdu.data[:,:]
 
         print("Number of values in the X axis: " + str(len(image_array[0])))
         print("Number of values in the Y axis: " + str(len(image_array)))
@@ -270,12 +276,14 @@ class FitsImageCanvas(FigureCanvas):
     ##############################################################################
 
     def get_image_name(self):
+        '''Returns the name of the image'''
 
         return self.image_name
 
     ##############################################################################
 
     def fourier_transform(self):
+        '''Returns a transformed image of the hanning filtered fits image'''
 
         print("Transforming image...")
 
@@ -294,6 +302,7 @@ class FitsImageCanvas(FigureCanvas):
     ##############################################################################
 
     def apply_cosmics(self):
+        '''Returns a cosmics filtered image of the original fits image'''
 
         print("Applying cosmics filter...")
 
@@ -306,6 +315,7 @@ class FitsImageCanvas(FigureCanvas):
     ##############################################################################
 
     def apply_hanning(self):
+        '''Returns a hanning window image of the cosmics filtered image'''
 
         print("Applying Hanning window...")
 
@@ -320,6 +330,7 @@ class FitsImageCanvas(FigureCanvas):
     ##############################################################################
 
     def change_image(self):
+        '''Changes the fits image variable'''
 
         print("-----Changing FITS Images-----")
 
@@ -332,6 +343,7 @@ class FitsImageCanvas(FigureCanvas):
     ##############################################################################
 
     def set_filters_and_plot(self):
+        '''Sets the filtered images and plot variables'''
 
         print("Setting filtered images and plot...")
 
@@ -353,6 +365,7 @@ class FitsImageCanvas(FigureCanvas):
     ##############################################################################
 
     def row_cut(self):
+        '''Returns a certain y row's values in the transform'''
 
         print("Getting values for row num: " + str(self.y_row))
 
@@ -377,6 +390,7 @@ class FitsImageCanvas(FigureCanvas):
     ##############################################################################
 
     def update_figure(self):
+        '''Updates the figure on the GUI to new image variables'''
 
         #   This function will be called whenever the images or plot needs to be updated, it will make it easier to keep calling this then re-write code
 
@@ -428,6 +442,7 @@ class FitsImageCanvas(FigureCanvas):
     ##############################################################################
 
     def save_spectrum_as_dat_file(self):
+        '''Saves the y rows values that are plotted as a .DAT file'''
 
         print("Saving spectrum plot as .DAT")
 
@@ -444,6 +459,7 @@ class FitsImageCanvas(FigureCanvas):
     ##############################################################################
 
     def set_crop_image(self, x_low, x_high, y_low, y_high):
+        '''Takes in the crop bounds and returns the cropped image'''
 
         print("Setting the cropped image")
 
@@ -476,6 +492,7 @@ class FitsImageCanvas(FigureCanvas):
     ##############################################################################
 
     def debias_image(self):
+        '''Subtracts a bias image from the fits image'''
 
         print("-----Debiasing image-----")
 
