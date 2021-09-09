@@ -12,6 +12,7 @@ from tkinter import Tk
 from matplotlib.figure import Figure
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas, NavigationToolbar2QT as NavigationToolbar
 import numpy as np
+import scipy.fft
 from astropy.io import fits
 from astroscrappy import detect_cosmics
 from PyQt5 import QtWidgets
@@ -295,8 +296,9 @@ class FitsImageCanvas(FigureCanvas):
 
         print("Transforming image...")
 
-        #   Fourier Transforming
-        f_transform = np.fft.fft2(self.hanning_image)
+        #   Fourier Transforming, uses numpy or scipy
+        #f_transform = np.fft.fft2(self.hanning_image)
+        f_transform = scipy.fft.fft2(self.hanning_image)
         #   Shifting zero frequency component to center spectrum
         f_shift = np.fft.fftshift(f_transform)
 
