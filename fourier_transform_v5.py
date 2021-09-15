@@ -422,7 +422,7 @@ class FitsImageCanvas(FigureCanvas):
         #   COSMICS IMAGE
         #   Add subplot to the figure and set title
         self.axes.append(self.figure.add_subplot(self.rows, self.col, 2))
-        self.axes[1].set_title("Cosmics Filtered image")
+        self.axes[1].set_title("Cosmics Filtered Image")
         #   Set the cosmic image to its display object
         self.cosmic_display_object = self.axes[1].imshow(self.cosmic_image, origin='lower', cmap='gray', vmin = np.min(self.cosmic_image), vmax = np.max(self.cosmic_image))
 
