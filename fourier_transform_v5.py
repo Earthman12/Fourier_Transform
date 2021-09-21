@@ -35,7 +35,7 @@ class MainWindow(QtWidgets.QMainWindow):
         #   Open new image button
         self.open_button = QtWidgets.QPushButton("Open New File")
         self.open_button.clicked.connect(self.fits_image.change_image)
-        
+
         #   Debias button
         self.debias_button = QtWidgets.QPushButton("Debias Image")
         self.debias_button.clicked.connect(self.fits_image.debias_image)
