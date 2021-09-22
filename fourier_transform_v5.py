@@ -407,6 +407,13 @@ class FitsImageCanvas(FigureCanvas):
             row_values_array[i] = square_top + square_row + square_bottom
 
         return row_values_array
+    
+    ##############################################################################
+    
+    def row_convert(self):
+        '''Converts the Y to the 0,0 shifted coordinate'''
+        
+
 
     ##############################################################################
 
@@ -463,13 +470,6 @@ class FitsImageCanvas(FigureCanvas):
         self.draw()
 
         print("Figure Updated")
-        
-    ##############################################################################
-    
-    def row_convert(self):
-        '''Converts the Y to the 0,0 shifted coordinate'''
-        
-        
 
     ##############################################################################
 
