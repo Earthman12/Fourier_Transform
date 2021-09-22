@@ -208,8 +208,10 @@ class FitsImageCanvas(FigureCanvas):
         #   Add subplot to figure and set title
         self.axes.append(self.figure.add_subplot(self.rows,self.col, 4))
         self.axes[3].set_title("Fourier Transform")
+        #   Pre-set the axis' extent so 0,0 is in the middle
+        extent = [-self.transform_image.shape[1] / 2, self.transform_image.shape[1] / 2, -self.transform_image.shape[0] / 2, self.transform_image.shape[0] / 2,]
         #   Display object variable for transform image
-        self.transform_display_object = self.axes[3].imshow(self.transform_image, origin='lower', cmap='gray', vmin = np.min(self.transform_image), vmax = np.max(self.transform_image))
+        self.transform_display_object = self.axes[3].imshow(self.transform_image, origin='lower', extent = extent, cmap='gray', vmin = np.min(self.transform_image), vmax = np.max(self.transform_image))
 
         #   ROW OF VALUES PLOT VARIABLES
         #   Default row cut will be in the middle of the transform
@@ -249,8 +251,8 @@ class FitsImageCanvas(FigureCanvas):
         primary_hdu = hdul[0]
         image_array = primary_hdu.data[:,:]
 
-        print("Number of values in the X axis: " + str(len(image_array[0])))
-        print("Number of values in the Y axis: " + str(len(image_array)))
+        print("Number of values in the X axis: " + str(image_array.shape[1]))
+        print("Number of values in the Y axis: " + str(image_array.shape[0]))
 
         return image_array
 
@@ -438,8 +440,10 @@ class FitsImageCanvas(FigureCanvas):
         #   Add subplot to the figure and set title
         self.axes.append(self.figure.add_subplot(self.rows, self.col, 4))
         self.axes[3].set_title("Fourier Transform")
+        #   Pre-set the axis' extent so 0,0 is in the middle
+        extent = [-self.transform_image.shape[1] / 2, self.transform_image.shape[1] / 2, -self.transform_image.shape[0] / 2, self.transform_image.shape[0] / 2,]
         #   Set the new transform image to its display object variable
-        self.transform_display_object = self.axes[3].imshow(self.transform_image, origin='lower', cmap='gray', vmin = np.min(self.transform_image), vmax = np.max(self.transform_image))
+        self.transform_display_object = self.axes[3].imshow(self.transform_image, origin='lower', extent = extent, cmap='gray', vmin = np.min(self.transform_image), vmax = np.max(self.transform_image))
 
         #   ROW OF VALUES PLOT
         #   Add subplot to figure and set title
