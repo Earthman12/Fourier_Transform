@@ -129,11 +129,17 @@ class MainWindow(QtWidgets.QMainWindow):
         '''Changes the row that is plotted'''
 
         print("-----Changing Y Rows-----")
+        
+        #   Convert value from readout value to array row
+        readout_value = int(self.y_row_input.text())
+        #   Converted value is the readout_value + half the image y length
+        converted_value = readout_value + (self.fits_image.image_array.shape[0] / 2)
+        print(converted_value)
 
         #   Check that the new input is greater than 0 and does not exceed Y image length,
         #   if it okay, set the new value and call the 'fits_image' update function
-        if(int(self.y_row_input.text()) > 0 and int(self.y_row_input.text()) < len(self.fits_image.image_array)):
-            self.fits_image.y_row = int(self.y_row_input.text())
+        if(converted_value > 0 and converted_value < self.fits_image.image_array.shape[0]):
+            self.fits_image.y_row = int(converted_value)
             self.fits_image.update_figure()
 
         else:
@@ -218,7 +224,8 @@ class FitsImageCanvas(FigureCanvas):
         self.y_row = int(len(self.transform_image) / 2)
         #   Add subplot to figure and set title
         self.axes.append(self.figure.add_subplot(self.rows,self.col, 5))
-        self.axes[4].set_title("Row " + str(self.y_row) + " Plot")
+        #   Plot is plotting the middle line of the transform so will start at row 0
+        self.axes[4].set_title("Row 0 Plot")
         #   Get row values that have the absolute values and squares of the row
         #   and its top and bottom row added and set it to the display object for
         #   transform row plot
@@ -456,6 +463,11 @@ class FitsImageCanvas(FigureCanvas):
         self.draw()
 
         print("Figure Updated")
+        
+    ##############################################################################
+    
+    def row_convert(self):
+        '''Converts the Y to the 0,0 shifted coordinate'''
 
     ##############################################################################
 
