@@ -468,6 +468,8 @@ class FitsImageCanvas(FigureCanvas):
     
     def row_convert(self):
         '''Converts the Y to the 0,0 shifted coordinate'''
+        
+        
 
     ##############################################################################
 
