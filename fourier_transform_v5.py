@@ -337,9 +337,9 @@ class FitsImageCanvas(FigureCanvas):
         print("Applying Hanning window...")
 
         #   Creating the 2d Hanning window
-        hanning_1 = np.hanning(len(self.cosmic_image))
-        hanning_2 = np.hanning(len(self.cosmic_image[0]))
-        hanning_window = np.sqrt(np.outer(hanning_1, hanning_2))
+        hanning_x = np.hanning(self.cosmic_image.shape[1])
+        hanning_y = np.hanning(self.cosmic_image.shape[0])
+        hanning_window = np.sqrt(np.outer(hanning_y, hanning_x))
         hanning_image = hanning_window * self.cosmic_image
 
         return hanning_image
@@ -374,7 +374,7 @@ class FitsImageCanvas(FigureCanvas):
         self.transform_image = self.fourier_transform()
 
         #   Reset row cut to middle of image
-        self.y_row = int(len(self.transform_image) / 2)
+        self.y_row = 0
 
         #   Call update_figure function to re-draw it
         self.update_figure()
@@ -454,8 +454,6 @@ class FitsImageCanvas(FigureCanvas):
         self.transform_display_object = self.axes[3].imshow(self.transform_image, origin='lower', extent = extent, cmap='gray', vmin = np.min(self.transform_image), vmax = np.max(self.transform_image))
 
         #   ROW OF VALUES PLOT
-        #   Default row cut will be in the middle of the transform so set to 0
-        self.y_row = 0
         #   Add subplot to figure and set title
         self.axes.append(self.figure.add_subplot(self.rows,self.col, 5))
         self.axes[4].set_title("Row " + str(self.y_row) + " Plot")
