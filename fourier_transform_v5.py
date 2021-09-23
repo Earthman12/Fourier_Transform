@@ -130,16 +130,13 @@ class MainWindow(QtWidgets.QMainWindow):
 
         print("-----Changing Y Rows-----")
         
-        #   Convert value from readout value to array row
+        #   Value from readout value to array row
         readout_value = int(self.y_row_input.text())
-        #   Converted value is the readout_value + half the image y length
-        converted_value = readout_value + (self.fits_image.image_array.shape[0] / 2)
-        print(converted_value)
-
+        
         #   Check that the new input is greater than 0 and does not exceed Y image length,
         #   if it okay, set the new value and call the 'fits_image' update function
-        if(converted_value > 0 and converted_value < self.fits_image.image_array.shape[0]):
-            self.fits_image.y_row = int(converted_value)
+        if(readout_value < ((self.fits_image.image_array.shape[0] / 2) - 1) and readout_value > -((self.fits_image.image_array.shape[0] / 2) + 1)):
+            self.fits_image.y_row = int(readout_value)
             self.fits_image.update_figure()
 
         else:
@@ -220,8 +217,8 @@ class FitsImageCanvas(FigureCanvas):
         self.transform_display_object = self.axes[3].imshow(self.transform_image, origin='lower', extent = extent, cmap='gray', vmin = np.min(self.transform_image), vmax = np.max(self.transform_image))
 
         #   ROW OF VALUES PLOT VARIABLES
-        #   Default row cut will be in the middle of the transform
-        self.y_row = int(len(self.transform_image) / 2)
+        #   Default row cut will be in the middle of the transform so set to 0
+        self.y_row = 0
         #   Add subplot to figure and set title
         self.axes.append(self.figure.add_subplot(self.rows,self.col, 5))
         #   Plot is plotting the middle line of the transform so will start at row 0
@@ -287,8 +284,8 @@ class FitsImageCanvas(FigureCanvas):
         primary_hdu = hdul[0]
         image_array = primary_hdu.data[:,:]
 
-        print("Number of values in the X axis: " + str(len(image_array[0])))
-        print("Number of values in the Y axis: " + str(len(image_array)))
+        print("Number of values in the X axis: " + str(image_array.shape[1]))
+        print("Number of values in the Y axis: " + str(image_array.shape[0]))
 
         return image_array
 
@@ -387,18 +384,22 @@ class FitsImageCanvas(FigureCanvas):
     def row_cut(self):
         '''Returns a certain y row's values in the transform'''
 
+        #   Converting 0,0 array row value to actual array row value
+        converted_row_value = int(self.y_row + self.transform_image.shape[0] / 2)
+
         print("Getting values for row num: " + str(self.y_row))
+        print("Converted value: " + str(converted_row_value))
 
         #   Create empty array the length of the rows
-        row_values_array = np.zeros(shape = len(self.transform_image[self.y_row]))
+        row_values_array = np.zeros(shape = len(self.transform_image[converted_row_value]))
 
         #  Loop through the values in the row and take the absolute value and the square
         #   of the row and the row above and below it and add them together
         for i in range(0, len(row_values_array), 1):
             #   Get absolute value of the row and its top and bottom
-            abs_top = abs(self.transform_image[self.y_row + 1][i])
-            abs_row = abs(self.transform_image[self.y_row][i])
-            abs_bottom = abs(self.transform_image[self.y_row - 1][i])
+            abs_top = abs(self.transform_image[converted_row_value + 1][i])
+            abs_row = abs(self.transform_image[converted_row_value][i])
+            abs_bottom = abs(self.transform_image[converted_row_value - 1][i])
             #   Get the square
             square_top = abs_top * abs_top
             square_row = abs_row * abs_row
@@ -408,13 +409,6 @@ class FitsImageCanvas(FigureCanvas):
 
         return row_values_array
     
-    ##############################################################################
-    
-    def row_convert(self):
-        '''Converts the Y to the 0,0 shifted coordinate'''
-        
-
-
     ##############################################################################
 
     def update_figure(self):
