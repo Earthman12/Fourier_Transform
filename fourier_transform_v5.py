@@ -480,7 +480,7 @@ class FitsImageCanvas(FigureCanvas):
 
         #   Save it to 4 decimal places
         values = self.row_cut()
-        save_file = open(title + ".dat", "w")        
+        save_file = open(title + ".dat", "w")
         np.savetxt(save_file, values, fmt = "%.4e")
 
         print("Save Successful")
