@@ -155,7 +155,7 @@ class MainWindow(QtWidgets.QMainWindow):
 
         #   Check that x_low is less than x_high and same for y and also that
         #   they are in image bounds
-        if ((x_low >= 0) and (x_low < x_high) and (y_low >= 0) and (y_low < y_high) and (x_high < len(self.fits_image.image_array[0])) and (y_high < len(self.fits_image.image_array))):
+        if ((x_low >= 0) and (x_low < x_high) and (y_low >= 0) and (y_low < y_high) and (x_high < self.fits_image.image_array.shape[1]) and (y_high < self.fits_image.image_array.shape[0])):
 
             print("-----Cropping image-----")
             #   Send them to the fits_image crop function to be cropped
@@ -454,6 +454,8 @@ class FitsImageCanvas(FigureCanvas):
         self.transform_display_object = self.axes[3].imshow(self.transform_image, origin='lower', extent = extent, cmap='gray', vmin = np.min(self.transform_image), vmax = np.max(self.transform_image))
 
         #   ROW OF VALUES PLOT
+        #   Default row cut will be in the middle of the transform so set to 0
+        self.y_row = 0
         #   Add subplot to figure and set title
         self.axes.append(self.figure.add_subplot(self.rows,self.col, 5))
         self.axes[4].set_title("Row " + str(self.y_row) + " Plot")
