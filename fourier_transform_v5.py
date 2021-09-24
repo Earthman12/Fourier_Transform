@@ -65,7 +65,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.y_row_layout.addWidget(self.y_row_input, 0, 1)
         self.y_row_layout.addWidget(self.y_row_submit_button, 1, 0)
         self.y_row_layout.addWidget(self.save_dat_button, 2, 0)
-        self.y_row_layout.addWidget(self.up_one_row_button, 2, 1)
+        self.y_row_layout.addWidget(self.up_one_row_button, 1, 2)
         self.y_row_layout.addWidget(self.down_one_row_button, 2, 2)
         #   Set Y row widget layout
         self.y_row_widget.setLayout(self.y_row_layout)
@@ -546,6 +546,20 @@ class FitsImageCanvas(FigureCanvas):
 
         else:
             print("Image and bias image dimensions do not match, please select a different one")
+            
+    ##############################################################################
+    
+    def up_one_row(self):
+        '''Moves the plot up one row'''
+        
+        print("Moving plot up one row...")
+        
+    ##############################################################################
+    
+    def down_one_row(self):
+        '''Moves the plot down one row'''
+        
+        print("Moving the plot down one row...")
 
 ##############################################################################
 ##############################################################################
