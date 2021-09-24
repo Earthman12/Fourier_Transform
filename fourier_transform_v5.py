@@ -54,6 +54,10 @@ class MainWindow(QtWidgets.QMainWindow):
         #   Save .DAT file button
         self.save_dat_button = QtWidgets.QPushButton("Save Spectrum")
         self.save_dat_button.clicked.connect(self.fits_image.save_spectrum_as_dat_file)
+        #   Up one row button
+        self.up_one_row_button = QtWidgets.QPushButton("Up One Row")
+        #   Down one row button
+        self.down_one_row_button = QtWidgets.QPushButton("Down One Row")
         #   Set Y row widget layout to grid
         self.y_row_layout = QtWidgets.QGridLayout()
         #   Add Y row widgets to layout
@@ -61,6 +65,8 @@ class MainWindow(QtWidgets.QMainWindow):
         self.y_row_layout.addWidget(self.y_row_input, 0, 1)
         self.y_row_layout.addWidget(self.y_row_submit_button, 1, 0)
         self.y_row_layout.addWidget(self.save_dat_button, 2, 0)
+        self.y_row_layout.addWidget(self.up_one_row_button, 2, 1)
+        self.y_row_layout.addWidget(self.down_one_row_button, 2, 2)
         #   Set Y row widget layout
         self.y_row_widget.setLayout(self.y_row_layout)
 
