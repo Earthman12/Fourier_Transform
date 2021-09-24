@@ -548,19 +548,19 @@ class FitsImageCanvas(FigureCanvas):
 
         else:
             print("Image and bias image dimensions do not match, please select a different one")
-            
+
     ##############################################################################
-    
+
     def up_one_row(self):
         '''Moves the plot up one row'''
-        
+
         print("Moving plot up one row to " + str(self.y_row + 1) + "...")
-        
+
     ##############################################################################
-    
+
     def down_one_row(self):
         '''Moves the plot down one row'''
-        
+
         print("Moving the plot down one row to " + str(self.y_row - 1) + "...")
 
 ##############################################################################
