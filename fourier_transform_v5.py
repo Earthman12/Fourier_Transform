@@ -56,8 +56,10 @@ class MainWindow(QtWidgets.QMainWindow):
         self.save_dat_button.clicked.connect(self.fits_image.save_spectrum_as_dat_file)
         #   Up one row button
         self.up_one_row_button = QtWidgets.QPushButton("Up One Row")
+        self.up_one_row_button.clicked.connect(self.fits_image.up_one_row)
         #   Down one row button
         self.down_one_row_button = QtWidgets.QPushButton("Down One Row")
+        self.down_one_row_button.clicked.connect(self.fits_image.down_one_row)
         #   Set Y row widget layout to grid
         self.y_row_layout = QtWidgets.QGridLayout()
         #   Add Y row widgets to layout
@@ -552,14 +554,14 @@ class FitsImageCanvas(FigureCanvas):
     def up_one_row(self):
         '''Moves the plot up one row'''
         
-        print("Moving plot up one row...")
+        print("Moving plot up one row to " + str(self.y_row + 1) + "...")
         
     ##############################################################################
     
     def down_one_row(self):
         '''Moves the plot down one row'''
         
-        print("Moving the plot down one row...")
+        print("Moving the plot down one row to " + str(self.y_row - 1) + "...")
 
 ##############################################################################
 ##############################################################################
