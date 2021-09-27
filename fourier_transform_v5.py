@@ -425,6 +425,8 @@ class FitsImageCanvas(FigureCanvas):
         #   Add subplot to figure and set title
         self.axes.append(self.figure.add_subplot(self.ROWS,self.COL, 5))
         self.axes[4].set_title("Row " + str(self.y_row) + " Plot")
+        #   Putting 0 in the middle of x axis
+        self.axes[4].spines['top'].set_color('none')
         #   Display object for transform row plot
         self.row_plot_display_object = self.axes[4].plot(self.row_cut())
 
