@@ -565,7 +565,7 @@ class FitsImageCanvas(FigureCanvas):
 
         self.y_row -= 1
 
-        print("Moving the plot down one row to " + str(self.y_row) + "...")
+        print("Moving plot down one row to " + str(self.y_row) + "...")
 
 ##############################################################################
 ##############################################################################
