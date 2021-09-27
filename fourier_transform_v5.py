@@ -448,6 +448,8 @@ class FitsImageCanvas(FigureCanvas):
 
         #   Save it to 4 decimal places
         values = self.row_cut()
+        #   'tofile() saves the data but in binary
+        #values.tofile(title + ".dat")
         save_file = open(title + ".dat", "w")
         np.savetxt(save_file, values, fmt = "%.4e")
 
