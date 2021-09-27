@@ -187,12 +187,11 @@ class FitsImageCanvas(FigureCanvas):
         self.ROWS = 2
         self.COL = 3
 
-
         #   Figure variables
         self.figure = Figure(figsize = (self.FIGURE_SIZE_X,self.FIGURE_SIZE_Y))
         super(FitsImageCanvas, self).__init__(self.figure)
-        
         self.axes = []
+
         #   Original fits image variables
         self.image_name = ''
         self.image_array = self.open_fits_image()
@@ -224,8 +223,8 @@ class FitsImageCanvas(FigureCanvas):
         primary_hdu = hdul[0]
         image_array = primary_hdu.data[:,:]
 
-        print("Number of values in the X axis: " + str(image_array.shape[1]))
-        print("Number of values in the Y axis: " + str(image_array.shape[0]))
+        print("Number of X axis values: " + str(image_array.shape[1]))
+        print("Number of Y axis values: " + str(image_array.shape[0]))
 
         return image_array
 
@@ -253,8 +252,8 @@ class FitsImageCanvas(FigureCanvas):
         primary_hdu = hdul[0]
         image_array = primary_hdu.data[:,:]
 
-        print("Number of values in the X axis: " + str(image_array.shape[1]))
-        print("Number of values in the Y axis: " + str(image_array.shape[0]))
+        print("Number of X axis values: " + str(image_array.shape[1]))
+        print("Number of Y axis values: " + str(image_array.shape[0]))
 
         return image_array
 
@@ -357,7 +356,7 @@ class FitsImageCanvas(FigureCanvas):
         converted_row_value = int(self.y_row + self.transform_image.shape[0] / 2)
 
         print("Getting values for row num: " + str(self.y_row))
-        print("Converted value: " + str(converted_row_value))
+        print("Converted array value: " + str(converted_row_value))
 
         #   Create empty array the length of the rows
         row_values_array = np.zeros(shape = len(self.transform_image[converted_row_value]))
