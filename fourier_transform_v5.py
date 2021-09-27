@@ -556,7 +556,9 @@ class FitsImageCanvas(FigureCanvas):
 
         self.y_row += 1
 
-        print("Moving plot up one row to " + str(self.y_row) + "...")
+        print("-----Moving plot up one row to " + str(self.y_row) + "-----")
+
+        self.update_figure()
 
     ##############################################################################
 
@@ -565,7 +567,9 @@ class FitsImageCanvas(FigureCanvas):
 
         self.y_row -= 1
 
-        print("Moving plot down one row to " + str(self.y_row) + "...")
+        print("-----Moving plot down one row to " + str(self.y_row) + "-----")
+
+        self.update_figure()
 
 ##############################################################################
 ##############################################################################
