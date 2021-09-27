@@ -180,63 +180,24 @@ class FitsImageCanvas(FigureCanvas):
     '''Image object'''
 
     def __init__(self, parent = None):
+        
+        #   Figure contstants
+        self.FIGURE_SIZE_X = 20
+        self.FIGURE_SIZE_Y = 10
+        self.ROWS = 2
+        self.COL = 3
+
 
         #   Figure variables
-        self.figure_size_x = 20
-        self.figure_size_y = 10
-        self.figure = Figure(figsize = (self.figure_size_x,self.figure_size_y))
+        self.figure = Figure(figsize = (self.FIGURE_SIZE_X,self.FIGURE_SIZE_Y))
+        super(FitsImageCanvas, self).__init__(self.figure)
+        
         self.axes = []
-        self.rows = 2
-        self.col = 3
-
-        #   ORIGINAL FITS IMAGE VARIABLES
+        #   Original fits image variables
         self.image_name = ''
         self.image_array = self.open_fits_image()
-        #   Adding subplot to the figure and setting title
-        self.axes.append(self.figure.add_subplot(self.rows, self.col, 1))
-        self.axes[0].set_title("Original " + self.image_name + " Image")
-        #   Display object variable for fits image
-        self.original_display_object = self.axes[0].imshow(self.image_array, origin='lower', cmap='gray', vmin = np.min(self.image_array), vmax = np.max(self.image_array))
 
-        #   COSMIC FILTERED IMAGE VARIABLES
-        self.cosmic_image = self.apply_cosmics()
-        #   Add subplot to figure and set title
-        self.axes.append(self.figure.add_subplot(self.rows,self.col, 2))
-        self.axes[1].set_title("Cosmics Filtered Image")
-        #   Display object variable for cosmic image
-        self.cosmic_display_object = self.axes[1].imshow(self.cosmic_image, origin='lower', cmap='gray', vmin = np.min(self.cosmic_image), vmax = np.max(self.cosmic_image))
-
-        #   HANNING WINDOW IMAGE VARIABLES
-        self.hanning_image = self.apply_hanning()
-        #   Add subplot to figure and set title
-        self.axes.append(self.figure.add_subplot(self.rows, self.col, 3))
-        self.axes[2].set_title("Hanning Window Image")
-        #   Display object variable for hanning image
-        self.hanning_display_object = self.axes[2].imshow(self.hanning_image, origin='lower', cmap='gray', vmin = np.min(self.hanning_image), vmax = np.max(self.hanning_image))
-
-        #   TRANSFORM IMAGE VARIABLES
-        self.transform_image = self.fourier_transform()
-        #   Add subplot to figure and set title
-        self.axes.append(self.figure.add_subplot(self.rows,self.col, 4))
-        self.axes[3].set_title("Fourier Transform")
-        #   Pre-set the axis' extent so 0,0 is in the middle
-        extent = [-self.transform_image.shape[1] / 2, self.transform_image.shape[1] / 2, -self.transform_image.shape[0] / 2, self.transform_image.shape[0] / 2,]
-        #   Display object variable for transform image
-        self.transform_display_object = self.axes[3].imshow(self.transform_image, origin='lower', extent = extent, cmap='gray', vmin = np.min(self.transform_image), vmax = np.max(self.transform_image))
-
-        #   ROW OF VALUES PLOT VARIABLES
-        #   Default row cut will be in the middle of the transform so set to 0
-        self.y_row = 0
-        #   Add subplot to figure and set title
-        self.axes.append(self.figure.add_subplot(self.rows,self.col, 5))
-        #   Plot is plotting the middle line of the transform so will start at row 0
-        self.axes[4].set_title("Row 0 Plot")
-        #   Get row values that have the absolute values and squares of the row
-        #   and its top and bottom row added and set it to the display object for
-        #   transform row plot
-        self.row_plot_display_object = self.axes[4].plot(self.row_cut())
-
-        super(FitsImageCanvas, self).__init__(self.figure)
+        self.set_filters_and_plot()
 
     #---------------------------------------------------------------------------
     #-----------------------ImageCanvas Functions-------------------------------
@@ -432,7 +393,7 @@ class FitsImageCanvas(FigureCanvas):
 
         #   ORIGINAL FITS IMAGE
         #   Add subplot to the figure and set title
-        self.axes.append(self.figure.add_subplot(self.rows, self.col, 1))
+        self.axes.append(self.figure.add_subplot(self.ROWS, self.COL, 1))
         self.axes[0].set_title("Original " + self.image_name + " Image")
         #   Set the new image array and transform to their display objects and set
         #   the min and max accordingly for the new image
@@ -440,21 +401,21 @@ class FitsImageCanvas(FigureCanvas):
 
         #   COSMICS IMAGE
         #   Add subplot to the figure and set title
-        self.axes.append(self.figure.add_subplot(self.rows, self.col, 2))
+        self.axes.append(self.figure.add_subplot(self.ROWS, self.COL, 2))
         self.axes[1].set_title("Cosmics Filtered Image")
         #   Set the cosmic image to its display object
         self.cosmic_display_object = self.axes[1].imshow(self.cosmic_image, origin='lower', cmap='gray', vmin = np.min(self.cosmic_image), vmax = np.max(self.cosmic_image))
 
         #   HANNING WINDOW IMAGE
         #   Add subplot to figure and set title
-        self.axes.append(self.figure.add_subplot(self.rows, self.col, 3))
+        self.axes.append(self.figure.add_subplot(self.ROWS, self.COL, 3))
         self.axes[2].set_title("Hanning Window Image")
         #   Display object variable for hanning image
         self.hanning_display_object = self.axes[2].imshow(self.hanning_image, origin='lower', cmap='gray', vmin = np.min(self.hanning_image), vmax = np.max(self.hanning_image))
 
         #   FOURIER TRANSFORM IMAGE
         #   Add subplot to the figure and set title
-        self.axes.append(self.figure.add_subplot(self.rows, self.col, 4))
+        self.axes.append(self.figure.add_subplot(self.ROWS, self.COL, 4))
         self.axes[3].set_title("Fourier Transform")
         #   Pre-set the axis' extent so 0,0 is in the middle
         extent = [-self.transform_image.shape[1] / 2, self.transform_image.shape[1] / 2, -self.transform_image.shape[0] / 2, self.transform_image.shape[0] / 2,]
@@ -463,7 +424,7 @@ class FitsImageCanvas(FigureCanvas):
 
         #   ROW OF VALUES PLOT
         #   Add subplot to figure and set title
-        self.axes.append(self.figure.add_subplot(self.rows,self.col, 5))
+        self.axes.append(self.figure.add_subplot(self.ROWS,self.COL, 5))
         self.axes[4].set_title("Row " + str(self.y_row) + " Plot")
         #   Display object for transform row plot
         self.row_plot_display_object = self.axes[4].plot(self.row_cut())
