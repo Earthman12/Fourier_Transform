@@ -417,7 +417,7 @@ class FitsImageCanvas(FigureCanvas):
         self.axes.append(self.figure.add_subplot(self.ROWS, self.COL, 4))
         self.axes[3].set_title("Fourier Transform")
         #   Pre-set the axis' extent so 0,0 is in the middle
-        extent = [-self.transform_image.shape[1] / 2, self.transform_image.shape[1] / 2, -self.transform_image.shape[0] / 2, self.transform_image.shape[0] / 2,]
+        extent = [-self.transform_image.shape[1] / 2, self.transform_image.shape[1] / 2, -self.transform_image.shape[0] / 2, self.transform_image.shape[0] / 2]
         #   Set the new transform image to its display object variable
         self.transform_display_object = self.axes[3].imshow(self.transform_image, origin='lower', extent = extent, cmap='gray', vmin = np.min(self.transform_image), vmax = np.max(self.transform_image))
 
