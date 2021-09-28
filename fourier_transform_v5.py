@@ -270,10 +270,17 @@ class FitsImageCanvas(FigureCanvas):
         '''Returns a transformed image of the hanning filtered fits image'''
 
         print("Transforming image...")
+        
+        #   Process from Jason's code
+        h, w = self.hanning_image.shape
+        r = np.arange(w, dtype = 'float64')
+        t = np.arange(w, dtype = 'float64')
+        t.fill(1)
+        zp_image = self.hanning_image*(-1)**(r+t)
 
         #   Fourier Transforming, uses numpy or scipy
         #f_transform = np.fft.fft2(self.hanning_image)
-        f_transform = scipy.fft.fft2(self.hanning_image)
+        f_transform = scipy.fft.fft2(zp_image)
         #   Shifting zero frequency component to center spectrum
         f_shift = np.fft.fftshift(f_transform)
 
