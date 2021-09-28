@@ -486,8 +486,8 @@ class FitsImageCanvas(FigureCanvas):
 
         #   Set the image to the new cropped image and update the rest of the images and plot
         self.image_array = cropped_image
-        print("Number of values in the X axis: " + str(len(self.image_array[0])))
-        print("Number of values in the Y axis: " + str(len(self.image_array)))
+        print("Number of values in the X axis: " + str(self.image_array.shape[1]))
+        print("Number of values in the Y axis: " + str(self.image_array.shape[0]))
         self.set_filters_and_plot()
 
     ##############################################################################
@@ -501,7 +501,7 @@ class FitsImageCanvas(FigureCanvas):
         bias_image = self.open_bias_image()
 
         #   Check to make sure that the X and Y dimensions are the same
-        if(len(bias_image[0]) == len(self.image_array[0]) and len(bias_image) == len(self.image_array)):
+        if(bias_image.shape[1] == self.image_array.shape[1] and bias_image.shape[0] == self.image_array.shape[0]):
             print("Dimensions match, proceeding to debias image...")
 
             #   Subtract the bias and update the image variable and figure
