@@ -376,7 +376,7 @@ class FitsImageCanvas(FigureCanvas):
             row_values_array[i] = square_top + square_row + square_bottom
 
         return row_values_array
-    
+
     ##############################################################################
 
     def update_figure(self):
