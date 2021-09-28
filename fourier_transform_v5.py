@@ -363,7 +363,7 @@ class FitsImageCanvas(FigureCanvas):
 
         #  Loop through the values in the row and take the absolute value and the square
         #   of the row and the row above and below it and add them together
-        for i in range(0, len(row_values_array), 1):
+        for i in range(0, row_values_array.shape[0], 1):
             #   Get absolute value of the row and its top and bottom
             abs_top = abs(self.transform_image[converted_row_value + 1][i])
             abs_row = abs(self.transform_image[converted_row_value][i])
