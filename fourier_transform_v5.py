@@ -13,6 +13,7 @@ from matplotlib.figure import Figure
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas, NavigationToolbar2QT as NavigationToolbar
 import numpy as np
 import scipy.fft
+from scipy.interpolate import make_interp_spline
 from astropy.io import fits
 from astroscrappy import detect_cosmics
 from PyQt5 import QtWidgets
