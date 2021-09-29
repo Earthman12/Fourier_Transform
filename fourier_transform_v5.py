@@ -521,9 +521,7 @@ class FitsImageCanvas(FigureCanvas):
         '''Moves the plot up one row'''
 
         self.y_row += 1
-
         print("-----Moving plot up one row to " + str(self.y_row) + "-----")
-
         self.update_figure()
 
     ##############################################################################
