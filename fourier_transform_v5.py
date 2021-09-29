@@ -47,6 +47,8 @@ class MainWindow(QtWidgets.QMainWindow):
         self.y_row_widget.setStyleSheet('''
                                         .QWidget{border: 1px solid black}
                                         ''')
+        #   Main set row label
+        self.y_main_label = QtWidgets.QLabel("Row Plot Selection")
         #   Input text and button to set Y row for transform plot
         self.y_row_label = QtWidgets.QLabel("Enter row:")
         self.y_row_input = QtWidgets.QLineEdit()
@@ -64,12 +66,13 @@ class MainWindow(QtWidgets.QMainWindow):
         #   Set Y row widget layout to grid
         self.y_row_layout = QtWidgets.QGridLayout()
         #   Add Y row widgets to layout
-        self.y_row_layout.addWidget(self.y_row_label, 0, 0)
-        self.y_row_layout.addWidget(self.y_row_input, 0, 1)
-        self.y_row_layout.addWidget(self.y_row_submit_button, 1, 0)
-        self.y_row_layout.addWidget(self.save_dat_button, 2, 0)
-        self.y_row_layout.addWidget(self.up_one_row_button, 1, 2)
-        self.y_row_layout.addWidget(self.down_one_row_button, 2, 2)
+        self.y_row_layout.addWidget(self.y_main_label, 0, 1)
+        self.y_row_layout.addWidget(self.y_row_label, 1, 0)
+        self.y_row_layout.addWidget(self.y_row_input, 1, 1)
+        self.y_row_layout.addWidget(self.y_row_submit_button, 2, 0)
+        self.y_row_layout.addWidget(self.save_dat_button, 3, 0)
+        self.y_row_layout.addWidget(self.up_one_row_button, 2, 2)
+        self.y_row_layout.addWidget(self.down_one_row_button, 3, 2)
         #   Set Y row widget layout
         self.y_row_widget.setLayout(self.y_row_layout)
 
