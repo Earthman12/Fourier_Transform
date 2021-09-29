@@ -426,7 +426,7 @@ class FitsImageCanvas(FigureCanvas):
 
         #   ROW OF VALUES PLOT
         #   Add subplot to figure and set title
-        self.axes.append(self.figure.add_subplot(self.ROWS,self.COL, 5))
+        self.axes.append(self.figure.add_subplot(self.ROWS, self.COL, 5))
         self.axes[4].set_title("Row " + str(self.y_row) + " Plot")
         #   Calling row_cut function to get transform row values
         transform_row_values = self.row_cut()
