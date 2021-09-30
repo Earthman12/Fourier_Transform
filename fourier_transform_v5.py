@@ -27,6 +27,9 @@ class MainWindow(QtWidgets.QMainWindow):
     def __init__(self, *args, **kwargs):
 
         super(MainWindow, self).__init__(*args, **kwargs)
+        
+        #   GUI constants
+        TEXT_INPUT_WIDTH = 200
 
         #   Original fits image canvas
         self.fits_image = FitsImageCanvas()
@@ -51,7 +54,7 @@ class MainWindow(QtWidgets.QMainWindow):
         #   Input text and button to set Y row for transform plot
         self.y_row_label = QtWidgets.QLabel("Enter row:")
         self.y_row_input = QtWidgets.QLineEdit()
-        self.y_row_input.setFixedWidth(200)
+        self.y_row_input.setFixedWidth(TEXT_INPUT_WIDTH)
         self.y_row_submit_button = QtWidgets.QPushButton("Set Y Row")
         self.y_row_submit_button.clicked.connect(self.change_plot_y_row)
         #   Save .DAT file button
@@ -87,19 +90,19 @@ class MainWindow(QtWidgets.QMainWindow):
         #   X low
         self.x_low_label = QtWidgets.QLabel("Set X min: ")
         self.x_low_input = QtWidgets.QLineEdit()
-        self.x_low_input.setFixedWidth(200)
+        self.x_low_input.setFixedWidth(TEXT_INPUT_WIDTH)
         #   X high
         self.x_high_label = QtWidgets.QLabel("Set X max: ")
         self.x_high_input = QtWidgets.QLineEdit()
-        self.x_high_input.setFixedWidth(200)
+        self.x_high_input.setFixedWidth(TEXT_INPUT_WIDTH)
         #   Y low
         self.y_low_label = QtWidgets.QLabel("Set Y min: ")
         self.y_low_input = QtWidgets.QLineEdit()
-        self.y_low_input.setFixedWidth(200)
+        self.y_low_input.setFixedWidth(TEXT_INPUT_WIDTH)
         #   Y high
         self.y_high_label = QtWidgets.QLabel("Set Y max: ")
         self.y_high_input = QtWidgets.QLineEdit()
-        self.y_high_input.setFixedWidth(200)
+        self.y_high_input.setFixedWidth(TEXT_INPUT_WIDTH)
         #   Crop button
         self.crop_button = QtWidgets.QPushButton("Set Image Crop")
         self.crop_button.clicked.connect(self.crop_image)
