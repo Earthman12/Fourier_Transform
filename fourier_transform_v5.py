@@ -443,7 +443,7 @@ class FitsImageCanvas(FigureCanvas):
         #   Making second array to plot with so x axis has 0 in middle
         row_size = len(transform_row_values)
         x_axis_values = np.arange(-row_size / 2, row_size / 2, dtype = 'int')
-        #   Display object for transform row plot
+        #   Display object for transform row plot, displaying the log of the values
         self.row_plot_display_object = self.axes[4].plot(x_axis_values, np.log(transform_row_values))
 
         #   Re-draw it on to the figure
