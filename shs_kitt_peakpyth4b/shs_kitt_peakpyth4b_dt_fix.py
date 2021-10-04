@@ -17,7 +17,7 @@ Last modified: 19.01.2009
 """
 import sys
 sys.path.append("C:\\Users\\jbcorli\\Anaconda3\\Scripts_import\\")
-import window_fromspec as windo
+#import window_fromspec as windo
 import astroscrappy as cosmics
 import sys, os, random
 #from astropy.io.fits import getdata
@@ -50,7 +50,7 @@ from astroscrappy import detect_cosmics
 data2=numpy.arange(1)
 data3=numpy.array( [(0,0),(0,0)])
 rows_s=[]   
-tmplist=list(windo.window_names.keys())
+#tmplist=list(windo.window_names.keys())
 #tmplist = QStringList(windo.window_names.keys())
 cnt =0
 plt.ion()
@@ -86,7 +86,7 @@ class Main(QMainWindow):
         self.addButton3 = QPushButton('Load Flat')
         self.addButton3.clicked.connect(self.QfileDialog4)
         self.menu =  QComboBox()
-        self.menu.addItems(tmplist)#'Hanning None'.split())
+        #self.menu.addItems(tmplist)#'Hanning None'.split())
         self.menu.setCurrentIndex(3)
         #self.menu.
         
@@ -99,7 +99,7 @@ class Main(QMainWindow):
         self.sld.setRange(0,4)
        
         self.addButton5 = QPushButton('APPLY FFT')
-        self.addButton5.clicked.connect( self)
+        #self.addButton5.clicked.connect( self.proces)
         self.checkBox1 = QCheckBox("Apply")
         self.checkBox2 = QCheckBox("Apply")
         self.checkBox3 = QCheckBox("Apply H")

@@ -438,13 +438,13 @@ class FitsImageCanvas(FigureCanvas):
         #   Add subplot to figure and set title
         self.axes.append(self.figure.add_subplot(self.ROWS, self.COL, 5))
         self.axes[4].set_title("Row " + str(self.y_row) + " Plot")
-        #   Calling row_cut function to get transform row values
+        #   Calling row_cut function that returns transform row values
         transform_row_values = self.row_cut()
         #   Making second array to plot with so x axis has 0 in middle
         row_size = len(transform_row_values)
         x_axis_values = np.arange(-row_size / 2, row_size / 2, dtype = 'int')
         #   Display object for transform row plot, displaying the log of the values
-        self.row_plot_display_object = self.axes[4].plot(x_axis_values, np.log(transform_row_values))
+        self.row_plot_display_object = self.axes[4].plot(x_axis_values, np.log10(transform_row_values))
 
         #   Re-draw it on to the figure
         self.draw()
