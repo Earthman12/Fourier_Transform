@@ -99,7 +99,7 @@ class Main(QMainWindow):
         self.sld.setRange(0,4)
        
         self.addButton5 = QPushButton('APPLY FFT')
-        self.addButton5.clicked.connect( self.proces)
+        self.addButton5.clicked.connect( self.proces2)
         self.checkBox1 = QCheckBox("Apply")
         self.checkBox2 = QCheckBox("Apply")
         self.checkBox3 = QCheckBox("Apply H")
@@ -762,8 +762,8 @@ class Main(QMainWindow):
             axbutt._button = but_done  ##this make button clickable because of variable loses scope
             cidk = fig2.canvas.mpl_connect('key_press_event', on_key2) 
             cid = fig2.canvas.mpl_connect('motion_notify_event', onmotion) 
-            temp._call=gen_spec2
-            #Wprint ("OHHHHHH")
+            temp=self.gen_spec2
+            print ("OHHHHHH")
             #temp.
          
             
