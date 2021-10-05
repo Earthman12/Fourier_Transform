@@ -99,7 +99,7 @@ class Main(QMainWindow):
         self.sld.setRange(0,4)
        
         self.addButton5 = QPushButton('APPLY FFT')
-        #self.addButton5.clicked.connect( self.proces)
+        self.addButton5.clicked.connect( self.proces)
         self.checkBox1 = QCheckBox("Apply")
         self.checkBox2 = QCheckBox("Apply")
         self.checkBox3 = QCheckBox("Apply H")
