@@ -344,16 +344,12 @@ class FitsImageCanvas(FigureCanvas):
 
         #   Set new cosmic filtered image
         self.cosmic_image = self.apply_cosmics()
-
         #   Set new hanning window image
         self.hanning_image = self.apply_hanning()
-
         #   Set new transform image
         self.transform_image = self.fourier_transform()
-
         #   Reset row cut to middle of image
         self.y_row = 0
-
         #   Call update_figure function to re-draw it
         self.update_figure()
 
