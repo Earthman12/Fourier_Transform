@@ -425,10 +425,10 @@ class FitsImageCanvas(FigureCanvas):
         #   Pre-set the axis' extent so 0,0 is in the middle
         extent = [-self.transform_image.shape[1] / 2, self.transform_image.shape[1] / 2, -self.transform_image.shape[0] / 2, self.transform_image.shape[0] / 2]
         #   Pre-set min and max values
-        min_val = np.min(self.transform_image)
-        max_val = np.max(self.transform_image)
+        min_val = np.min(np.log10(self.transform_image))
+        max_val = np.max(np.log10(self.transform_image))
         #   Set the new transform image to its display object variable
-        self.transform_display_object = self.axes[3].imshow(self.transform_image, origin='lower', extent = extent, cmap='gray', vmin = min_val, vmax = max_val)
+        self.transform_display_object = self.axes[3].imshow(np.log10(self.transform_image), origin='lower', extent = extent, cmap='gray', vmin = min_val, vmax = max_val)
 
         #   ROW OF VALUES PLOT
         #   Add subplot to figure and set title
