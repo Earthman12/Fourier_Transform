@@ -443,7 +443,7 @@ class FitsImageCanvas(FigureCanvas):
         row_size = len(transform_row_values)
         x_axis_values = np.arange(-row_size / 2, row_size / 2, dtype = 'int')
         #   Plot line style
-        line_style = 'dashdot'
+        line_style = 'solid'
         #   Display object for transform row plot, displaying the log of the values
         self.row_plot_display_object = self.axes[4].plot(x_axis_values, np.log10(transform_row_values), linestyle = line_style)
 
