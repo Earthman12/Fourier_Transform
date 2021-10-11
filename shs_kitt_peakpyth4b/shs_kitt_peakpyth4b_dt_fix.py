@@ -17,7 +17,9 @@ Last modified: 19.01.2009
 """
 import sys
 sys.path.append("C:\\Users\\jbcorli\\Anaconda3\\Scripts_import\\")
+#   *******
 #import window_fromspec as windo
+
 import astroscrappy as cosmics
 import sys, os, random
 #from astropy.io.fits import getdata
@@ -29,7 +31,9 @@ from PyQt5.QtWidgets import *#QApplication, QMainWindow, QLabel
 from PyQt5.QtCore import *
 from PyQt5.QtGui import *
 from PyQt5.QtCore import QObject, pyqtSignal
+#   *******
 #import pyspeckit
+
 import matplotlib
 from matplotlib.backends.backend_qt4agg import FigureCanvasQTAgg as FigureCanvas
 #from matplotlib.backends.backend_qt4 import NavigationToolbar2QT as NavigationToolbar
@@ -447,7 +451,11 @@ class Main(QMainWindow):
         #data3 = ndimage.rotate(data2,-14) 
         
         #data3 = ndimage.rotate(data3,90)
-        data2=data3[400:750,100:950]
+        
+        #   *******
+        #data2=data3[400:750,100:950]
+        data2=data3
+        
         print((data2.shape))
         #data4=rebin(data2,850,850)
         #data2=data4

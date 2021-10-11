@@ -236,6 +236,9 @@ class FitsImageCanvas(FigureCanvas):
 
         print("Number of X axis values: " + str(image_array.shape[1]))
         print("Number of Y axis values: " + str(image_array.shape[0]))
+        
+        #   Subtract min value from image
+        image_array = image_array - np.min(image_array)
 
         return image_array
 
