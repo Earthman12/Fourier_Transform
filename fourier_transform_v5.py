@@ -11,6 +11,7 @@ from tkinter.filedialog import askopenfilename
 from tkinter import Tk
 from matplotlib.figure import Figure
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas, NavigationToolbar2QT as NavigationToolbar
+import matplotlib.cm as cm
 import numpy as np
 import scipy.fft
 from astropy.io import fits
@@ -292,10 +293,7 @@ class FitsImageCanvas(FigureCanvas):
 
         power_spectrum = (np.abs(f_shift) ** 2)
 
-        #   Visual representation of Fourier Transform
-        fourier_image = np.log10(power_spectrum)
-
-        return fourier_image
+        return power_spectrum
 
     ##############################################################################
 
@@ -426,12 +424,14 @@ class FitsImageCanvas(FigureCanvas):
         self.axes.append(self.figure.add_subplot(self.ROWS, self.COL, 4))
         self.axes[3].set_title("Fourier Transform")
         #   Pre-set the axis' extent so 0,0 is in the middle
-        extent = [-self.transform_image.shape[1] / 2, self.transform_image.shape[1] / 2, -self.transform_image.shape[0] / 2, self.transform_image.shape[0] / 2]
+        four_extent = [-self.transform_image.shape[1] / 2, self.transform_image.shape[1] / 2, -self.transform_image.shape[0] / 2, self.transform_image.shape[0] / 2]
         #   Pre-set min and max values
         min_val = np.min(np.log10(self.transform_image))
         max_val = np.max(np.log10(self.transform_image))
+        #   Take frame off
+        self.axes[3].set_frame_on(False)
         #   Set the new transform image to its display object variable
-        self.transform_display_object = self.axes[3].imshow(np.log10(self.transform_image), origin='lower', extent = extent, cmap='gray', vmin = min_val, vmax = max_val)
+        self.transform_display_object = self.axes[3].imshow(np.log10(self.transform_image), origin='lower', extent = four_extent, cmap = cm.Greys_r, vmin = min_val, vmax = max_val)
 
         #   ROW OF VALUES PLOT
         #   Add subplot to figure and set title

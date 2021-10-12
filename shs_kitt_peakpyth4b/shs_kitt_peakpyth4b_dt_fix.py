@@ -624,6 +624,10 @@ class Main(QMainWindow):
             ax4 = fig2.add_subplot(224)
             ax3.set_title('Selected Rows')
             ax4.set_title('Summed Spectrum')
+            
+            #   *******
+            #plt.show()
+            
             def update(val):
     
                freq = sfreq.val
