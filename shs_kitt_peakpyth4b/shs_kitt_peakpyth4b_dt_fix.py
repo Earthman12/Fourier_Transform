@@ -422,18 +422,26 @@ class Main(QMainWindow):
         print(response[0])
         print ("HELP")
         #return response[0]
+        
+        #   Fits file name
         data2_fname=response[0]
+        
         #data2_fname = QFileDialog.getOpenFileName(self, 'Open Image', 'D:\papers', 'Image Files (*.fits *.fit )')
        #data2_fname = QFileDialog.getOpenFileName(self, tr("Open Image"), "D:\papers", tr("Image Files (*.png *.jpg *.bmp)"))
         
         #data2_fname= QFileDialog.getOpenFileName(None,tr("Open Image"), "/home/jana", tr("Image Files (*.png *.jpg *.bmp)"));
         #print((pyfits.info(str(data2_fname)))) 
         print (data2_fname)
+        
+        #   HDU list, consists of header and data array
         hdul = pyfits.open(str(data2_fname))
+        
         #print((pyfits.info.
         global data2    
         
+        #   Gets data portion of HDU
         data2 = pyfits.getdata(data2_fname)
+        
         #data2=pyfits.open(data2_fname)
         data1=data2
         #pyfits.
@@ -446,7 +454,10 @@ class Main(QMainWindow):
         #data2=(data1[0,:,:])
         print((data2.shape))
         #data3 = ndimage.rotate(data2,90)
-        data3 = ndimage.rotate(data2,0)        
+        
+        #   Rotate image
+        data3 = ndimage.rotate(data2,0)   
+        
         #data2=data3[0:2000,1500:3500]
         #data3 = ndimage.rotate(data2,-14) 
         
@@ -463,6 +474,7 @@ class Main(QMainWindow):
         #data2=data3[70:175,30:200]
         #data2=data3[0:200,0:240]
         #c = cosmics.cosmicsimage(data2, gain=2.2, readnoise=10.0, sigclip = 5.0, sigfrac = 0.3, objlim = 5.0)
+        
         mask,c = detect_cosmics(data2 , inmask=None , sigclip = 5.0 ,sigfrac = 0.3,objlim = 5.0, readnoise=10.0,
                                 gain=2.2, satlevel =65536, niter=4 , cleantype='meanmask' , fsmode='median',sepmed=True,
                                 psfmodel='gauss', psffwhm =2.5,psfsize =7)
