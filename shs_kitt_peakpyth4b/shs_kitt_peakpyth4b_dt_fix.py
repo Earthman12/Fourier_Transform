@@ -508,7 +508,7 @@ class Main(QMainWindow):
         
         #   FFT button enabled
         self.addButton5.setEnabled(True)
-        #   Slider for padding I believe
+        #   Slider for padding
         self.sld.setEnabled(True)
         self.menu.setEnabled(True)
         self.checkBox4.setEnabled(True)
