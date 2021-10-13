@@ -506,7 +506,9 @@ class Main(QMainWindow):
  #       img_cr[bad] = img_sm[bad]
         print ("HELLO")
         
+        #   FFT button enabled
         self.addButton5.setEnabled(True)
+        #   Slider for padding I believe
         self.sld.setEnabled(True)
         self.menu.setEnabled(True)
         self.checkBox4.setEnabled(True)
