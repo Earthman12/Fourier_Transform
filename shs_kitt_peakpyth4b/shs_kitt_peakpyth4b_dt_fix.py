@@ -506,19 +506,22 @@ class Main(QMainWindow):
  #       img_cr[bad] = img_sm[bad]
         print ("HELLO")
         
-        #   FFT button enabled
+        #   FFT button, slider for padding, drop down menu, hanning checkbox, pad checkbox enabled
         self.addButton5.setEnabled(True)
-        #   Slider for padding
         self.sld.setEnabled(True)
         self.menu.setEnabled(True)
         self.checkBox4.setEnabled(True)
         self.checkBox3.setEnabled(True)
+        
+        #   Display cosmics image
         plt.imshow(data2,cmap = cm.Greys_r,vmin=0, vmax=1)
+        
         print (data2.shape)
         self.data_dict['USE'][0]=True
         self.data_dict['DATA'][0]=data2
         #gg=self.data_dict.iterkeys
         self.on_draw2()
+        
     def gen_process(self):   
         #### Inteferogram loaded as data2
         global data3
