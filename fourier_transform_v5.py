@@ -237,9 +237,6 @@ class FitsImageCanvas(FigureCanvas):
 
         print("Number of X axis values: " + str(image_array.shape[1]))
         print("Number of Y axis values: " + str(image_array.shape[0]))
-        
-        #   Subtract min value from image
-        image_array = image_array - np.min(image_array)
 
         return image_array
 
@@ -306,6 +303,9 @@ class FitsImageCanvas(FigureCanvas):
         cosmic_array = detect_cosmics(self.image_array, inmask = None, sigclip = 5.0, sigfrac = 0.3, readnoise = 10.0, gain = 2.2, satlevel = 65536, niter = 4, cleantype ='meanmask' , fsmode='median',sepmed=True, psfmodel='gauss', psffwhm =2.5, psfsize =7)
         cosmic_array_image = cosmic_array[1]
 
+        #   Subtract minimum value from all
+        cosmic_array = cosmic_array - np.min(cosmic_array)
+
         return cosmic_array_image
 
     ##############################################################################
@@ -343,11 +343,11 @@ class FitsImageCanvas(FigureCanvas):
 
         print("Setting filtered images and plot...")
 
-        #   Set new cosmic filtered image
+        #   Set cosmic filtered image
         self.cosmic_image = self.apply_cosmics()
-        #   Set new hanning window image
+        #   Set hanning window image
         self.hanning_image = self.apply_hanning()
-        #   Set new transform image
+        #   Set transform image
         self.transform_image = self.fourier_transform()
         #   Reset row cut to middle of image
         self.y_row = 0

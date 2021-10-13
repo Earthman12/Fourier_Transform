@@ -439,28 +439,32 @@ class Main(QMainWindow):
         #print((pyfits.info.
         global data2    
         
-        #   Gets data portion of HDU
+        #   Gets raw image data array from HDU
         data2 = pyfits.getdata(data2_fname)
         
         #data2=pyfits.open(data2_fname)
         data1=data2
+        
         #pyfits.
         #pyfits.getdata('ff.fits')
-        print((data1.shape  ))      
+        
+        print((data1.shape))
         nx,ny = data1.shape
         print((nx,ny))
-         #ddf=pyfits.
+        
+        #ddf=pyfits.
         #datan2=data1[0,:]
         #data2=(data1[0,:,:])
+        
         print((data2.shape))
+        
         #data3 = ndimage.rotate(data2,90)
         
-        #   Rotate image
+        #   Rotate image array
         data3 = ndimage.rotate(data2,0)   
         
         #data2=data3[0:2000,1500:3500]
         #data3 = ndimage.rotate(data2,-14) 
-        
         #data3 = ndimage.rotate(data3,90)
         
         #   *******
@@ -475,6 +479,7 @@ class Main(QMainWindow):
         #data2=data3[0:200,0:240]
         #c = cosmics.cosmicsimage(data2, gain=2.2, readnoise=10.0, sigclip = 5.0, sigfrac = 0.3, objlim = 5.0)
         
+        #   Applying cosmics filter to data2
         mask,c = detect_cosmics(data2 , inmask=None , sigclip = 5.0 ,sigfrac = 0.3,objlim = 5.0, readnoise=10.0,
                                 gain=2.2, satlevel =65536, niter=4 , cleantype='meanmask' , fsmode='median',sepmed=True,
                                 psfmodel='gauss', psffwhm =2.5,psfsize =7)
@@ -489,8 +494,12 @@ class Main(QMainWindow):
         # Run the full artillery :
         #c.run(maxiter =2)
         #data2=c.cleanarray
+        
+        #   data2 now filtered cosmics image
         data2=c
+        #   Subtract its min value from all values
         data2=data2-numpy.min(data2)
+        
 #        img_sm = scipy.signal.medfilt(data2, 5)
  #       bad = numpy.abs(data2 - img_sm) / sigma > 8.0
 #        img_cr = data2.copy()
