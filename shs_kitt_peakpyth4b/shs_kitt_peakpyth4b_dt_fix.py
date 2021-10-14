@@ -612,8 +612,10 @@ class Main(QMainWindow):
             plt.ion()
             plt.imshow(abs(pwr_sp),cmap = cm.Greys_r,vmin=0, vmax=1)
     def proces2(self):
+        #   data3 is unfiltered OG image
         if data3.any():
             print((data2.shape))
+            #   Transform unfiltered image
             F1=  do_fft(data3)
             F2 = fftpack.fftshift( F1 )
             pwr_sp = (numpy.abs( F2 )**2)
