@@ -306,6 +306,7 @@ class Main(QMainWindow):
             action.setCheckable(True)
         return action
     def create_datadict(self):
+        #   data_dict is a dictionary containing all the images data from the OG fits, flats, padded image, etc
         self.data_dict={'NAME':['Original_Data','data_bias','data_flat','data_window','data_pad','data_final','data_spec','data_process'],
                   'USE':[False, False, False,False,False,False,False,False],
                   'DATA':[0,0,0,0,0,0,0,0]
@@ -517,6 +518,8 @@ class Main(QMainWindow):
         plt.imshow(data2,cmap = cm.Greys_r,vmin=0, vmax=1)
         
         print (data2.shape)
+        
+        #   Sets the boolean value and cosmic image to the 'Original Data' in the image dictionary
         self.data_dict['USE'][0]=True
         self.data_dict['DATA'][0]=data2
         #gg=self.data_dict.iterkeys
