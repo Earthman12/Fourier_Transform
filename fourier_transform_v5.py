@@ -286,7 +286,7 @@ class FitsImageCanvas(FigureCanvas):
         #   Fourier Transforming
         f_transform = scipy.fftpack.fft2(self.hanning_image)
         #   Shifting zero frequency component to center spectrum
-        f_shift = np.fft.fftshift(f_transform)
+        f_shift = scipy.fft.fftshift(f_transform)
 
         power_spectrum = (np.abs(f_shift) ** 2)
 
