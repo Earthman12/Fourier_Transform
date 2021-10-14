@@ -288,7 +288,7 @@ class FitsImageCanvas(FigureCanvas):
         #   Shifting zero frequency component to center spectrum
         f_shift = scipy.fft.fftshift(f_transform)
 
-        power_spectrum = (np.abs(f_shift) ** 2)
+        power_spectrum = (np.abs(f_shift)**2)
 
         return power_spectrum
 

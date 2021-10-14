@@ -524,19 +524,27 @@ class Main(QMainWindow):
         self.data_dict['USE'][0]=True
         self.data_dict['DATA'][0]=data2
         #gg=self.data_dict.iterkeys
+        
+        #   Re-draw figure
         self.on_draw2()
         
     def gen_process(self):   
         #### Inteferogram loaded as data2
+        
         global data3
+        #   data3 should be rotated filtered cosmic image
         data3=data2
+        
         print (data2.shape)
         rowpl=1  
         print ("did it")
+        
+        #   If bias box checked, subtract bias
         if self.checkBox1.isChecked():
             data3=data2 - data_bias #-data_bias2
         else:
             pass
+        #   If flat box checked, divide the image by it
         if self.checkBox2.isChecked():
             data3=data2/data_flat2
         if self.checkBox3.isChecked():
@@ -611,14 +619,17 @@ class Main(QMainWindow):
             pwr_sp=do_fft(zp_image)
             plt.ion()
             plt.imshow(abs(pwr_sp),cmap = cm.Greys_r,vmin=0, vmax=1)
+            
     def proces2(self):
         #   data3 is unfiltered OG image
         if data3.any():
             print((data2.shape))
+            
             #   Transform unfiltered image
             F1=  do_fft(data3)
             F2 = fftpack.fftshift( F1 )
             pwr_sp = (numpy.abs( F2 )**2)
+            
             #pwr_sp = (numpy.abs( F2 )**2)
             plt.ion()
             fig2=plt.figure()
