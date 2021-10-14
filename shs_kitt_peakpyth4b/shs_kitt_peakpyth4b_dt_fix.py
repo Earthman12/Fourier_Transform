@@ -547,6 +547,7 @@ class Main(QMainWindow):
         #   If flat box checked, divide the image by it
         if self.checkBox2.isChecked():
             data3=data2/data_flat2
+        #   If hanning window box checked, 
         if self.checkBox3.isChecked():
             data3 = data2*window2d(self,*data2.shape)       
             self.data_dict['USE'][3]=True
