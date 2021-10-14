@@ -411,6 +411,7 @@ class Main(QMainWindow):
         self.data_dict['data_bias'] = {True:data_bias2}
 
     def QfileDialog4(self):
+        ''' Opens a fits file and applies cosmic filter, puts it in the data_dict and shows it on the GUI '''
         #data2_fname = QFileDialog.getOpenFileName(None, "Open Data File", r"D:\papers", "FITS data files (*.fits)")      
         file_filter = 'Data File (*.fits *.fit *.dat);; Excel File (*.xlsx *.xls)'
         response = QFileDialog.getOpenFileName(
