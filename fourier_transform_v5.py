@@ -151,6 +151,7 @@ class MainWindow(QtWidgets.QMainWindow):
         #   Set pad widget
         self.pad_widget.setLayout(self.pad_layout)
 
+        #-----------GUI layout-----------
         #   GUI Grid Layout
         self.layout = QtWidgets.QGridLayout()
         self.layout.addWidget(self.open_button, 0, 0)
@@ -160,7 +161,6 @@ class MainWindow(QtWidgets.QMainWindow):
         self.layout.addWidget(self.pad_widget, 0, 3, 2, 1)
         self.layout.addWidget(self.toolbar, 2, 1)
         self.layout.addWidget(self.fits_image, 3, 0, 1, 4)
-
         #   Central widget for everything to sit inside
         self.placeholder_widget = QtWidgets.QWidget()
         #   Central widget takes GUI layout written out above
