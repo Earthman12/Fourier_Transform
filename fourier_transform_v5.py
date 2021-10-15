@@ -17,6 +17,7 @@ import scipy.fft
 from astropy.io import fits
 from astroscrappy import detect_cosmics
 from PyQt5 import QtWidgets
+from PyQt5.QtCore import Qt
 
 ##############################################################################
 ##############################################################################
@@ -122,6 +123,26 @@ class MainWindow(QtWidgets.QMainWindow):
         self.crop_layout.addWidget(self.crop_button, 5, 1)
         #   Set crop widget layout
         self.crop_widget.setLayout(self.crop_layout)
+        
+        #   Padding widget
+        self.pad_widget = QtWidgets.QWidget()
+        #   Frame
+        self.pad_widget.setStyleSheet('''
+                                       .QWidget{border: 1px solid black;}
+                                       ''')
+        #   Value display
+        self.slider_val = QtWidgets.QLCDNumber()
+        #   Slider
+        self.pad_slider = QtWidgets.QSlider(Qt.Horizontal)
+        #   Slider Range
+        self.pad_slider.setMinimum(0)
+        self.pad_slider.setMaximum(4)
+        #   Sets the slider to change the slider display val when slider changes
+        self.pad_slider.valueChanged.connect(self.slider_val)
+        #   Set pad widget layout
+        self.pad_layout = QtWidgets.QGridLayout()
+        #   Add pad widgets
+        self.pad_layout.addWidget(self.pad_slider, 0, 0)
 
         #   GUI Grid Layout
         self.layout = QtWidgets.QGridLayout()
@@ -129,6 +150,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.layout.addWidget(self.debias_button, 1, 0)
         self.layout.addWidget(self.y_row_widget, 0, 1, 2, 1)
         self.layout.addWidget(self.crop_widget, 0, 2, 2, 1)
+        self.layout.addWidget(self.pad_widget, 0,3)
         self.layout.addWidget(self.toolbar, 2, 1)
         self.layout.addWidget(self.fits_image, 3, 0, 1, 3)
 
