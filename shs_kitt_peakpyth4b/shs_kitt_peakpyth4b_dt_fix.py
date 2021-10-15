@@ -544,19 +544,22 @@ class Main(QMainWindow):
             data3=data2 - data_bias #-data_bias2
         else:
             pass
+        
         #   If flat box checked, divide the image by it
         if self.checkBox2.isChecked():
             data3=data2/data_flat2
-        #   If hanning window box checked, 
+            
+        #   If hanning window box checked
         if self.checkBox3.isChecked():
             data3 = data2*window2d(self,*data2.shape)       
             self.data_dict['USE'][3]=True
             self.data_dict['DATA'][3]=data3
         #gg=self.data_dict.iterkeys
-
             rowpl=rowpl+1
         else:
             self.data_dict['USE'][3]=False
+            
+        #   If the padding window box checked
         if self.checkBox4.isChecked():
             padn = self.lcd.value()
             h, w = data3.shape
@@ -570,8 +573,6 @@ class Main(QMainWindow):
             self.data_dict['USE'][4]=True
             self.data_dict['DATA'][4]=data3
         #gg=self.data_dict.iterkeys
- 
-            
         else:
             self.sld.setEnabled(True)
             self.checkBox3.setEnabled(True)           
