@@ -40,11 +40,11 @@ class MainWindow(QtWidgets.QMainWindow):
         #   Open new image button
         self.open_button = QtWidgets.QPushButton("Open New File")
         self.open_button.clicked.connect(self.fits_image.change_image)
-
         #   Debias button
         self.debias_button = QtWidgets.QPushButton("Debias Image")
         self.debias_button.clicked.connect(self.fits_image.debias_image)
-
+        
+        #-----------Y plot widget-----------
         #   Y plot widget for stuff when selecting Y row to plot to sit in
         self.y_row_widget = QtWidgets.QWidget()
         #   Frame
@@ -81,6 +81,7 @@ class MainWindow(QtWidgets.QMainWindow):
         #   Set Y row widget layout
         self.y_row_widget.setLayout(self.y_row_layout)
 
+        #-----------Crop widget-----------
         #   Crop widget for all crop stuff to sit in
         self.crop_widget = QtWidgets.QWidget()
         #   Frame
@@ -123,8 +124,8 @@ class MainWindow(QtWidgets.QMainWindow):
         self.crop_layout.addWidget(self.crop_button, 5, 1)
         #   Set crop widget layout
         self.crop_widget.setLayout(self.crop_layout)
-        
-        #   Padding widget
+
+        #-----------Padding widget-----------
         self.pad_widget = QtWidgets.QWidget()
         #   Frame
         self.pad_widget.setStyleSheet('''
