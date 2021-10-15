@@ -130,6 +130,8 @@ class MainWindow(QtWidgets.QMainWindow):
         self.pad_widget.setStyleSheet('''
                                        .QWidget{border: 1px solid black;}
                                        ''')
+        #Padding Label
+        self.pad_label = QtWidgets.QLabel("Pad Image")
         #   Value display
         self.slider_val = QtWidgets.QLCDNumber()
         #   Slider
@@ -142,8 +144,11 @@ class MainWindow(QtWidgets.QMainWindow):
         #   Set pad widget layout
         self.pad_layout = QtWidgets.QGridLayout()
         #   Add pad widgets
-        self.pad_layout.addWidget(self.pad_slider, 0, 0)
-        self.pad_layout.addWidget(self.slider_val ,0, 1)
+        self.pad_layout.addWidget(self.pad_label, 0, 0, 2, 1)
+        self.pad_layout.addWidget(self.pad_slider, 1, 0)
+        self.pad_layout.addWidget(self.slider_val ,1, 1)
+        #   Set pad widget
+        self.pad_widget.setLayout(self.pad_layout)
 
         #   GUI Grid Layout
         self.layout = QtWidgets.QGridLayout()
