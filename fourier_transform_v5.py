@@ -138,11 +138,12 @@ class MainWindow(QtWidgets.QMainWindow):
         self.pad_slider.setMinimum(0)
         self.pad_slider.setMaximum(4)
         #   Sets the slider to change the slider display val when slider changes
-        self.pad_slider.valueChanged.connect(self.slider_val)
+        self.pad_slider.valueChanged.connect(self.slider_val.display)
         #   Set pad widget layout
         self.pad_layout = QtWidgets.QGridLayout()
         #   Add pad widgets
         self.pad_layout.addWidget(self.pad_slider, 0, 0)
+        self.pad_layout.addWidget(self.slider_val ,0, 1)
 
         #   GUI Grid Layout
         self.layout = QtWidgets.QGridLayout()
@@ -150,9 +151,9 @@ class MainWindow(QtWidgets.QMainWindow):
         self.layout.addWidget(self.debias_button, 1, 0)
         self.layout.addWidget(self.y_row_widget, 0, 1, 2, 1)
         self.layout.addWidget(self.crop_widget, 0, 2, 2, 1)
-        self.layout.addWidget(self.pad_widget, 0,3)
+        self.layout.addWidget(self.pad_widget, 0, 3, 2, 1)
         self.layout.addWidget(self.toolbar, 2, 1)
-        self.layout.addWidget(self.fits_image, 3, 0, 1, 3)
+        self.layout.addWidget(self.fits_image, 3, 0, 1, 4)
 
         #   Central widget for everything to sit inside
         self.placeholder_widget = QtWidgets.QWidget()
