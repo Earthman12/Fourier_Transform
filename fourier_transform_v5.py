@@ -143,14 +143,14 @@ class MainWindow(QtWidgets.QMainWindow):
         #   Sets the slider to change the slider display val when slider changes
         self.pad_slider.valueChanged.connect(self.slider_val.display)
         #   Apply padding check box
-        self.pad_checkbox = QtWidgets.QCheckBox("Apply Padding")
+        self.pad_button = QtWidgets.QPushButton("Apply Padding")
         #   Padding checkbox functionality
-        self.pad_checkbox.stateChanged.connect(self.fits_image.apply_padding)
+        self.pad_button.clicked.connect(self.pad_image)
         #   Set pad widget layout
         self.pad_layout = QtWidgets.QGridLayout()
         #   Add pad widgets
         self.pad_layout.addWidget(self.pad_label, 0, 0)
-        self.pad_layout.addWidget(self.pad_checkbox, 0, 1)
+        self.pad_layout.addWidget(self.pad_button, 0, 1)
         self.pad_layout.addWidget(self.pad_slider, 1, 0)
         self.pad_layout.addWidget(self.slider_val ,1, 1)
         #   Set pad widget
@@ -217,6 +217,16 @@ class MainWindow(QtWidgets.QMainWindow):
 
         else:
             print("-----Crop limits out of bounds-----")
+            
+    ##############################################################################
+    
+    def pad_image(self):
+        '''Takes the inputs from the padding widgets and applies them to image'''
+        
+        #   Get value
+        pad_val = self.slider_val.intValue()
+        #   Call fits image function to apply padding
+        self.fits_image.apply_padding(pad_val)
 
 ##############################################################################
 ##############################################################################
@@ -359,10 +369,11 @@ class FitsImageCanvas(FigureCanvas):
 
     ##############################################################################
     
-    def apply_padding(self):
+    def apply_padding(self, pad_val):
         '''Returns a padded image of the fits image'''
         
         print("Applying padding...")
+        print(pad_val)
         
     ##############################################################################
 
