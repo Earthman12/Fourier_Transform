@@ -565,6 +565,7 @@ class Main(QMainWindow):
             h, w = data3.shape
             px1, px2 = round(padn*w/2), round(padn*w/2)
             py1, py2 = round(padn*h/2),round(padn*h/2)
+            #   Pads the array
             data3 = numpy.pad(data3,((px1,px2),(py1,py2)),'constant') 
             print(('padded by a factor of: ', padn))
             rowpl=rowpl+1
