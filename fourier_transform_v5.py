@@ -224,9 +224,11 @@ class MainWindow(QtWidgets.QMainWindow):
         '''Takes the inputs from the padding widgets and applies them to image'''
         
         #   Get value
-        pad_val = self.slider_val.intValue()
+        self.fits_image.padding_value = self.slider_val.intValue()
         #   Call fits image function to apply padding
-        self.fits_image.apply_padding(pad_val)
+        self.fits_image.padded_image = self.fits_image.apply_padding()
+        #   Update figure
+        self.fits_image.update_figure()
 
 ##############################################################################
 ##############################################################################
@@ -369,11 +371,19 @@ class FitsImageCanvas(FigureCanvas):
 
     ##############################################################################
     
-    def apply_padding(self, pad_val):
+    def apply_padding(self):
         '''Returns a padded image of the fits image'''
         
         print("Applying padding...")
-        print(pad_val)
+        print(self.padding_value)
+        
+        height, width = self.image_array.shape
+        px1, px2 = round(self.padding_value*width/2), round(self.padding_value*width/2)
+        py1, py2 = round(self.padding_value*height/2), round(self.padding_value*height/2)
+        
+        padded_image = np.pad(self.cosmic_image, ((px1,px2), (py1,py2)), 'constant')
+        
+        return padded_image
         
     ##############################################################################
 
@@ -397,6 +407,9 @@ class FitsImageCanvas(FigureCanvas):
 
         #   Set cosmic filtered image
         self.cosmic_image = self.apply_cosmics()
+        #   Set padded image, is reset to 0 if new image opened
+        self.padding_value = 0
+        self.padded_image = self.apply_padding()
         #   Set hanning window image
         self.hanning_image = self.apply_hanning()
         #   Set transform image
@@ -463,32 +476,39 @@ class FitsImageCanvas(FigureCanvas):
         self.axes[1].set_title("Cosmics Filtered Image")
         #   Set the cosmic image to its display object
         self.cosmic_display_object = self.axes[1].imshow(self.cosmic_image, origin='lower', cmap='gray', vmin = np.min(self.cosmic_image), vmax = np.max(self.cosmic_image))
+        
+        #   PADDED IMAGE
+        #   Add subplot to the figure and set title
+        self.axes.append(self.figure.add_subplot(self.ROWS, self.COL, 3))
+        self.axes[2].set_title("Padded Image")
+        #   Set padded image to its display object
+        self.padded_display_object = self.axes[2].imshow(self.padded_image,  origin='lower', cmap='gray', vmin = np.min(self.padded_image), vmax = np.max(self.padded_image))
 
         #   HANNING WINDOW IMAGE
         #   Add subplot to figure and set title
-        self.axes.append(self.figure.add_subplot(self.ROWS, self.COL, 3))
-        self.axes[2].set_title("Hanning Window Image")
+        self.axes.append(self.figure.add_subplot(self.ROWS, self.COL, 4))
+        self.axes[3].set_title("Hanning Window Image")
         #   Display object variable for hanning image
-        self.hanning_display_object = self.axes[2].imshow(self.hanning_image, origin='lower', cmap='gray', vmin = np.min(self.hanning_image), vmax = np.max(self.hanning_image))
+        self.hanning_display_object = self.axes[3].imshow(self.hanning_image, origin='lower', cmap='gray', vmin = np.min(self.hanning_image), vmax = np.max(self.hanning_image))
 
         #   FOURIER TRANSFORM IMAGE
         #   Add subplot to the figure and set title
-        self.axes.append(self.figure.add_subplot(self.ROWS, self.COL, 4))
-        self.axes[3].set_title("Fourier Transform")
+        self.axes.append(self.figure.add_subplot(self.ROWS, self.COL, 5))
+        self.axes[4].set_title("Fourier Transform")
         #   Pre-set the axis' extent so 0,0 is in the middle
         four_extent = [-self.transform_image.shape[1] / 2, self.transform_image.shape[1] / 2, -self.transform_image.shape[0] / 2, self.transform_image.shape[0] / 2]
         #   Pre-set min and max values
         min_val = np.min(np.log10(self.transform_image))
         max_val = np.max(np.log10(self.transform_image))
         #   Take frame off
-        self.axes[3].set_frame_on(False)
+        self.axes[4].set_frame_on(False)
         #   Set the new transform image to its display object variable
-        self.transform_display_object = self.axes[3].imshow(np.log10(self.transform_image), origin='lower', extent = four_extent, cmap = cm.Greys_r, vmin = min_val, vmax = max_val)
+        self.transform_display_object = self.axes[4].imshow(np.log10(self.transform_image), origin='lower', extent = four_extent, cmap = cm.Greys_r, vmin = min_val, vmax = max_val)
 
         #   ROW OF VALUES PLOT
         #   Add subplot to figure and set title
-        self.axes.append(self.figure.add_subplot(self.ROWS, self.COL, 5))
-        self.axes[4].set_title("Row " + str(self.y_row) + " Plot")
+        self.axes.append(self.figure.add_subplot(self.ROWS, self.COL, 6))
+        self.axes[5].set_title("Row " + str(self.y_row) + " Plot")
         #   Calling row_cut function that returns transform row values
         transform_row_values = self.row_cut()
         #   Making second array to plot with so x axis has 0 in middle
@@ -497,7 +517,7 @@ class FitsImageCanvas(FigureCanvas):
         #   Plot line style
         line_style = 'solid'
         #   Display object for transform row plot, displaying the log of the values
-        self.row_plot_display_object = self.axes[4].plot(x_axis_values, np.log10(transform_row_values), linestyle = line_style)
+        self.row_plot_display_object = self.axes[5].plot(x_axis_values, np.log10(transform_row_values), linestyle = line_style)
 
         #   Re-draw it on to the figure
         self.draw()
