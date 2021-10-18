@@ -142,10 +142,15 @@ class MainWindow(QtWidgets.QMainWindow):
         self.pad_slider.setMaximum(4)
         #   Sets the slider to change the slider display val when slider changes
         self.pad_slider.valueChanged.connect(self.slider_val.display)
+        #   Apply padding check box
+        self.pad_checkbox = QtWidgets.QCheckBox("Apply Padding")
+        #   Padding checkbox functionality
+        self.pad_checkbox.stateChanged.connect(self.fits_image.apply_padding)
         #   Set pad widget layout
         self.pad_layout = QtWidgets.QGridLayout()
         #   Add pad widgets
-        self.pad_layout.addWidget(self.pad_label, 0, 0, 2, 1)
+        self.pad_layout.addWidget(self.pad_label, 0, 0)
+        self.pad_layout.addWidget(self.pad_checkbox, 0, 1)
         self.pad_layout.addWidget(self.pad_slider, 1, 0)
         self.pad_layout.addWidget(self.slider_val ,1, 1)
         #   Set pad widget
@@ -352,6 +357,13 @@ class FitsImageCanvas(FigureCanvas):
 
         return hanning_image
 
+    ##############################################################################
+    
+    def apply_padding(self):
+        '''Returns a padded image of the fits image'''
+        
+        print("Applying padding...")
+        
     ##############################################################################
 
     def change_image(self):
