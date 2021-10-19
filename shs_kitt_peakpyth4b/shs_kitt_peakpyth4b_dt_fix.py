@@ -77,10 +77,8 @@ class Main(QMainWindow):
         self.textbox.setText('1 2 3 4')
         #self.on_draw()
         
-############################################
+##############################################################################
 
-
-   
     def create_main_frame(self): 
         self.mainLayout = QGridLayout()
         self.addButton = QPushButton('Load Interferogram')
@@ -94,9 +92,9 @@ class Main(QMainWindow):
         self.menu.setCurrentIndex(3)
         #self.menu.
         
-        
         #self.addButton5 = QPushButton('Pad')
         #self.addButton5.clicked.connect( self.padit)
+        
         self.lcd = QLCDNumber(self)
         #self.lcd.setStyle
         self.sld = QSlider(Qt.Horizontal, self)
@@ -104,6 +102,8 @@ class Main(QMainWindow):
        
         self.addButton5 = QPushButton('APPLY FFT')
         self.addButton5.clicked.connect( self.proces2)
+        
+        #   Bias, flat field, hanning window, and padding checkboxs/functions
         self.checkBox1 = QCheckBox("Apply")
         self.checkBox2 = QCheckBox("Apply")
         self.checkBox3 = QCheckBox("Apply H")
@@ -112,8 +112,11 @@ class Main(QMainWindow):
         self.labelpad = QLabel(" Padding")
         self.checkBox3.stateChanged.connect( self.gen_process)
         self.menu.currentIndexChanged.connect(self.gen_process)
-        self.checkBox4.stateChanged.connect(self.gen_process)   
+        self.checkBox4.stateChanged.connect(self.gen_process)
+        
+        #   Sets the slider to change the slider display val when slider changes
         self.sld.valueChanged.connect(self.lcd.display)
+        #   Checkboxs, fft button, slider, and drop down list start out unclickable
         self.checkBox1.setEnabled(False)
         self.checkBox2.setEnabled(False)        
         self.checkBox3.setEnabled(False)
@@ -121,7 +124,6 @@ class Main(QMainWindow):
         self.addButton5.setEnabled(False)
         self.sld.setEnabled(False)
         self.menu.setEnabled(False)
-        
         
         #self.mainLayout.setRowStretch(4,2)
         #self.mainLayout.setRowStretch(5,2)
@@ -147,17 +149,14 @@ class Main(QMainWindow):
         # central widget
         self.mainLayout.addWidget(self.mpl_toolbar, 10, 0, 1, 3)
 
-
         # set central widget
-
-     
-    
-        
         self.centralWidget = QWidget()
         self.centralWidget.setLayout(self.mainLayout)
 
         # set central widget
         self.setCentralWidget(self.centralWidget)
+
+    ##############################################################################
 
     def create_fig_frame(self):
         self.scrollLayout = QGridLayout()
@@ -242,10 +241,13 @@ class Main(QMainWindow):
  #scrollLayout)
                 # scroll area
 
- 
+    ############################################################################## 
+
     def create_status_bar(self):
         self.status_text = QLabel("This is SHS REDUCE")
         self.statusBar().addWidget(self.status_text, 1)
+        
+    ##############################################################################
         
     def create_menu(self):        
         self.file_menu = self.menuBar().addMenu("&File")
@@ -265,7 +267,8 @@ class Main(QMainWindow):
             tip='About the demo')
         
         self.add_actions(self.help_menu, (about_action,))
-    
+        
+    ##############################################################################
     
     def on_pick(self, event):
         # The event received here is of the type
@@ -279,12 +282,16 @@ class Main(QMainWindow):
         
         QMessageBox.information(self, "Click!", msg)
     
+    ##############################################################################
+    
     def add_actions(self, target, actions):
         for action in actions:
             if action is None:
                 target.addSeparator()
             else:
                 target.addAction(action)
+            
+    ##############################################################################
 
     def create_action(self, text, slot=None, shortcut=None, 
                         icon=None, tip=None, checkable=False, 
@@ -305,6 +312,9 @@ class Main(QMainWindow):
         if checkable:
             action.setCheckable(True)
         return action
+    
+    ##############################################################################
+    
     def create_datadict(self):
         #   data_dict is a dictionary containing all the images data from the OG fits, flats, padded image, etc
         self.data_dict={'NAME':['Original_Data','data_bias','data_flat','data_window','data_pad','data_final','data_spec','data_process'],
@@ -314,6 +324,9 @@ class Main(QMainWindow):
 
 #        for ind,x in enumerate(self.data_dict['USE']):
 #            if x==True:print "I am", x, "at " , ind
+
+    ##############################################################################
+
     def on_draw(self):
         """ Redraws the figure
         """
@@ -336,7 +349,8 @@ class Main(QMainWindow):
             picker=5)
         self.axes
         self.canvas.draw()
-    
+
+    ##############################################################################    
 
     def on_draw2(self):
         """ Redraws the figure"""
@@ -378,6 +392,9 @@ class Main(QMainWindow):
         #self.scrollLayout.update()
     
     #use below to load zemax detewctor file in txt format
+    
+    ##############################################################################
+    
     def QfileDialog3(self):
         file_name = QFileDialog.getOpenFileName(None, "Open Data File", r"D:\papers\6300_SHS\zemax_models\pupil_size\new2\smaller_f\detector_dist\new_fcs", "TXT ZEMAX files (*.TXT)")
         interf = zem_inter(str(file_name))        
@@ -400,6 +417,8 @@ class Main(QMainWindow):
         self.gen_process()
         self.on_draw2()
         
+    ##############################################################################
+        
     def QfileDialog4_old(self):
         bias_fname = QFileDialog.getOpenFileName(None, "Open Data File", r"D:\papers", "FITS data files (*.fits)")         
         print(( pyfits.info(str(bias_fname))   )) 
@@ -409,6 +428,8 @@ class Main(QMainWindow):
         plt.imshow(data_bias2)
         self.checkBox1.setEnabled(True)
         self.data_dict['data_bias'] = {True:data_bias2}
+
+    ##############################################################################
 
     def QfileDialog4(self):
         ''' Opens a fits file and applies cosmic filter, puts it in the data_dict and shows it on the GUI '''
@@ -528,6 +549,8 @@ class Main(QMainWindow):
         #   Re-draw figure
         self.on_draw2()
         
+    ##############################################################################
+        
     def gen_process(self):   
         #### Inteferogram loaded as data2
         
@@ -598,8 +621,7 @@ class Main(QMainWindow):
         ax.set_xticks([]); ax.set_yticks([])
         plt.show()
        #        ax.imshow(data3,cmap = cm.Greys_r,vmin=vmin_in, vmax=vmax_in)
-        plt.savefig('th_ar_test.svg', bbox_inches='tight',format='svg', dpi=1000, transparent=True,pad_inches=0)        
-        
+        plt.savefig('th_ar_test.svg', bbox_inches='tight',format='svg', dpi=1000, transparent=True,pad_inches=0)
         
  #       print vmax_in
   #      ax.imshow(data3,cmap = cm.Greys_r,vmin=vmin_in, vmax=vmax_in)
@@ -609,8 +631,7 @@ class Main(QMainWindow):
         #fig.
         #
         
-        
-        
+    ##############################################################################    
     
     def proces(self):
         if data2.any():
@@ -625,6 +646,8 @@ class Main(QMainWindow):
             pwr_sp=do_fft(zp_image)
             plt.ion()
             plt.imshow(abs(pwr_sp),cmap = cm.Greys_r,vmin=0, vmax=1)
+            
+    ##############################################################################
             
     def proces2(self):
         #   data3 is unfiltered OG image
@@ -677,6 +700,8 @@ class Main(QMainWindow):
             #   *******
             #plt.show()
             
+            ##############################################################################
+            
             def update(val):
     
                freq = sfreq.val
@@ -686,6 +711,8 @@ class Main(QMainWindow):
                ax3.set_title('Selected Rows')
                plt.draw()
             sfreq.on_changed(update)
+            
+            ##############################################################################
 
             def onmotion(event2):
                   if event2.inaxes == bb.axes:
@@ -702,6 +729,8 @@ class Main(QMainWindow):
             #ax3.plot(pwr_sp[round(2),:])
             #plt.draw()
             #plt.ion()
+            
+            ##############################################################################
             
             def on_key2(event3):
                 #print('you pressed', event.key, event.xdata, event.ydata)
@@ -745,7 +774,10 @@ class Main(QMainWindow):
             axbutt = plt.axes([0.9, 0.92, .09, 0.07])
             axbutt2 = plt.axes([0.8, 0.92, .09, 0.07])
             but_reset = Button(axbutt2,"Reset",color='0.85', hovercolor='0.95') 
-            but_done = Button(axbutt,"Done",color='0.85', hovercolor='0.95') 
+            but_done = Button(axbutt,"Done",color='0.85', hovercolor='0.95')
+            
+            ##############################################################################
+            
             def spec_done2(event):
                 print ("HIIIIII" )               
                 print (rows_s)
@@ -827,7 +859,7 @@ class Main(QMainWindow):
             print ("OHHHHHH")
             #temp.
          
-            
+    ##############################################################################
 
     def gen_spec2(self,rows_s):
         spec_out=open('spec_save.pk', 'wb')
@@ -838,6 +870,9 @@ class Main(QMainWindow):
         sp = pyspeckit.Spectrum(data=rows_s,xarr=t,header={})
         sp.plotter(xmin=-100,xmax=100,ymax=150,ymin=0)
         #return
+        
+    ##############################################################################
+        
     def fit_specn(self):
 
         parinfo = [{'value':0., 'fixed':0, 'limited':[0,0], 'limits':[0.,0.]}  
@@ -854,10 +889,6 @@ class Main(QMainWindow):
         p=[0.0,5,98.,2.]#,17]#,205.,1.]
         print((p[1:4]))
         print((p[4:7]))
-
-
-  
-
         
         for i in range(5): parinfo[i]['value']=values[i]
         expr='p[0] + fit_models.gauss1p(x,p[1:4])' #+ fit_models.gauss1p(x,p[4:7])'#'# + gauss1p(x,0.0,17,205.,1.)'#'p[0] + numpy.sin(x) + numpy.sin(p[1])'#
@@ -865,7 +896,10 @@ class Main(QMainWindow):
         print (params)
  
         y2=yfit
-        self.ax.plot(x,y2)          
+        self.ax.plot(x,y2)
+        
+    ##############################################################################
+        
     def save_plot(self):
         file_choices = "PNG (*.png)|*.png"
         
@@ -874,7 +908,10 @@ class Main(QMainWindow):
                         file_choices))
         if path:
             self.canvas.print_figure(path, dpi=self.dpi)
-            self.statusBar().showMessage('Saved to %s' % path, 2000)           
+            self.statusBar().showMessage('Saved to %s' % path, 2000)
+            
+    ##############################################################################
+            
     def on_about(self):
         msg = """ SHS DATA REDUCTION:
         
@@ -887,7 +924,7 @@ class Main(QMainWindow):
         """
         QMessageBox.about(self, "About the demo", msg.strip()) 
     
-
+##############################################################################
 
 def my_imshow(my_img,ax=None,**kwargs):
                 if ax is None:
@@ -911,6 +948,9 @@ def my_imshow(my_img,ax=None,**kwargs):
       #layout = QHBoxLayout()
       #layout.addWidget(self.qlabel2)
       #self.setLayout(layout)
+      
+##############################################################################
+      
 def zem_inter(fname):
       data = numpy.genfromtxt(fname,skip_header=24, dtype='float64')
       wd = data.shape[1]
@@ -918,7 +958,9 @@ def zem_inter(fname):
       data = numpy.genfromtxt(fname,skip_header=24,usecols=list(range(1,wd)), dtype='float64')
       #hits=numpy.genfromtxt(fname,skip_header=7,usecols=(1,2), dtype='float64')
       #print hits
-      return data     
+      return data
+  
+##############################################################################
       
 def gray2qimage(gray): 
       
@@ -934,10 +976,14 @@ def gray2qimage(gray):
         result.setColor(i, QColor(i, i, i).rgb())
     return result
 
+##############################################################################
+
 def do_fft(inter):   
     
     pwr_s = fftpack.fft2(inter)    
     return pwr_s
+
+##############################################################################
 
 def window2d(self,M, N):
     """
@@ -952,6 +998,8 @@ def window2d(self,M, N):
         return numpy.hanning(N) # scalar unity; don't window if dims are too small
     else:
         return numpy.outer(windo.Window(M, win_nam).data,windo.Window(N, win_nam).data)
+    
+##############################################################################
 
 def hanning2d(M, N):
     """
@@ -964,11 +1012,15 @@ def hanning2d(M, N):
         return numpy.hanning(N) # scalar unity; don't window if dims are too small
     else:
         return numpy.outer(numpy.hanning(M),numpy.hanning(N))
+    
+##############################################################################
 
 def do_fit():
     t= numpy.linspace(-50,50,100)
     sp = pyspeckit.Spectrum(data=x,xarr=t,header={})
-    sp.plotter(xmin=-100,xmax=100,ymax=150,ymin=0)    
+    sp.plotter(xmin=-100,xmax=100,ymax=150,ymin=0)
+    
+##############################################################################
 
 def rebin(a, *args):
     '''rebin ndarray data into a smaller ndarray of the same rank whose dimensions
@@ -986,9 +1038,9 @@ def rebin(a, *args):
              [')'] + ['.sum(%d)'%(i+1) for i in range(lenShape)] + \
              ['/factor[%d]'%i for i in range(lenShape)]
     print((''.join(evList)))
-    return eval(''.join(evList))        
+    return eval(''.join(evList))
         
-        
+##############################################################################
         
 app = QApplication(sys.argv)
 myWidget = Main()
