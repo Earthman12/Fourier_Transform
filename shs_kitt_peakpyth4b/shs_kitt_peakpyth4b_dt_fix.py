@@ -589,6 +589,7 @@ class Main(QMainWindow):
         #   Set min and max but multiply min by 0.1
         vmax_in=numpy.max(data3)
         vmin_in=numpy.min(data3)*0.1
+        
         plt.axis('off')
         plt.tight_layout()            
             #plt.axis([0, 20, 0, 20])
