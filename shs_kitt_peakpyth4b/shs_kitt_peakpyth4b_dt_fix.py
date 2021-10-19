@@ -586,6 +586,7 @@ class Main(QMainWindow):
         #plt.ion()
         fig = plt.figure()
         ax = fig.add_subplot(111)
+        #   Set min and max but multiply min by 0.1
         vmax_in=numpy.max(data3)
         vmin_in=numpy.min(data3)*0.1
         plt.axis('off')
