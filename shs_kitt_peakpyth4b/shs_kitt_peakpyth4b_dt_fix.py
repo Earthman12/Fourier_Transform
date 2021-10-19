@@ -551,7 +551,8 @@ class Main(QMainWindow):
             
         #   If hanning window box checked
         if self.checkBox3.isChecked():
-            data3 = data2*window2d(self,*data2.shape)       
+            data3 = data2*window2d(self,*data2.shape)   
+            #   Set hanning window in data dictionary
             self.data_dict['USE'][3]=True
             self.data_dict['DATA'][3]=data3
         #gg=self.data_dict.iterkeys
@@ -566,11 +567,12 @@ class Main(QMainWindow):
             px1, px2 = round(padn*w/2), round(padn*w/2)
             py1, py2 = round(padn*h/2),round(padn*h/2)
             #   Pads the array
-            data3 = numpy.pad(data3,((px1,px2),(py1,py2)),'constant') 
+            data3 = numpy.pad(data3,((px1,px2),(py1,py2)),'constant')
             print(('padded by a factor of: ', padn))
             rowpl=rowpl+1
             self.checkBox3.setEnabled(False)
             self.sld.setEnabled(False)
+            #   Sets padded image in the data dictionary
             self.data_dict['USE'][4]=True
             self.data_dict['DATA'][4]=data3
         #gg=self.data_dict.iterkeys
@@ -578,7 +580,6 @@ class Main(QMainWindow):
             self.sld.setEnabled(True)
             self.checkBox3.setEnabled(True)           
             self.data_dict['USE'][4]=False
-
         
         self.on_draw2()    
         #plt.clf()
