@@ -673,6 +673,7 @@ class Main(QMainWindow):
             plt.axis('off')
             plt.tight_layout()            
             #plt.axis([0, 20, 0, 20])
+            #   Shows transform
             ax.imshow((numpy.log10(pwr_sp)),cmap = cm.Greys_r,vmin=minv, vmax=maxv)
             ax.set_frame_on(False)
             ax.set_xticks([]); ax.set_yticks([])
@@ -698,7 +699,7 @@ class Main(QMainWindow):
             ax4.set_title('Summed Spectrum')
             
             #   *******
-            #plt.show()
+            plt.show()
             
             ##############################################################################
             
