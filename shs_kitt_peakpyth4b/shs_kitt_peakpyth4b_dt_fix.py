@@ -703,7 +703,7 @@ class Main(QMainWindow):
             ax4.set_title('Summed Spectrum')
             
             #   *******
-            plt.show()
+            #plt.show()
             
             ##############################################################################
             
@@ -813,10 +813,6 @@ class Main(QMainWindow):
                 p=[0.0,150000,1050.,1.]#,17]#,205.,1.]
                 print((p[1:4]))
                 #print p[4:7]
-
-
-  
-
         
                 for i in range(5): parinfo[i]['value']=values[i]
                 expr='p[0] + fit_models.gauss1p(x,p[1:4])' #+ fit_models.gauss1p(x,p[4:7])'#'# + gauss1p(x,0.0,17,205.,1.)'#'p[0] + numpy.sin(x) + numpy.sin(p[1])'#
@@ -863,6 +859,9 @@ class Main(QMainWindow):
             temp=self.gen_spec2
             print ("OHHHHHH")
             #temp.
+            
+        #   *******
+        plt.show()
          
     ##############################################################################
 
