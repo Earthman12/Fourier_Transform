@@ -786,6 +786,7 @@ class Main(QMainWindow):
             def spec_done2(event):
                 print ("HIIIIII" )               
                 print (rows_s)
+                
                 self.data_spec=numpy.sum(pwr_sp[rows_s,:], axis=0)
                 y=self.data_spec
                 nx = y.shape[0]
