@@ -658,7 +658,7 @@ class Main(QMainWindow):
             #   Transform filtered image
             F1=  do_fft(data3)
             F2 = fftpack.fftshift( F1 )
-            #   'pwr_sp' is the transform image of OG image, no filters
+            #   'pwr_sp' is the transform image with filter/padding/debias/flats
             pwr_sp = (numpy.abs( F2 )**2)
             
             #pwr_sp = (numpy.abs( F2 )**2)
