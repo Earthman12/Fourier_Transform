@@ -448,6 +448,13 @@ class FitsImageCanvas(FigureCanvas):
             row_values_array[i] = square_top + square_row + square_bottom
 
         return row_values_array
+    
+    ##############################################################################
+    
+    def row_sum(self):
+        '''Returns the sum of a row in a array in the transform'''
+        
+        data_sum = np.sum()
 
     ##############################################################################
 
