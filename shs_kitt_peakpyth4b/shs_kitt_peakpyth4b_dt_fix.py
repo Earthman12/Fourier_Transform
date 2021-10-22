@@ -669,22 +669,24 @@ class Main(QMainWindow):
             maxv=numpy.max(numpy.log10(pwr_sp))#pwr_sp)
             #maxv=3.0e7
             minv=numpy.min(numpy.log10(pwr_sp))
-    ###PLOT POWER            
+
+            ###PLOT POWER            
             fig = plt.figure()
             ax = fig.add_subplot(111)
 
             plt.axis('off')
             plt.tight_layout()            
             #plt.axis([0, 20, 0, 20])
+            
             #   Shows transform
             ax.imshow((numpy.log10(pwr_sp)),cmap = cm.Greys_r,vmin=minv, vmax=maxv)
             ax.set_frame_on(False)
             ax.set_xticks([]); ax.set_yticks([])
             
             #plt.show()
-       #        ax.imshow(data3,cmap = cm.Greys_r,vmin=vmin_in, vmax=vmax_in)
+            #ax.imshow(data3,cmap = cm.Greys_r,vmin=vmin_in, vmax=vmax_in)
             #plt.savefig('th_ar_pwr_test.svg', bbox_inches='tight',format='svg', dpi=1000, transparent=True,pad_inches=0)              
-       ###END PLOT POWER     
+            ###END PLOT POWER     
             
             #bb=ax.imshow((numpy.log10(pwr_sp)),cmap = cm.Greys_r,vmin=minv, vmax=maxv/.8, picker=True)
             ax.invert_yaxis()
@@ -699,7 +701,7 @@ class Main(QMainWindow):
             axfreq = plt.axes([0.1, 0.01, 0.8, 0.04], facecolor=axcolor)
             sfreq = Slider(axfreq, 'y_max', minv/.9, maxv/.9, valinit=maxv) 
 
-            #   Unused axis'
+            #   Unsure if these are meant to be used axis'
             ax3 = fig2.add_subplot(223)
             ax4 = fig2.add_subplot(224)
             ax3.set_title('Selected Rows')
@@ -708,7 +710,7 @@ class Main(QMainWindow):
             #   *******
             #plt.show()
             
-            ##############################################################################
+            #-----------------------------------------------------------------------------
             
             def update(val):
     
@@ -718,9 +720,12 @@ class Main(QMainWindow):
                ax3.set_ylim([(-.1*maxv),sfreq.val])
                ax3.set_title('Selected Rows')
                plt.draw()
+               
+            #-----------------------------------------------------------------------------
+               
             sfreq.on_changed(update)
             
-            ##############################################################################
+            #-----------------------------------------------------------------------------
 
             def onmotion(event2):
                   if event2.inaxes == bb.axes:
@@ -731,14 +736,14 @@ class Main(QMainWindow):
                      
                      ax2.plot(pwr_sp[round(event2.ydata),:])
                      plt.draw()
+                     
+            #-----------------------------------------------------------------------------
    
-            
-            
             #ax3.plot(pwr_sp[round(2),:])
             #plt.draw()
             #plt.ion()
             
-            ##############################################################################
+            #-----------------------------------------------------------------------------
             
             def on_key2(event3):
                 #print('you pressed', event.key, event.xdata, event.ydata)
@@ -779,12 +784,15 @@ class Main(QMainWindow):
             
                       #cnt=cnt+1
                 #cur_spec=
+                
+            #-----------------------------------------------------------------------------
+                
             axbutt = plt.axes([0.9, 0.92, .09, 0.07])
             axbutt2 = plt.axes([0.8, 0.92, .09, 0.07])
             but_reset = Button(axbutt2,"Reset",color='0.85', hovercolor='0.95') 
             but_done = Button(axbutt,"Done",color='0.85', hovercolor='0.95')
             
-            ##############################################################################
+            #-----------------------------------------------------------------------------
             
             def spec_done2(event):
                 print ("HIIIIII" )               
@@ -840,19 +848,21 @@ class Main(QMainWindow):
                 #self.ax3 = self.fig.add_subplot(111)
                 #self.ax3.cla()            
 
-        #ax.invert_yaxis()
+                #ax.invert_yaxis()
 
                 maxv=numpy.max(y)
                 minv=numpy.min(y)
                 plt.ylabel('some numbers')
                 #self.ax3.set_ylim([-.05*maxv,maxv/0.95])
                 axcolor = 'lightgoldenrodyellow'
-        #axfreq = plt.axes([0.1, 0.01, 0.8, 0.04], axisbg=axcolor)
-        #sfreq = Slider(axfreq, 'y_max', minv/.9, maxv/.9, valinit=maxv) 
+                #axfreq = plt.axes([0.1, 0.01, 0.8, 0.04], axisbg=axcolor)
+                #sfreq = Slider(axfreq, 'y_max', minv/.9, maxv/.9, valinit=maxv) 
                 #self.ax3.set_title('Spectrum')                    
                 plt.plot(xn2,y,'b',xn2,y2,'r')
         
                 #plt.show()
+                
+            #-----------------------------------------------------------------------------
 
             but_done.on_clicked(spec_done2)
             
@@ -863,6 +873,7 @@ class Main(QMainWindow):
             temp=self.gen_spec2
             print ("OHHHHHH")
             #temp.
+        #   end if
             
         #   *******
         plt.show()
