@@ -650,6 +650,7 @@ class Main(QMainWindow):
     ##############################################################################
             
     def proces2(self):
+        '''Function that runs when you apply fft'''
         #   data3 is image with cosmics filter/padding/debias/flats applied
         if data3.any():
             #   data2 just image with cosmics filter
