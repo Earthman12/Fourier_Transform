@@ -759,6 +759,7 @@ class Main(QMainWindow):
                       ax3.cla()
                       ax3.set_ylim([(-.05*maxv),sfreq.val])
                       ax3.set_title('Selected Rows')
+
                       if row_sel in rows_s:
                           i = rows_s.index(row_sel)
                           rows_s.pop(rows_s.index(row_sel))       
@@ -766,10 +767,9 @@ class Main(QMainWindow):
                           rows_s.append(row_sel)
                                            
                       for i in rows_s:
-                         
-                          ax3.plot(pwr_sp[i,:])
-                                                    
+                          ax3.plot(pwr_sp[i,:])                  
                           plt.draw()
+
                       ax3.legend(rows_s,'upper right', shadow=True,title="Rows",prop={'size':8})
                       
                       plt.draw()
