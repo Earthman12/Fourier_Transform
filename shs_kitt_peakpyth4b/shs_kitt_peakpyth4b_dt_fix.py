@@ -739,10 +739,11 @@ class Main(QMainWindow):
                      plt.draw()
                      
             #-----------------------------------------------------------------------------
-   
-            #ax3.plot(pwr_sp[round(2),:])
-            #plt.draw()
-            #plt.ion()
+            
+            #   Put this is my code, this draws power spectrum
+            ax3.plot(pwr_sp[round(2),:])
+            plt.draw()
+            plt.ion()
             
             #-----------------------------------------------------------------------------
             
