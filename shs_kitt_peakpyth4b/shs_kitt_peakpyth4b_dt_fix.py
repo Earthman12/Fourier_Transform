@@ -722,7 +722,8 @@ class Main(QMainWindow):
                plt.draw()
                
             #-----------------------------------------------------------------------------
-               
+  
+            #   Calls update method when the slider changes
             sfreq.on_changed(update)
             
             #-----------------------------------------------------------------------------
