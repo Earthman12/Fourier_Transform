@@ -407,7 +407,7 @@ class FitsImageCanvas(FigureCanvas):
 
         #   Set cosmic filtered image
         self.cosmic_image = self.apply_cosmics()
-        #   Set padded image, is reset to 0 if new image opened
+        #   Padding is reset to 0 and image is set
         self.padding_value = 0
         self.padded_image = self.apply_padding()
         #   Set hanning window image
@@ -446,6 +446,9 @@ class FitsImageCanvas(FigureCanvas):
             square_bottom = abs_bottom * abs_bottom
             #   Add them together
             row_values_array[i] = square_top + square_row + square_bottom
+            
+        #row_values_array = self.transform_image[round(2),:]
+        row_values_array = self.transform_image[:, converted_row_value]
 
         return row_values_array
 
