@@ -788,7 +788,8 @@ class Main(QMainWindow):
                 #cur_spec=
                 
             #-----------------------------------------------------------------------------
-                
+
+            #   Done and Reset button
             axbutt = plt.axes([0.9, 0.92, .09, 0.07])
             axbutt2 = plt.axes([0.8, 0.92, .09, 0.07])
             but_reset = Button(axbutt2,"Reset",color='0.85', hovercolor='0.95') 
@@ -797,6 +798,7 @@ class Main(QMainWindow):
             #-----------------------------------------------------------------------------
             
             def spec_done2(event):
+                '''Function that runs when Done button is pressed'''
                 print ("HIIIIII" )               
                 print (rows_s)
                 
