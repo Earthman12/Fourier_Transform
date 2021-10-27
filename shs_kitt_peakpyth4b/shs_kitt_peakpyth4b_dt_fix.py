@@ -552,6 +552,7 @@ class Main(QMainWindow):
     ##############################################################################
         
     def gen_process(self):   
+        '''This function runs whenever the check boxes for the hanning window or padding is checked '''
         #### Inteferogram loaded as data2
         
         global data3
@@ -583,7 +584,7 @@ class Main(QMainWindow):
         else:
             self.data_dict['USE'][3]=False
             
-        #   If the padding window box checked
+        #   If the padding box checked
         if self.checkBox4.isChecked():
             padn = self.lcd.value()
             h, w = data3.shape
@@ -740,7 +741,7 @@ class Main(QMainWindow):
                      
             #-----------------------------------------------------------------------------
             
-            #   Put this is my code, this draws power spectrum
+            #   Draws power spectrum
             ax3.plot(pwr_sp[round(2),:])
             plt.draw()
             plt.ion()

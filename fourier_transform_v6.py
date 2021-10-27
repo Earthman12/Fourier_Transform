@@ -330,7 +330,7 @@ class FitsImageCanvas(FigureCanvas):
         print("Transforming image...")
 
         #   Fourier Transforming
-        f_transform = scipy.fftpack.fft2(self.hanning_image)
+        f_transform = scipy.fftpack.fft2(self.padded_image)
         #   Shifting zero frequency component to center spectrum
         f_shift = scipy.fft.fftshift(f_transform)
 
@@ -374,12 +374,15 @@ class FitsImageCanvas(FigureCanvas):
     def apply_padding(self):
         '''Returns a padded image of the fits image'''
         
-        print("Applying padding...")
-        print(self.padding_value)
+        print("Applying padding value of : " + str(self.padding_value) + "...")
         
         height, width = self.image_array.shape
+        #   Sets the variables to half the number of pixels in x and y
         px1, px2 = round(self.padding_value*width/2), round(self.padding_value*width/2)
         py1, py2 = round(self.padding_value*height/2), round(self.padding_value*height/2)
+        
+        print(px1)
+        print(py1)
         
         padded_image = np.pad(self.cosmic_image, ((px1,px2), (py1,py2)), 'constant')
         
@@ -407,11 +410,11 @@ class FitsImageCanvas(FigureCanvas):
 
         #   Set cosmic filtered image
         self.cosmic_image = self.apply_cosmics()
+        #   Set hanning window image
+        self.hanning_image = self.apply_hanning()
         #   Padding is reset to 0 and image is set
         self.padding_value = 0
         self.padded_image = self.apply_padding()
-        #   Set hanning window image
-        self.hanning_image = self.apply_hanning()
         #   Set transform image
         self.transform_image = self.fourier_transform()
         #   Reset row cut to middle of image
@@ -448,7 +451,7 @@ class FitsImageCanvas(FigureCanvas):
             row_values_array[i] = square_top + square_row + square_bottom
             
         #row_values_array = self.transform_image[round(2),:]
-        row_values_array = self.transform_image[:, converted_row_value]
+        #row_values_array = self.transform_image[:, converted_row_value]
 
         return row_values_array
 
