@@ -377,7 +377,7 @@ class FitsImageCanvas(FigureCanvas):
         print("Applying padding value of : " + str(self.padding_value) + "...")
         
         height, width = self.image_array.shape
-        #   Sets the variables to half the number of pixels in x and y axis
+        #   Sets tuple variables to half the number of pixels in x and y axis
         px1, px2 = round(self.padding_value*width/2), round(self.padding_value*width/2)
         py1, py2 = round(self.padding_value*height/2), round(self.padding_value*height/2)
         
