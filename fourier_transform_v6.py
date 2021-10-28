@@ -486,20 +486,20 @@ class FitsImageCanvas(FigureCanvas):
         self.axes[1].set_title("Cosmics Filtered Image")
         #   Set the cosmic image to its display object
         self.cosmic_display_object = self.axes[1].imshow(self.cosmic_image, origin='lower', cmap='gray', vmin = np.min(self.cosmic_image), vmax = np.max(self.cosmic_image))
-        
-        #   PADDED IMAGE
-        #   Add subplot to the figure and set title
-        self.axes.append(self.figure.add_subplot(self.ROWS, self.COL, 3))
-        self.axes[2].set_title("Padded Image")
-        #   Set padded image to its display object
-        self.padded_display_object = self.axes[2].imshow(self.padded_image,  origin='lower', cmap='gray', vmin = np.min(self.padded_image), vmax = np.max(self.padded_image))
 
         #   HANNING WINDOW IMAGE
         #   Add subplot to figure and set title
-        self.axes.append(self.figure.add_subplot(self.ROWS, self.COL, 4))
-        self.axes[3].set_title("Hanning Window Image")
+        self.axes.append(self.figure.add_subplot(self.ROWS, self.COL, 3))
+        self.axes[2].set_title("Hanning Window Image")
         #   Display object variable for hanning image
-        self.hanning_display_object = self.axes[3].imshow(self.hanning_image, origin='lower', cmap='gray', vmin = np.min(self.hanning_image), vmax = np.max(self.hanning_image))
+        self.hanning_display_object = self.axes[2].imshow(self.hanning_image, origin='lower', cmap='gray', vmin = np.min(self.hanning_image), vmax = np.max(self.hanning_image))
+        
+        #   PADDED IMAGE
+        #   Add subplot to the figure and set title
+        self.axes.append(self.figure.add_subplot(self.ROWS, self.COL, 4))
+        self.axes[3].set_title("Padded Image")
+        #   Set padded image to its display object
+        self.padded_display_object = self.axes[3].imshow(self.padded_image,  origin='lower', cmap='gray', vmin = np.min(self.padded_image), vmax = np.max(self.padded_image))
 
         #   FOURIER TRANSFORM IMAGE
         #   Add subplot to the figure and set title
