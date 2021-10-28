@@ -381,8 +381,8 @@ class FitsImageCanvas(FigureCanvas):
         px1, px2 = round(self.padding_value*width/2), round(self.padding_value*width/2)
         py1, py2 = round(self.padding_value*height/2), round(self.padding_value*height/2)
         
-        print(px1)
-        print(py1)
+        print("Padding X Values: " + str(px1))
+        print("Padding X Values: " + str(py1))
         
         padded_image = np.pad(self.cosmic_image, ((px1,px2), (py1,py2)), 'constant')
         
