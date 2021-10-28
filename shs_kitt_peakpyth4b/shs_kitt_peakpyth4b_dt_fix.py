@@ -748,6 +748,8 @@ class Main(QMainWindow):
             
             #******
             print(pwr_sp.shape)
+            print(round(2))
+            print("####")
             print(pwr_sp[round(2),:])
             
             #-----------------------------------------------------------------------------

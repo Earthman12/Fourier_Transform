@@ -347,6 +347,7 @@ class FitsImageCanvas(FigureCanvas):
 
         #   Detect cosmic rays
         cosmic_array = detect_cosmics(self.image_array, inmask = None, sigclip = 5.0, sigfrac = 0.3, readnoise = 10.0, gain = 2.2, satlevel = 65536, niter = 4, cleantype ='meanmask' , fsmode='median',sepmed=True, psfmodel='gauss', psffwhm =2.5, psfsize =7)
+        
         cosmic_array_image = cosmic_array[1]
 
         #   Subtract minimum value from all
