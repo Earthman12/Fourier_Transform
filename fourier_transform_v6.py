@@ -227,6 +227,8 @@ class MainWindow(QtWidgets.QMainWindow):
         self.fits_image.padding_value = self.slider_val.intValue()
         #   Call fits image function to apply padding
         self.fits_image.padded_image = self.fits_image.apply_padding()
+        #   Set the transform image to new padded image
+        self.fits_image.fourier_image = self.fits_image.fourier_transform()
         #   Update figure
         self.fits_image.update_figure()
 
@@ -325,7 +327,7 @@ class FitsImageCanvas(FigureCanvas):
     ##############################################################################
 
     def fourier_transform(self):
-        '''Returns a transformed image of the hanning filtered fits image'''
+        '''Returns a transformed image of the padded fits image'''
 
         print("Transforming image...")
 
