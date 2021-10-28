@@ -272,6 +272,7 @@ class FitsImageCanvas(FigureCanvas):
         file_path = askopenfilename()
         file_name = os.path.basename(file_path)
 
+        #   Print and set the file name
         print("File Name:",file_name)
         self.image_name = file_name
 
@@ -388,7 +389,7 @@ class FitsImageCanvas(FigureCanvas):
         print("Padding X Values: " + str(px1))
         print("Padding X Values: " + str(py1))
         
-        padded_image = np.pad(self.cosmic_image, ((px1,px2), (py1,py2)), 'constant')
+        padded_image = np.pad(self.hanning_image, ((px1,px2), (py1,py2)), 'constant')
         
         return padded_image
         
