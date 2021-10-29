@@ -438,6 +438,7 @@ class FitsImageCanvas(FigureCanvas):
         print("Getting values for row num: " + str(self.y_row))
         print("Converted array value: " + str(converted_row_value))
 
+        '''
         #   Create empty array the length of the rows
         row_values_array = np.zeros(shape = len(self.transform_image[converted_row_value]))
 
@@ -454,9 +455,10 @@ class FitsImageCanvas(FigureCanvas):
             square_bottom = abs_bottom * abs_bottom
             #   Add them together
             row_values_array[i] = square_top + square_row + square_bottom
+        '''
             
         print(len(self.transform_image[converted_row_value,:]))
-        #row_values_array = self.transform_image[converted_row_value,:]
+        row_values_array = self.transform_image[converted_row_value,:]
         
 
         return row_values_array
