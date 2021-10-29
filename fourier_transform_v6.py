@@ -457,6 +457,8 @@ class FitsImageCanvas(FigureCanvas):
             
         #row_values_array = self.transform_image[round(2),:]
         #row_values_array = self.transform_image[:, converted_row_value]
+        print(len(self.transform_image[converted_row_value,:]))
+        row_values_array = self.transform_image[converted_row_value,:]
 
         return row_values_array
 
