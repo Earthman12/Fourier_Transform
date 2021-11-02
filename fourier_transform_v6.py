@@ -440,27 +440,9 @@ class FitsImageCanvas(FigureCanvas):
         print("Getting values for row num: " + str(self.y_row))
         print("Converted array value: " + str(converted_row_value))
 
-        '''
-        #   Create empty array the length of the rows
-        row_values_array = np.zeros(shape = len(self.transform_image[converted_row_value]))
-
-        #  Loop through the values in the row and take the absolute value and the square
-        #   of the row and the row above and below it and add them together
-        for i in range(0, row_values_array.shape[0], 1):
-            #   Get absolute value of the row and its top and bottom
-            abs_top = abs(self.transform_image[converted_row_value + 1][i])
-            abs_row = abs(self.transform_image[converted_row_value][i])
-            abs_bottom = abs(self.transform_image[converted_row_value - 1][i])
-            #   Get the square
-            square_top = abs_top * abs_top
-            square_row = abs_row * abs_row
-            square_bottom = abs_bottom * abs_bottom
-            #   Add them together
-            row_values_array[i] = square_top + square_row + square_bottom
-        '''
-            
-        print(len(self.transform_image[converted_row_value,:]))
+        #   Array of x axis values for specified row
         row_values_array = self.transform_image[converted_row_value,:]
+
         #   Get arrays one row up and one below of row_values_array
         top_array = self.transform_image[converted_row_value + 1,:]
         bottom_array = self.transform_image[converted_row_value - 1,:]
@@ -469,10 +451,12 @@ class FitsImageCanvas(FigureCanvas):
         row_values_array = abs(row_values_array)
         top_array = abs(top_array)
         bottom_array = abs(bottom_array)
+
         #   Square the arrays
         row_values_array = row_values_array * row_values_array
         top_array = top_array * top_array
         bottom_array = bottom_array * bottom_array
+
         #   Add them together
         return_row_values_array = row_values_array + top_array + bottom_array
 
