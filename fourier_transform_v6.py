@@ -461,8 +461,22 @@ class FitsImageCanvas(FigureCanvas):
             
         print(len(self.transform_image[converted_row_value,:]))
         row_values_array = self.transform_image[converted_row_value,:]
+        #   Get arrays one row up and one below of row_values_array
+        top_array = self.transform_image[converted_row_value + 1,:]
+        bottom_array = self.transform_image[converted_row_value - 1,:]
 
-        return row_values_array
+        #   Get absolute values of all
+        row_values_array = abs(row_values_array)
+        top_array = abs(top_array)
+        bottom_array = abs(bottom_array)
+        #   Square the arrays
+        row_values_array = row_values_array * row_values_array
+        top_array = top_array * top_array
+        bottom_array = bottom_array * bottom_array
+        #   Add them together
+        return_row_values_array = row_values_array + top_array + bottom_array
+
+        return return_row_values_array
 
     ##############################################################################
 
