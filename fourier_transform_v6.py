@@ -33,6 +33,8 @@ class MainWindow(QtWidgets.QMainWindow):
         #   GUI constants
         TEXT_INPUT_WIDTH = 200
 
+        #   Set the window Title
+        self.setWindowTitle("Fourier Transform Data Reduction")
         #   Original fits image canvas
         self.fits_image = FitsImageCanvas()
         #   Toolbar
