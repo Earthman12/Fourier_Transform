@@ -560,8 +560,8 @@ class Main(QMainWindow):
         data3=data2
         
         print (data2.shape)
+        rowpl=1
         print(rowpl)
-        rowpl=1  
         print ("did it")
         
         #   If bias box checked, subtract bias

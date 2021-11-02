@@ -526,7 +526,7 @@ class FitsImageCanvas(FigureCanvas):
         self.axes[5].set_title("Row " + str(self.y_row) + " Plot")
         #   Calling row_cut function that returns transform row values
         transform_row_values = self.row_cut()
-        #   Making second array to plot with so x axis has 0 in middle
+        #   Making second array of x axis value so 0 is in the middle
         row_size = len(transform_row_values)
         x_axis_values = np.arange(-row_size / 2, row_size / 2, dtype = 'int')
         #   Display object for transform row plot, displaying the log of the values
