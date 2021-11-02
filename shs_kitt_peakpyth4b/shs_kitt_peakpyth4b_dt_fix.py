@@ -560,6 +560,7 @@ class Main(QMainWindow):
         data3=data2
         
         print (data2.shape)
+        print(rowpl)
         rowpl=1  
         print ("did it")
         
@@ -593,7 +594,11 @@ class Main(QMainWindow):
             #   Pads the array
             data3 = numpy.pad(data3,((px1,px2),(py1,py2)),'constant')
             print(('padded by a factor of: ', padn))
+
+            #   Unsure of what 'rowpl' variable is
             rowpl=rowpl+1
+            print(rowpl)
+            
             self.checkBox3.setEnabled(False)
             self.sld.setEnabled(False)
             #   Sets padded image in the data dictionary
@@ -605,6 +610,8 @@ class Main(QMainWindow):
             self.checkBox3.setEnabled(True)           
             self.data_dict['USE'][4]=False
         
+        #   After all the if/else statements, data3 starts as rotated cosmics image -> then bias is subtracted -> the flat is divided -> the hanning window is applied -> and then the padding applied last. In order: bias->flat->hanning->padding
+
         self.on_draw2()    
         #plt.clf()
         #plt.ion()
@@ -622,6 +629,7 @@ class Main(QMainWindow):
         ax.set_xticks([]); ax.set_yticks([])
         plt.show()
        #        ax.imshow(data3,cmap = cm.Greys_r,vmin=vmin_in, vmax=vmax_in)
+       #    Saves the figure to a svg file
         plt.savefig('th_ar_test.svg', bbox_inches='tight',format='svg', dpi=1000, transparent=True,pad_inches=0)
         
  #       print vmax_in
@@ -652,7 +660,8 @@ class Main(QMainWindow):
             
     def proces2(self):
         '''Function that runs when you apply fft'''
-        #   data3 is image with cosmics filter/padding/debias/flats applied
+        
+        #   data3 is image with cosmics filter/bias/flat/hanning/padding applied
         if data3.any():
             #   data2 just image with cosmics filter
             print((data2.shape))
