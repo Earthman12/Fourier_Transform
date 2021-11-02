@@ -189,12 +189,12 @@ class MainWindow(QtWidgets.QMainWindow):
         
         #   Check that the new input is greater than 0 and does not exceed Y image length,
         #   if it okay, set the new value and call the 'fits_image' update function
-        if(readout_value < ((self.fits_image.image_array.shape[0] / 2) - 1) and readout_value > -((self.fits_image.image_array.shape[0] / 2) + 1)):
+        if(readout_value < ((self.fits_image.transform_image.shape[0] / 2) - 1) and readout_value > -((self.fits_image.transform_image.shape[0] / 2) + 1)):
             self.fits_image.y_row = int(readout_value)
             self.fits_image.update_figure()
 
         else:
-            print("Input not between 0 and the Y length of the image")
+            print("Input not between 0 and the Y length of the fourier image")
 
     ##############################################################################
 
@@ -208,7 +208,7 @@ class MainWindow(QtWidgets.QMainWindow):
         y_high = int(self.y_high_input.text())
 
         #   Check that x_low is less than x_high and same for y and also that
-        #   they are in image bounds
+        #   they are in fourier image bounds
         if ((x_low >= 0) and (x_low < x_high) and (y_low >= 0) and (y_low < y_high) and (x_high < self.fits_image.image_array.shape[1]) and (y_high < self.fits_image.image_array.shape[0])):
 
             print("-----Cropping image-----")
@@ -477,7 +477,7 @@ class FitsImageCanvas(FigureCanvas):
         self.axes.clear()
         self.figure.clear()
 
-        #   ORIGINAL FITS IMAGE
+        #           ORIGINAL FITS IMAGE
         #   Add subplot to the figure and set title
         self.axes.append(self.figure.add_subplot(self.ROWS, self.COL, 1))
         self.axes[0].set_title("Original " + self.image_name + " Image")
@@ -485,28 +485,28 @@ class FitsImageCanvas(FigureCanvas):
         #   the min and max accordingly for the new image
         self.original_display_object = self.axes[0].imshow(self.image_array, origin='lower', cmap='gray', vmin = np.min(self.image_array), vmax = np.max(self.image_array))
 
-        #   COSMICS IMAGE
+        #           COSMICS IMAGE
         #   Add subplot to the figure and set title
         self.axes.append(self.figure.add_subplot(self.ROWS, self.COL, 2))
         self.axes[1].set_title("Cosmics Filtered Image")
         #   Set the cosmic image to its display object
         self.cosmic_display_object = self.axes[1].imshow(self.cosmic_image, origin='lower', cmap='gray', vmin = np.min(self.cosmic_image), vmax = np.max(self.cosmic_image))
 
-        #   HANNING WINDOW IMAGE
+        #           HANNING WINDOW IMAGE
         #   Add subplot to figure and set title
         self.axes.append(self.figure.add_subplot(self.ROWS, self.COL, 3))
         self.axes[2].set_title("Hanning Window Image")
         #   Display object variable for hanning image
         self.hanning_display_object = self.axes[2].imshow(self.hanning_image, origin='lower', cmap='gray', vmin = np.min(self.hanning_image), vmax = np.max(self.hanning_image))
         
-        #   PADDED IMAGE
+        #           PADDED IMAGE
         #   Add subplot to the figure and set title
         self.axes.append(self.figure.add_subplot(self.ROWS, self.COL, 4))
         self.axes[3].set_title("Padded Image")
         #   Set padded image to its display object
         self.padded_display_object = self.axes[3].imshow(self.padded_image,  origin='lower', cmap='gray', vmin = np.min(self.padded_image), vmax = np.max(self.padded_image))
 
-        #   FOURIER TRANSFORM IMAGE
+        #           FOURIER TRANSFORM IMAGE
         #   Add subplot to the figure and set title
         self.axes.append(self.figure.add_subplot(self.ROWS, self.COL, 5))
         self.axes[4].set_title("Fourier Transform")
@@ -520,7 +520,7 @@ class FitsImageCanvas(FigureCanvas):
         #   Set the new transform image to its display object variable
         self.transform_display_object = self.axes[4].imshow(np.log10(self.transform_image), origin='lower', extent = four_extent, cmap = cm.Greys_r, vmin = min_val, vmax = max_val)
 
-        #   ROW OF VALUES PLOT
+        #           ROW OF VALUES PLOT
         #   Add subplot to figure and set title
         self.axes.append(self.figure.add_subplot(self.ROWS, self.COL, 6))
         self.axes[5].set_title("Row " + str(self.y_row) + " Plot")
@@ -529,10 +529,8 @@ class FitsImageCanvas(FigureCanvas):
         #   Making second array to plot with so x axis has 0 in middle
         row_size = len(transform_row_values)
         x_axis_values = np.arange(-row_size / 2, row_size / 2, dtype = 'int')
-        #   Plot line style
-        line_style = 'solid'
         #   Display object for transform row plot, displaying the log of the values
-        self.row_plot_display_object = self.axes[5].plot(x_axis_values, np.log10(transform_row_values), linestyle = line_style)
+        self.row_plot_display_object = self.axes[5].plot(x_axis_values, np.log10(transform_row_values))
 
         #   Re-draw it on to the figure
         self.draw()
