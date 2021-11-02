@@ -230,7 +230,7 @@ class MainWindow(QtWidgets.QMainWindow):
         #   Set the transform image to new padded image
         self.fits_image.fourier_image = self.fits_image.fourier_transform()
         #   Update figure
-        self.fits_image.update_figure()
+        self.fits_image.set_filters_and_plot()
 
 ##############################################################################
 ##############################################################################
@@ -286,6 +286,9 @@ class FitsImageCanvas(FigureCanvas):
 
         print("Number of X axis values: " + str(image_array.shape[1]))
         print("Number of Y axis values: " + str(image_array.shape[0]))
+
+        #   Set padding value to 0 for new image
+        self.padding_value = 0
 
         return image_array
 
@@ -417,8 +420,7 @@ class FitsImageCanvas(FigureCanvas):
         self.cosmic_image = self.apply_cosmics()
         #   Set hanning window image
         self.hanning_image = self.apply_hanning()
-        #   Padding is reset to 0 and image is set
-        self.padding_value = 0
+        #   Set padded image
         self.padded_image = self.apply_padding()
         #   Set transform image
         self.transform_image = self.fourier_transform()

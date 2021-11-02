@@ -660,7 +660,7 @@ class Main(QMainWindow):
             
     def proces2(self):
         '''Function that runs when you apply fft'''
-        
+
         #   data3 is image with cosmics filter/bias/flat/hanning/padding applied
         if data3.any():
             #   data2 just image with cosmics filter
@@ -669,7 +669,7 @@ class Main(QMainWindow):
             #   Transform filtered image
             F1=  do_fft(data3)
             F2 = fftpack.fftshift( F1 )
-            #   'pwr_sp' is the transform image with filter/padding/debias/flats
+            #   'pwr_sp' is the transform image with filter/bias/flat/hanning/padding
             pwr_sp = (numpy.abs( F2 )**2)
             
             #pwr_sp = (numpy.abs( F2 )**2)
