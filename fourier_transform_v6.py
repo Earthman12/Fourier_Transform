@@ -566,6 +566,7 @@ class FitsImageCanvas(FigureCanvas):
 
         print("Setting the cropped image")
 
+        '''
         #   Create empty array for the new cropped image
         cropped_image = np.zeros(shape = (y_high - y_low, x_high - x_low))
 
@@ -585,6 +586,10 @@ class FitsImageCanvas(FigureCanvas):
             j = y_low
             i += 1
             x_count += 1
+        '''
+
+        #   Try making same array using array slicing
+        cropped_image = self.image_array[y_low:y_high, x_low:x_high]
 
         #   Set the image to the new cropped image and update the rest of the images and plot
         self.image_array = cropped_image
