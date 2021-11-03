@@ -266,6 +266,8 @@ class FitsImageCanvas(FigureCanvas):
 
     def open_fits_image(self):
         '''Opens a new fits image'''
+        
+        print("Opening original fits image...")
 
         #   Not having Tk().withdraw() does not make the code execute properly,
         #   not completely sure why, but it is necessary
