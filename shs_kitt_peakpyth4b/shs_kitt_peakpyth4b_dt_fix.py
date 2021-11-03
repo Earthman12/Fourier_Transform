@@ -483,7 +483,7 @@ class Main(QMainWindow):
         
         #data3 = ndimage.rotate(data2,90)
         
-        #   Rotate image array
+        #   Rotate image array 180 degrees
         data3 = ndimage.rotate(data2,0)   
         
         #data2=data3[0:2000,1500:3500]

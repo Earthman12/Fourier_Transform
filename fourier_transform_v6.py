@@ -481,30 +481,41 @@ class FitsImageCanvas(FigureCanvas):
         #   Add subplot to the figure and set title
         self.axes.append(self.figure.add_subplot(self.ROWS, self.COL, 1))
         self.axes[0].set_title("Original " + self.image_name + " Image")
-        #   Set the new image array and transform to their display objects and set
-        #   the min and max accordingly for the new image
-        self.original_display_object = self.axes[0].imshow(self.image_array, origin='lower', cmap='gray', vmin = np.min(self.image_array), vmax = np.max(self.image_array))
+        #   Pre-set min and max values
+        min_val = np.min(self.image_array)
+        max_val = np.max(self.image_array)
+        #   Set the new image array and transform to their display objects
+        self.original_display_object = self.axes[0].imshow(self.image_array, origin='lower', cmap = cm.Greys_r, vmin = min_val, vmax = max_val)
 
         #           COSMICS IMAGE
         #   Add subplot to the figure and set title
         self.axes.append(self.figure.add_subplot(self.ROWS, self.COL, 2))
         self.axes[1].set_title("Cosmics Filtered Image")
+        #   Pre-set min and max values
+        min_val = np.min(self.cosmic_image)
+        max_val = np.max(self.cosmic_image)
         #   Set the cosmic image to its display object
-        self.cosmic_display_object = self.axes[1].imshow(self.cosmic_image, origin='lower', cmap='gray', vmin = np.min(self.cosmic_image), vmax = np.max(self.cosmic_image))
+        self.cosmic_display_object = self.axes[1].imshow(self.cosmic_image, origin='lower', cmap = cm.Greys_r, vmin = min_val, vmax = max_val)
 
         #           HANNING WINDOW IMAGE
         #   Add subplot to figure and set title
         self.axes.append(self.figure.add_subplot(self.ROWS, self.COL, 3))
         self.axes[2].set_title("Hanning Window Image")
+        #   Pre-set min and max values
+        min_val = np.min(self.hanning_image)
+        max_val = np.max(self.hanning_image)
         #   Display object variable for hanning image
-        self.hanning_display_object = self.axes[2].imshow(self.hanning_image, origin='lower', cmap='gray', vmin = np.min(self.hanning_image), vmax = np.max(self.hanning_image))
+        self.hanning_display_object = self.axes[2].imshow(self.hanning_image, origin='lower', cmap = cm.Greys_r, vmin = min_val, vmax = max_val)
         
         #           PADDED IMAGE
         #   Add subplot to the figure and set title
         self.axes.append(self.figure.add_subplot(self.ROWS, self.COL, 4))
         self.axes[3].set_title("Padded Image")
+        #   Pre-set min and max values
+        min_val = np.min(self.padded_image)
+        max_val = np.max(self.padded_image)
         #   Set padded image to its display object
-        self.padded_display_object = self.axes[3].imshow(self.padded_image,  origin='lower', cmap='gray', vmin = np.min(self.padded_image), vmax = np.max(self.padded_image))
+        self.padded_display_object = self.axes[3].imshow(self.padded_image,  origin='lower', cmap = cm.Greys_r, vmin = min_val, vmax = max_val)
 
         #           FOURIER TRANSFORM IMAGE
         #   Add subplot to the figure and set title
