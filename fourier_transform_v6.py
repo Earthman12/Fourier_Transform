@@ -392,7 +392,7 @@ class FitsImageCanvas(FigureCanvas):
         py1, py2 = round(self.padding_value*height/2), round(self.padding_value*height/2)
         
         print("Padding X Values: " + str(px1))
-        print("Padding X Values: " + str(py1))
+        print("Padding Y Values: " + str(py1))
         
         padded_image = np.pad(self.hanning_image, ((px1,px2), (py1,py2)), 'constant')
         

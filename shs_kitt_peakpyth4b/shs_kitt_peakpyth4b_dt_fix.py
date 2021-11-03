@@ -750,7 +750,7 @@ class Main(QMainWindow):
                      
             #-----------------------------------------------------------------------------
             
-            #   Draws power spectrum
+            #   Draws second row of power spectrum
             ax3.plot(pwr_sp[round(2),:])
             plt.draw()
             plt.ion()
@@ -758,6 +758,7 @@ class Main(QMainWindow):
             #******
             print(pwr_sp.shape)
             print(round(2))
+            print(pwr_sp[2,:])
             print("####")
             print(pwr_sp[round(2),:])
             
