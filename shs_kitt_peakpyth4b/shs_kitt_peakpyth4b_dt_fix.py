@@ -755,13 +755,6 @@ class Main(QMainWindow):
             plt.draw()
             plt.ion()
             
-            #******
-            print(pwr_sp.shape)
-            print(round(2))
-            print(pwr_sp[2,:])
-            print("####")
-            print(pwr_sp[round(2),:])
-            
             #-----------------------------------------------------------------------------
             
             def on_key2(event3):

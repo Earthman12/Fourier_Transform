@@ -6,7 +6,6 @@ Created on Wed Jul 21 09:52:55 2021
 """
 
 import os
-import sys
 from tkinter.filedialog import askopenfilename
 from tkinter import Tk
 from matplotlib.figure import Figure
