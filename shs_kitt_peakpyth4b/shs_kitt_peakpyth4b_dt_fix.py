@@ -356,7 +356,10 @@ class Main(QMainWindow):
         """ Redraws the figure"""
         subplot_tot=sum(x > 0 for x in self.data_dict['USE'])
         #ax5 = self.fig.add_subplot(subplot_tot,1,1)
+        print("################")
+        print("Number of items in data_dict: " + str(subplot_tot))
         subplot_num=1
+        #   Clear the figure
         self.fig.clf()
         self.scrollWidget.resize(600,500*subplot_tot)
         #self.fig.set_figheight(12)
@@ -442,7 +445,7 @@ class Main(QMainWindow):
             filter=file_filter,
             initialFilter='Fits File (*.fits *.fit)'
         )
-        print(response[0])
+
         print ("HELP")
         #return response[0]
         
@@ -454,7 +457,7 @@ class Main(QMainWindow):
         
         #data2_fname= QFileDialog.getOpenFileName(None,tr("Open Image"), "/home/jana", tr("Image Files (*.png *.jpg *.bmp)"));
         #print((pyfits.info(str(data2_fname)))) 
-        print (data2_fname)
+        print("Fits file selected: " + str(data2_fname))
         
         #   HDU list, consists of header and data array
         hdul = pyfits.open(str(data2_fname))
@@ -471,15 +474,11 @@ class Main(QMainWindow):
         #pyfits.
         #pyfits.getdata('ff.fits')
         
-        print((data1.shape))
         nx,ny = data1.shape
-        print((nx,ny))
         
         #ddf=pyfits.
         #datan2=data1[0,:]
         #data2=(data1[0,:,:])
-        
-        print((data2.shape))
         
         #data3 = ndimage.rotate(data2,90)
         
@@ -494,7 +493,7 @@ class Main(QMainWindow):
         #data2=data3[400:750,100:950]
         data2=data3
         
-        print((data2.shape))
+        
         #data4=rebin(data2,850,850)
         #data2=data4
         #data2=congrid(data2, (850,850), method='linear', centre=False, minusone=False)
@@ -539,7 +538,7 @@ class Main(QMainWindow):
         #   Display cosmics image
         plt.imshow(data2,cmap = cm.Greys_r,vmin=0, vmax=1)
         
-        print (data2.shape)
+        print("data1 shape: " + str(data1.shape) + ". data2 shape: " + str(data2.shape) + ". data3 shape: " + str(data3.shape))
         
         #   Sets the boolean value and cosmic image to the 'Original Data' in the image dictionary
         self.data_dict['USE'][0]=True
@@ -559,9 +558,10 @@ class Main(QMainWindow):
         #   data3 should be rotated filtered cosmic image
         data3=data2
         
-        print (data2.shape)
+        print("in gen_process method...")
+        print ("data2 shape: " + str(data2.shape))
         rowpl=1
-        print(rowpl)
+        print("rowpl variable value: " + str(rowpl))
         print ("did it")
         
         #   If bias box checked, subtract bias
@@ -612,7 +612,9 @@ class Main(QMainWindow):
         
         #   After all the if/else statements, data3 starts as rotated cosmics image -> then bias is subtracted -> the flat is divided -> the hanning window is applied -> and then the padding applied last. In order: bias->flat->hanning->padding
 
-        self.on_draw2()    
+        #   Draws padded image to the GUI
+        self.on_draw2()
+        
         #plt.clf()
         #plt.ion()
         fig = plt.figure()
@@ -624,10 +626,14 @@ class Main(QMainWindow):
         plt.axis('off')
         plt.tight_layout()            
             #plt.axis([0, 20, 0, 20])
+        #   'imshow' for padded image in console. Padded image will still show in GUI though if commented out
         ax.imshow(data3,cmap = cm.Greys_r,vmin=vmin_in, vmax=vmax_in)
         ax.set_frame_on(False)
         ax.set_xticks([]); ax.set_yticks([])
+        
+        #   This 'plt.show' displays empty figure and padded image in console as padding is added, if commented out it will still display the figure/images just when then code is finished.
         plt.show()
+        
        #        ax.imshow(data3,cmap = cm.Greys_r,vmin=vmin_in, vmax=vmax_in)
        #    Saves the figure to a svg file
         plt.savefig('th_ar_test.svg', bbox_inches='tight',format='svg', dpi=1000, transparent=True,pad_inches=0)
