@@ -354,9 +354,10 @@ class Main(QMainWindow):
 
     def on_draw2(self):
         """ Redraws the figure"""
+        print("---In on_draw2 method---")
         subplot_tot=sum(x > 0 for x in self.data_dict['USE'])
         #ax5 = self.fig.add_subplot(subplot_tot,1,1)
-        print("################")
+        
         print("Number of items in data_dict: " + str(subplot_tot))
         subplot_num=1
         #   Clear the figure
@@ -393,6 +394,11 @@ class Main(QMainWindow):
         self.canvas.draw()
         
         #self.scrollLayout.update()
+        
+        
+        print("data_dict variable: ", self.data_dict)
+        
+        print("---End on_draw2 method---")
     
     #use below to load zemax detewctor file in txt format
     
