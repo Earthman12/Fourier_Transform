@@ -355,11 +355,13 @@ class Main(QMainWindow):
     def on_draw2(self):
         """ Redraws the figure"""
         print("---In on_draw2 method---")
+        #   USE in data_dict is true/false array so subplot_tot finds the number of trues (i.e. the number of images in the data_dict)
         subplot_tot=sum(x > 0 for x in self.data_dict['USE'])
         #ax5 = self.fig.add_subplot(subplot_tot,1,1)
-        
         print("Number of items in data_dict: " + str(subplot_tot))
+        
         subplot_num=1
+        
         #   Clear the figure
         self.fig.clf()
         self.scrollWidget.resize(600,500*subplot_tot)
@@ -394,9 +396,6 @@ class Main(QMainWindow):
         self.canvas.draw()
         
         #self.scrollLayout.update()
-        
-        
-        print("data_dict variable: ", self.data_dict)
         
         print("---End on_draw2 method---")
     
@@ -623,6 +622,8 @@ class Main(QMainWindow):
         #   Draws padded image to the GUI
         self.on_draw2()
         
+        #   After 'on_draw2()' method call, a message appears in console stating "Figures now render in the Plots pane by default."
+        
         #plt.clf()
         #plt.ion()
         fig = plt.figure()
@@ -676,6 +677,9 @@ class Main(QMainWindow):
             
     def proces2(self):
         '''Function that runs when you apply fft'''
+        
+        
+        print("---In proces2 method---")
 
         #   data3 is image with cosmics filter/bias/flat/hanning/padding applied
         if data3.any():
@@ -907,7 +911,8 @@ class Main(QMainWindow):
             
         #   *******
         plt.show()
-        #   end 'proces2' method
+        
+        print("---End proces2 method---")
          
     ##############################################################################
 
