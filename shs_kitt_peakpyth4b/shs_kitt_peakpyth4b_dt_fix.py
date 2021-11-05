@@ -436,7 +436,8 @@ class Main(QMainWindow):
 
     def QfileDialog4(self):
         ''' Opens a fits file and applies cosmic filter, puts it in the data_dict and shows it on the GUI '''
-        #data2_fname = QFileDialog.getOpenFileName(None, "Open Data File", r"D:\papers", "FITS data files (*.fits)")      
+        #data2_fname = QFileDialog.getOpenFileName(None, "Open Data File", r"D:\papers", "FITS data files (*.fits)")
+        print("---In QfileDialog4 method---")
         file_filter = 'Data File (*.fits *.fit *.dat);; Excel File (*.xlsx *.xls)'
         response = QFileDialog.getOpenFileName(
             parent=self,
@@ -500,7 +501,7 @@ class Main(QMainWindow):
         #data2=data3[70:175,30:200]
         #data2=data3[0:200,0:240]
         #c = cosmics.cosmicsimage(data2, gain=2.2, readnoise=10.0, sigclip = 5.0, sigfrac = 0.3, objlim = 5.0)
-        
+
         #   Applying cosmics filter to data2
         mask,c = detect_cosmics(data2 , inmask=None , sigclip = 5.0 ,sigfrac = 0.3,objlim = 5.0, readnoise=10.0,
                                 gain=2.2, satlevel =65536, niter=4 , cleantype='meanmask' , fsmode='median',sepmed=True,
@@ -547,6 +548,7 @@ class Main(QMainWindow):
         
         #   Re-draw figure
         self.on_draw2()
+        print("---End QfileDialog4 method---")
         
     ##############################################################################
         
@@ -558,7 +560,7 @@ class Main(QMainWindow):
         #   data3 should be rotated filtered cosmic image
         data3=data2
         
-        print("in gen_process method...")
+        print("---In gen_process method---")
         print ("data2 shape: " + str(data2.shape))
         rowpl=1
         print("rowpl variable value: " + str(rowpl))
@@ -593,11 +595,11 @@ class Main(QMainWindow):
             py1, py2 = round(padn*h/2),round(padn*h/2)
             #   Pads the array
             data3 = numpy.pad(data3,((px1,px2),(py1,py2)),'constant')
-            print(('padded by a factor of: ', padn))
+            print('padded by a factor of: ', padn)
 
             #   Unsure of what 'rowpl' variable is
             rowpl=rowpl+1
-            print(rowpl)
+            print("rowpl variable value: ", rowpl)
             
             self.checkBox3.setEnabled(False)
             self.sld.setEnabled(False)
@@ -626,6 +628,7 @@ class Main(QMainWindow):
         plt.axis('off')
         plt.tight_layout()            
             #plt.axis([0, 20, 0, 20])
+            
         #   'imshow' for padded image in console. Padded image will still show in GUI though if commented out
         ax.imshow(data3,cmap = cm.Greys_r,vmin=vmin_in, vmax=vmax_in)
         ax.set_frame_on(False)
@@ -645,6 +648,7 @@ class Main(QMainWindow):
         #, format='eps', dpi=1000
         #fig.
         #
+        print("---End gen_process method---")
         
     ##############################################################################    
     
@@ -670,7 +674,7 @@ class Main(QMainWindow):
         #   data3 is image with cosmics filter/bias/flat/hanning/padding applied
         if data3.any():
             #   data2 just image with cosmics filter
-            print((data2.shape))
+            print("data2 shape: ", data2.shape)
             
             #   Transform filtered image
             F1=  do_fft(data3)
