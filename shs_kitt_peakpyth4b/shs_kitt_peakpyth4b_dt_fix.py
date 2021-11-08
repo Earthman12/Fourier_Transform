@@ -716,7 +716,11 @@ class Main(QMainWindow):
             #plt.show()
             #ax.imshow(data3,cmap = cm.Greys_r,vmin=vmin_in, vmax=vmax_in)
             #plt.savefig('th_ar_pwr_test.svg', bbox_inches='tight',format='svg', dpi=1000, transparent=True,pad_inches=0)              
-            ###END PLOT POWER     
+            ###END PLOT POWER
+            
+            #   Add 'pwr_sp' to data dictionary
+            self.data_dict['USE'][7]=True
+            self.data_dict['DATA'][7]=pwr_sp
             
             #bb=ax.imshow((numpy.log10(pwr_sp)),cmap = cm.Greys_r,vmin=minv, vmax=maxv/.8, picker=True)
             ax.invert_yaxis()
@@ -909,8 +913,9 @@ class Main(QMainWindow):
             #temp.
         #   end if
             
-        #   *******
+        #   *******Commenting this out will not display transform in plot until code is done executing
         plt.show()
+        self.on_draw2()
         
         print("---End proces2 method---")
          
