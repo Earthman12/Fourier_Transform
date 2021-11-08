@@ -618,6 +618,10 @@ class Main(QMainWindow):
             self.data_dict['USE'][4]=False
         
         #   After all the if/else statements, data3 starts as rotated cosmics image -> then bias is subtracted -> the flat is divided -> the hanning window is applied -> and then the padding applied last. In order: bias->flat->hanning->padding
+        
+        #   Add final processed image to data dictionary under 'data_final'
+        self.data_dict['USE'][5]=True
+        self.data_dict['DATA'][5]=data3
 
         #   Draws padded image to the GUI
         self.on_draw2()
@@ -710,8 +714,10 @@ class Main(QMainWindow):
             #   'ax' now associated with 'fig'
             ax = fig.add_subplot(111)
 
+            #   This effects transform figure
             plt.axis('off')
-            plt.tight_layout()            
+            plt.tight_layout()
+            
             #plt.axis([0, 20, 0, 20])
             
             #   Shows transform
@@ -724,9 +730,9 @@ class Main(QMainWindow):
             #plt.savefig('th_ar_pwr_test.svg', bbox_inches='tight',format='svg', dpi=1000, transparent=True,pad_inches=0)              
             ###END PLOT POWER
             
-            #   Add 'pwr_sp' to data dictionary
-            self.data_dict['USE'][7]=True
-            self.data_dict['DATA'][7]=pwr_sp
+            #   Add 'pwr_sp' to data dictionary under 'data_spec'
+            self.data_dict['USE'][6]=True
+            self.data_dict['DATA'][6]=pwr_sp
             
             #bb=ax.imshow((numpy.log10(pwr_sp)),cmap = cm.Greys_r,vmin=minv, vmax=maxv/.8, picker=True)
             ax.invert_yaxis()
