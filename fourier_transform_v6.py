@@ -341,7 +341,7 @@ class FitsImageCanvas(FigureCanvas):
         #   Fourier Transforming
         f_transform = scipy.fftpack.fft2(self.padded_image)
         #   Shifting zero frequency component to center spectrum
-        f_shift = scipy.fft.fftshift(f_transform)
+        f_shift = scipy.fftpack.fftshift(f_transform)
 
         power_spectrum = (np.abs(f_shift)**2)
 
