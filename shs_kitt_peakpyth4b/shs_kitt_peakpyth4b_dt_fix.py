@@ -694,14 +694,20 @@ class Main(QMainWindow):
             
             #pwr_sp = (numpy.abs( F2 )**2)
             plt.ion()
+            
+            #   fig2 is the figure with 4 axes with plots
             fig2=plt.figure()
+            #   This 'ax' is associated with 'fig2'
             ax = fig2.add_subplot(221)
+            
             maxv=numpy.max(numpy.log10(pwr_sp))#pwr_sp)
             #maxv=3.0e7
             minv=numpy.min(numpy.log10(pwr_sp))
 
-            ###PLOT POWER            
+            ###PLOT POWER
+            #   'fig' is figure with transform in it
             fig = plt.figure()
+            #   'ax' now associated with 'fig'
             ax = fig.add_subplot(111)
 
             plt.axis('off')
