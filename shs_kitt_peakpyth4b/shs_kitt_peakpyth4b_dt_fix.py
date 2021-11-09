@@ -17,7 +17,7 @@ Last modified: 19.01.2009
 """
 import sys
 sys.path.append("C:\\Users\\jbcorli\\Anaconda3\\Scripts_import\\")
-#   *******
+
 #import window_fromspec as windo
 
 import astroscrappy as cosmics
@@ -1062,17 +1062,20 @@ def do_fft(inter):
 
 def window2d(self,M, N):
     
-    #   M and N variables are image shape
+    #   M and N variables are image shape: M=x, N=y
     
+    #   Gets name from drop down menu in GUI
     win_nam=str(self.menu.currentText())
     print (('Applied:', win_nam))
+    
     #print type(win_nam)
+    
     if N <= 1:
         return numpy.hanning(M)
     elif M <= 1:
         return numpy.hanning(N) # scalar unity; don't window if dims are too small
     else:
-        return numpy.outer(windo.Window(M, win_nam).data,windo.Window(N, win_nam).data)
+        return numpy.outer(windo.Window(M, win_nam).data, windo.Window(N, win_nam).data)
     
 ##############################################################################
 
