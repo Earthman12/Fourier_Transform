@@ -1061,9 +1061,9 @@ def do_fft(inter):
 ##############################################################################
 
 def window2d(self,M, N):
-    """
-   
-    """
+    
+    #   M and N variables are image shape
+    
     win_nam=str(self.menu.currentText())
     print (('Applied:', win_nam))
     #print type(win_nam)
