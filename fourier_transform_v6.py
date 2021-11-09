@@ -372,10 +372,16 @@ class FitsImageCanvas(FigureCanvas):
 
         print("Applying Hanning window...")
 
-        #   Creating the 2d Hanning window
+        #   Creating hanning arrays for x and y axis'
         hanning_x = np.hanning(self.cosmic_image.shape[1])
         hanning_y = np.hanning(self.cosmic_image.shape[0])
-        hanning_window = np.sqrt(np.outer(hanning_y, hanning_x))
+
+        #   np.outer computes product of two vectors creating Hanning window
+        #   Hanning window can have square root taken to decrease window intensity
+        #   Jason's code does not take square root however
+        hanning_window = np.outer(hanning_y, hanning_x)
+        
+        #   Apply hanning window to cosmic image
         hanning_image = hanning_window * self.cosmic_image
 
         return hanning_image
