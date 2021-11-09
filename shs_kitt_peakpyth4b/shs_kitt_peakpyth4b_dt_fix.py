@@ -580,9 +580,11 @@ class Main(QMainWindow):
         else:
             pass
         
+        
         #   If flat box checked, divide the image by it
         if self.checkBox2.isChecked():
             data3=data2/data_flat2
+            
             
         #   If hanning window box checked
         if self.checkBox3.isChecked():
@@ -594,6 +596,7 @@ class Main(QMainWindow):
             rowpl=rowpl+1
         else:
             self.data_dict['USE'][3]=False
+            
             
         #   If the padding box checked
         if self.checkBox4.isChecked():
@@ -619,6 +622,7 @@ class Main(QMainWindow):
             self.sld.setEnabled(True)
             self.checkBox3.setEnabled(True)           
             self.data_dict['USE'][4]=False
+        
         
         #   After all the if/else statements, data3 starts as rotated cosmics image -> then bias is subtracted -> the flat is divided -> the hanning window is applied -> and then the padding applied last. In order: bias->flat->hanning->padding
         

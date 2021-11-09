@@ -333,22 +333,6 @@ class FitsImageCanvas(FigureCanvas):
 
     ##############################################################################
 
-    def fourier_transform(self):
-        '''Returns a transformed image of the padded fits image'''
-
-        print("Transforming image...")
-
-        #   Fourier Transforming
-        f_transform = scipy.fftpack.fft2(self.padded_image)
-        #   Shifting zero frequency component to center spectrum
-        f_shift = scipy.fftpack.fftshift(f_transform)
-
-        power_spectrum = (np.abs(f_shift)**2)
-
-        return power_spectrum
-
-    ##############################################################################
-
     def apply_cosmics(self):
         '''Returns a cosmics filtered image of the original fits image'''
 
@@ -404,7 +388,23 @@ class FitsImageCanvas(FigureCanvas):
         padded_image = np.pad(self.hanning_image, ((px1,px2), (py1,py2)), 'constant')
         
         return padded_image
-        
+
+    ##############################################################################
+
+    def fourier_transform(self):
+        '''Returns a transformed image of the padded fits image'''
+
+        print("Transforming image...")
+
+        #   Fourier Transforming the padded image
+        f_transform = scipy.fftpack.fft2(self.padded_image)
+        #   Shifting zero frequency component to center spectrum
+        f_shift = scipy.fftpack.fftshift(f_transform)
+
+        power_spectrum = (np.abs(f_shift)**2)
+
+        return power_spectrum
+
     ##############################################################################
 
     def change_image(self):
