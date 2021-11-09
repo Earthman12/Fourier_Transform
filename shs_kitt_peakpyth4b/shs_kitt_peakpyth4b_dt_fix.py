@@ -374,6 +374,9 @@ class Main(QMainWindow):
                 cur_ax=self.fig.add_subplot(subplot_tot,1,subplot_num)
                 cur_ax.clear()
                 #cur_data=self.data_dict['DATA'][ind]
+                
+                #   Put data_dict name as title of image
+                cur_ax.set_title(self.data_dict['NAME'][ind])
 
                 bb=cur_ax.imshow(self.data_dict['DATA'][ind],cmap = cm.Greys_r)#,cmap = cm.Greys_r,vmin=0, vmax=1, picker=6)
                 subplot_num+=1
