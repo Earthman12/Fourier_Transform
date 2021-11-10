@@ -360,6 +360,7 @@ class Main(QMainWindow):
         #   USE in data_dict is true/false array so subplot_tot finds the number of trues (i.e. the number of images in the data_dict)
         subplot_tot=sum(x > 0 for x in self.data_dict['USE'])
         #ax5 = self.fig.add_subplot(subplot_tot,1,1)
+        
         print("Number of items in data_dict: " + str(subplot_tot))
         
         subplot_num=1
