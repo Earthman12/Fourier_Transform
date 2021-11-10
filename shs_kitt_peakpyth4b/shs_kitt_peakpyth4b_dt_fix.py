@@ -354,7 +354,9 @@ class Main(QMainWindow):
 
     def on_draw2(self):
         """ Redraws the figure"""
+        
         print("---In on_draw2 method---")
+        
         #   USE in data_dict is true/false array so subplot_tot finds the number of trues (i.e. the number of images in the data_dict)
         subplot_tot=sum(x > 0 for x in self.data_dict['USE'])
         #ax5 = self.fig.add_subplot(subplot_tot,1,1)
