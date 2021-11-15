@@ -769,7 +769,7 @@ class Main(QMainWindow):
             #-----------------------------------------------------------------------------
             
             def update(val):
-    
+                
                freq = sfreq.val
                print((sfreq.val))
                ax2.set_ylim([-.1*maxv,sfreq.val])
