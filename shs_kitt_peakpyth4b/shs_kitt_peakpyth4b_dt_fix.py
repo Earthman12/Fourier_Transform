@@ -845,9 +845,9 @@ class Main(QMainWindow):
                 
             #-----------------------------------------------------------------------------
 
-            #   Done and Reset button
             axbutt = plt.axes([0.9, 0.92, .09, 0.07])
             axbutt2 = plt.axes([0.8, 0.92, .09, 0.07])
+            #   Done and Reset button
             but_reset = Button(axbutt2,"Reset",color='0.85', hovercolor='0.95') 
             but_done = Button(axbutt,"Done",color='0.85', hovercolor='0.95')
             
