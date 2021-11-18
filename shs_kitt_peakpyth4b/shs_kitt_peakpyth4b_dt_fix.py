@@ -845,6 +845,7 @@ class Main(QMainWindow):
                 
             #-----------------------------------------------------------------------------
 
+            #   Unsure of these variables but are used in Done and Reset Button
             axbutt = plt.axes([0.9, 0.92, .09, 0.07])
             axbutt2 = plt.axes([0.8, 0.92, .09, 0.07])
             #   Done and Reset button
@@ -926,6 +927,8 @@ class Main(QMainWindow):
 
             but_done.on_clicked(spec_done2)
             
+            #   The variables above that were unsure about relating to Done
+            #   and Reset button now get set to the Qt buttons themselves
             axbutt2._button = but_reset
             axbutt._button = but_done  ##this make button clickable because of variable loses scope
 
