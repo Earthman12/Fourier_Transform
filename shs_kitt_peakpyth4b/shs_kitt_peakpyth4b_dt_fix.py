@@ -1010,12 +1010,13 @@ class Main(QMainWindow):
          * Save the plot to a file using the File menu
          * Click on a bar to receive an informative message
         """
-        
+
         QMessageBox.about(self, "About the demo", msg.strip()) 
     
 ##############################################################################
 
 def my_imshow(my_img,ax=None,**kwargs):
+    
                 if ax is None:
                     ax = plt.gca()
                 def format_coord(x, y):
