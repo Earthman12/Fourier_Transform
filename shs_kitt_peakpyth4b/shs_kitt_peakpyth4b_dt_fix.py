@@ -1016,7 +1016,7 @@ class Main(QMainWindow):
 ##############################################################################
 
 def my_imshow(my_img,ax=None,**kwargs):
-    
+
                 if ax is None:
                     ax = plt.gca()
                 def format_coord(x, y):
@@ -1123,6 +1123,7 @@ def rebin(a, *args):
     >>> a=rand(6,4); b=rebin(a,3,2)
     >>> a=rand(6); b=rebin(a,2)
     '''
+    
     shape = a.shape
     lenShape = len(shape)
     factor = numpy.asarray(shape)/numpy.asarray(args)
