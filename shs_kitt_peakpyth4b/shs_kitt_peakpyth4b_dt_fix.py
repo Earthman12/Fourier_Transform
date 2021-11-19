@@ -906,7 +906,7 @@ class Main(QMainWindow):
                 plt.clf()
                 plt.ion()
                 fig2=plt.figure()
-                
+
                 #self.ax3 = self.fig.add_subplot(111)
                 #self.ax3.cla()            
                 #ax.invert_yaxis()
@@ -1010,6 +1010,7 @@ class Main(QMainWindow):
          * Save the plot to a file using the File menu
          * Click on a bar to receive an informative message
         """
+        
         QMessageBox.about(self, "About the demo", msg.strip()) 
     
 ##############################################################################
