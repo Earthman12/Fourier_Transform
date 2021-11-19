@@ -906,9 +906,9 @@ class Main(QMainWindow):
                 plt.clf()
                 plt.ion()
                 fig2=plt.figure()
+                
                 #self.ax3 = self.fig.add_subplot(111)
                 #self.ax3.cla()            
-
                 #ax.invert_yaxis()
 
                 maxv=numpy.max(y)
