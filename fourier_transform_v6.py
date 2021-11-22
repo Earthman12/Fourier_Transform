@@ -218,12 +218,12 @@ class MainWindow(QtWidgets.QMainWindow):
 
         else:
             print("-----Crop limits out of bounds-----")
-            
+
     ##############################################################################
-    
+
     def pad_image(self):
         '''Takes the inputs from the padding widgets and applies them to image'''
-        
+
         #   Get value
         self.fits_image.padding_value = self.slider_val.intValue()
         #   Call fits image function to apply padding
@@ -241,7 +241,7 @@ class FitsImageCanvas(FigureCanvas):
     '''Image object'''
 
     def __init__(self, parent = None):
-        
+
         #   Figure contstants
         self.FIGURE_SIZE_X = 20
         self.FIGURE_SIZE_Y = 10
@@ -265,7 +265,7 @@ class FitsImageCanvas(FigureCanvas):
 
     def open_fits_image(self):
         '''Opens a new fits image'''
-        
+
         print("Opening original fits image...")
 
         #   Not having Tk().withdraw() does not make the code execute properly,
@@ -364,7 +364,7 @@ class FitsImageCanvas(FigureCanvas):
         #   Hanning window can have square root taken to decrease window intensity
         #   Jason's code does not take square root however
         hanning_window = np.outer(hanning_y, hanning_x)
-        
+
         #   Apply hanning window to cosmic image
         hanning_image = hanning_window * self.cosmic_image
 
@@ -374,19 +374,19 @@ class FitsImageCanvas(FigureCanvas):
     
     def apply_padding(self):
         '''Returns a padded image of the fits image'''
-        
+
         print("Applying padding value of: " + str(self.padding_value) + "...")
-        
+
         height, width = self.image_array.shape
         #   Sets tuple variables to proper number of pixels in x and y axis to correspond with padding value
         px1, px2 = round(self.padding_value*width/2), round(self.padding_value*width/2)
         py1, py2 = round(self.padding_value*height/2), round(self.padding_value*height/2)
-        
+
         print("Padding X Values: " + str(px1))
         print("Padding Y Values: " + str(py1))
-        
+
         padded_image = np.pad(self.hanning_image, ((px1,px2), (py1,py2)), 'constant')
-        
+
         return padded_image
 
     ##############################################################################
