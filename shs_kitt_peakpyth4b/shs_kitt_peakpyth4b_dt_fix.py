@@ -776,7 +776,7 @@ class Main(QMainWindow):
                ax2.set_ylim([-.1*maxv,sfreq.val])
                ax3.set_ylim([(-.1*maxv),sfreq.val])
                ax3.set_title('Selected Rows')
-               
+
                plt.draw()
                
             #-----------------------------------------------------------------------------
@@ -927,6 +927,7 @@ class Main(QMainWindow):
                 
             #-----------------------------------------------------------------------------
 
+            #   spec_done2 function is called when the Done button is clicked
             but_done.on_clicked(spec_done2)
             
             #   The variables above that were unsure about relating to Done
