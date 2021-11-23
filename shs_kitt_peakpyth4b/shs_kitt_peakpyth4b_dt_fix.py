@@ -772,9 +772,11 @@ class Main(QMainWindow):
                 
                freq = sfreq.val
                print((sfreq.val))
+
                ax2.set_ylim([-.1*maxv,sfreq.val])
                ax3.set_ylim([(-.1*maxv),sfreq.val])
                ax3.set_title('Selected Rows')
+               
                plt.draw()
                
             #-----------------------------------------------------------------------------
