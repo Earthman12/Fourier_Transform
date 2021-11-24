@@ -1079,6 +1079,7 @@ def do_fft(inter):
 ##############################################################################
 
 def window2d(self,M, N):
+    '''returns just a hanning array in the dimensions of either x or y dimensions'''
     
     #   M and N variables are image shape: M=x, N=y
     
