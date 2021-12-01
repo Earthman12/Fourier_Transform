@@ -56,7 +56,7 @@ data3=numpy.array( [(0,0),(0,0)])
 rows_s=[]   
 #tmplist=list(windo.window_names.keys())
 #tmplist = QStringList(windo.window_names.keys())
-cnt =0
+cnt = 0
 plt.ion()
 #import congrid
 
