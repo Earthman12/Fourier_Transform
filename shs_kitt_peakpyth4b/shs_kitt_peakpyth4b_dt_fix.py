@@ -53,7 +53,7 @@ from astroscrappy import detect_cosmics
 #data =pyfits.getdata('ffdf.fits')
 data2=numpy.arange(1)
 data3=numpy.array( [(0,0),(0,0)])
-rows_s=[]   
+rows_s=[]
 #tmplist=list(windo.window_names.keys())
 #tmplist = QStringList(windo.window_names.keys())
 cnt = 0
