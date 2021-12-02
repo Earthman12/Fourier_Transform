@@ -76,7 +76,7 @@ class Main(QMainWindow):
         self.create_main_frame()
         self.textbox.setText('1 2 3 4')
         #self.on_draw()
-        
+
 ##############################################################################
 
     def create_main_frame(self): 
