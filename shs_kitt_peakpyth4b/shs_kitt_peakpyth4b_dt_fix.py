@@ -293,9 +293,8 @@ class Main(QMainWindow):
             
     ##############################################################################
 
-    def create_action(self, text, slot=None, shortcut=None, 
-                        icon=None, tip=None, checkable=False, 
-                        signal="triggered()"):
+    def create_action(self, text, slot=None, shortcut=None, icon=None, tip=None, checkable=False, signal="triggered()"):
+
         action = QAction(text, self)
         if icon is not None:
             action.setIcon(QIcon(":/%s.png" % icon))
@@ -306,7 +305,7 @@ class Main(QMainWindow):
             action.setStatusTip(tip)
         if slot is not None:
             action.triggered.connect(slot)
-            
+
             #self.slotin.connect(action,slot)
            # self.connect(action, SIGNAL(signal), slot)
         if checkable:
@@ -328,18 +327,17 @@ class Main(QMainWindow):
     ##############################################################################
 
     def on_draw(self):
-        """ Redraws the figure
-        """
+        """ Redraws the figure"""
         textbox_text = str(self.textbox.text())
         self.data = list(map(int, textbox_text.split()))
         
         x = list(range(len(self.data)))
 
         # clear the axes and redraw the plot anew
-        #
+
         self.axes.clear()        
         self.axes.grid(self.grid_cb.isChecked())
-        
+
         self.axes.bar(
             left=x, 
             height=self.data, 
