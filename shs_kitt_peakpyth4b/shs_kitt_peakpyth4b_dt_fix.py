@@ -464,41 +464,41 @@ class Main(QMainWindow):
         
         #data2_fname = QFileDialog.getOpenFileName(self, 'Open Image', 'D:\papers', 'Image Files (*.fits *.fit )')
        #data2_fname = QFileDialog.getOpenFileName(self, tr("Open Image"), "D:\papers", tr("Image Files (*.png *.jpg *.bmp)"))
-        
+
         #data2_fname= QFileDialog.getOpenFileName(None,tr("Open Image"), "/home/jana", tr("Image Files (*.png *.jpg *.bmp)"));
         #print((pyfits.info(str(data2_fname)))) 
         print("Fits file selected: " + str(data2_fname))
-        
+
         #   HDU list, consists of header and data array
         hdul = pyfits.open(str(data2_fname))
-        
+
         #print((pyfits.info.
         global data2    
-        
+
         #   Gets raw image data array from HDU
         data2 = pyfits.getdata(data2_fname)
-        
+
         #data2=pyfits.open(data2_fname)
         data1=data2
-        
+
         #pyfits.
         #pyfits.getdata('ff.fits')
-        
+
         nx,ny = data1.shape
-        
+
         #ddf=pyfits.
         #datan2=data1[0,:]
         #data2=(data1[0,:,:])
-        
+
         #data3 = ndimage.rotate(data2,90)
-        
+
         #   Rotate image array 180 degrees
         data3 = ndimage.rotate(data2,0)   
-        
+
         #data2=data3[0:2000,1500:3500]
         #data3 = ndimage.rotate(data2,-14) 
         #data3 = ndimage.rotate(data3,90)
-        
+
         #   *******
         #data2=data3[400:750,100:950]
         data2=data3
