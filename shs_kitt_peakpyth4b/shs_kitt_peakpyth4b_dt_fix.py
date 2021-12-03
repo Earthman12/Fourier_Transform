@@ -383,7 +383,7 @@ class Main(QMainWindow):
                 subplot_num+=1
 
         # clear the axes and redraw the plot anew
-        #
+
         #ax5 = self.fig.add_subplot(111)
         #ax5.clear()   
         #bb=ax5.imshow(datan,cmap = cm.Greys_r)#,cmap = cm.Greys_r,vmin=0, vmax=1, picker=6)
@@ -392,8 +392,8 @@ class Main(QMainWindow):
         #ax2 = fig.add_subplot(222)
         #self.axes.clear()        
         #self.canvas.resize(20,20)
-        
-        
+
+
         #self.scrollArea.resize(500,1000)
         #self.scrollWidget.adjustSize()
         #self.scrollArea.adjustSize()
@@ -402,11 +402,11 @@ class Main(QMainWindow):
         #self.scrollLayout.update()
         
         print("---End on_draw2 method---")
-    
+
     #use below to load zemax detewctor file in txt format
-    
+
     ##############################################################################
-    
+
     def QfileDialog3(self):
         file_name = QFileDialog.getOpenFileName(None, "Open Data File", r"D:\papers\6300_SHS\zemax_models\pupil_size\new2\smaller_f\detector_dist\new_fcs", "TXT ZEMAX files (*.TXT)")
         interf = zem_inter(str(file_name))        
@@ -428,9 +428,9 @@ class Main(QMainWindow):
         #gg=self.data_dict.iterkeys
         self.gen_process()
         self.on_draw2()
-        
+
     ##############################################################################
-        
+
     def QfileDialog4_old(self):
         bias_fname = QFileDialog.getOpenFileName(None, "Open Data File", r"D:\papers", "FITS data files (*.fits)")         
         print(( pyfits.info(str(bias_fname))   )) 
