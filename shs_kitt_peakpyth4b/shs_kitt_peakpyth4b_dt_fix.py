@@ -859,14 +859,14 @@ class Main(QMainWindow):
                 print ("HIIIIII" )               
                 print (rows_s)
                 
-                self.data_spec=numpy.sum(pwr_sp[rows_s,:], axis=0)
-                y=self.data_spec
+                self.data_spec = numpy.sum(pwr_sp[rows_s,:], axis=0)
+                y = self.data_spec
                 nx = y.shape[0]
                 
             
                 plt.close()
                 f = open("try.dat", "w")
-                xn2= numpy.linspace(0,(nx-1),nx)
+                xn2 = numpy.linspace(0,(nx-1),nx)
                 
                 numpy.savetxt(f, numpy.array([xn2,self.data_spec]).T)
                 f.close()
@@ -882,19 +882,19 @@ class Main(QMainWindow):
                 values = [5.7, 2.2, 312., 1.5, 2000.]
                 #print type(parinfo)
                 print(( parinfo[0]))
-                err=numpy.sqrt(y)
-                p=[0.0,150000,1050.,1.]#,17]#,205.,1.]
+                err = numpy.sqrt(y)
+                p = [0.0,150000,1050.,1.]#,17]#,205.,1.]
                 print((p[1:4]))
                 #print p[4:7]
         
                 for i in range(5): parinfo[i]['value']=values[i]
-                expr='p[0] + fit_models.gauss1p(x,p[1:4])' #+ fit_models.gauss1p(x,p[4:7])'#'# + gauss1p(x,0.0,17,205.,1.)'#'p[0] + numpy.sin(x) + numpy.sin(p[1])'#
-                params,yfit=mpfitexpr.mpfitexpr(expr,xn2,y,err,p)
+                expr ='p[0] + fit_models.gauss1p(x,p[1:4])' #+ fit_models.gauss1p(x,p[4:7])'#'# + gauss1p(x,0.0,17,205.,1.)'#'p[0] + numpy.sin(x) + numpy.sin(p[1])'#
+                params, yfit = mpfitexpr.mpfitexpr(expr,xn2,y,err,p)
                 print (params)
-                FWHMf=params[3]*2.3548  ##multiply w times 2*SQRT(2*ln(2))
-                ampltf=params[1]-params[0]
+                FWHMf = params[3]*2.3548  ##multiply w times 2*SQRT(2*ln(2))
+                ampltf = params[1]-params[0]
     
-                AREAf=(FWHMf*0.5*ampltf)*2.128934039   ##() * SQRT(PI/ln(2))# =HWHM * Ampl *SQRT(PI/ln(2))
+                AREAf = (FWHMf*0.5*ampltf)*2.128934039   ##() * SQRT(PI/ln(2))# =HWHM * Ampl *SQRT(PI/ln(2))
                 ##AMPL=AREA*2/2.12FWHM                
                 print ('FWHM:  ')
                 print (FWHMf)
@@ -902,17 +902,17 @@ class Main(QMainWindow):
                 print (AREAf)
                 print(('height: ',ampltf))
                 print((AREAf,'\t', FWHMf))
-                y2=yfit
+                y2 = yfit
                 plt.clf()
                 plt.ion()
-                fig2=plt.figure()
+                fig2 = plt.figure()
 
                 #self.ax3 = self.fig.add_subplot(111)
                 #self.ax3.cla()            
                 #ax.invert_yaxis()
 
-                maxv=numpy.max(y)
-                minv=numpy.min(y)
+                maxv = numpy.max(y)
+                minv = numpy.min(y)
                 plt.ylabel('some numbers')
                 #self.ax3.set_ylim([-.05*maxv,maxv/0.95])
                 axcolor = 'lightgoldenrodyellow'
