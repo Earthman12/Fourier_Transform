@@ -605,6 +605,7 @@ class Main(QMainWindow):
             h, w = data3.shape
             px1, px2 = round(padn*w/2), round(padn*w/2)
             py1, py2 = round(padn*h/2),round(padn*h/2)
+
             #   Pads the array
             data3 = numpy.pad(data3,((px1,px2),(py1,py2)),'constant')
             print('padded by a factor of: ', padn)
@@ -615,6 +616,7 @@ class Main(QMainWindow):
             
             self.checkBox3.setEnabled(False)
             self.sld.setEnabled(False)
+            
             #   Sets padded image in the data dictionary
             self.data_dict['USE'][4]=True
             self.data_dict['DATA'][4]=data3
