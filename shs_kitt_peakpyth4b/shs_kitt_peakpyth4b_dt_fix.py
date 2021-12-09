@@ -503,7 +503,6 @@ class Main(QMainWindow):
         #data2=data3[400:750,100:950]
         data2=data3
         
-        
         #data4=rebin(data2,850,850)
         #data2=data4
         #data2=congrid(data2, (850,850), method='linear', centre=False, minusone=False)
