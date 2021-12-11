@@ -499,7 +499,6 @@ class Main(QMainWindow):
         #data3 = ndimage.rotate(data2,-14) 
         #data3 = ndimage.rotate(data3,90)
 
-        #   *******
         #data2=data3[400:750,100:950]
         data2=data3
         
