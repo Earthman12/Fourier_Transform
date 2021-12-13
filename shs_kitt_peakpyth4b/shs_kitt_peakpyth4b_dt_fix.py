@@ -413,6 +413,7 @@ class Main(QMainWindow):
         global data2        
         folder = r"D:\papers\6300_SHS\zemax_models"
         os.chdir(folder)
+        
         #data2 = ndimage.rotate(interf,90)
         data2=interf
         print  ("HERERRRRR")
