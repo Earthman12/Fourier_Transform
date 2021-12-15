@@ -305,7 +305,6 @@ class Main(QMainWindow):
             action.setStatusTip(tip)
         if slot is not None:
             action.triggered.connect(slot)
-
             #self.slotin.connect(action,slot)
            # self.connect(action, SIGNAL(signal), slot)
         if checkable:
