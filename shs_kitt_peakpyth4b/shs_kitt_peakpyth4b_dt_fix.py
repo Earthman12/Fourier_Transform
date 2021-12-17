@@ -276,7 +276,7 @@ class Main(QMainWindow):
         #
         # It carries lots of information, of which we're using
         # only a small amount here.
-        # 
+
         box_points = event.artist.get_bbox().get_points()
         msg = "You've clicked on a bar with coords:\n %s" % box_points
         
